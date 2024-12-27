@@ -1,0 +1,12 @@
+node_modules
+data/template/mobile/
+template/mobile/style/
+template/mobile/less/*.css
+template/style/
+public/template/mobile/style/
+public/template/mobile/js/
+data/template/
+/dist
+/.tmp
+/.idea
+
