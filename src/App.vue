@@ -36,11 +36,11 @@
         includeList: []
     })
     watch(() => route, (newVal, oldVal) => {
-        console.log(newVal.meta.keepAlive, newVal.name);
+        console.log('watch router', newVal.meta.keepAlive, newVal.name, newVal.meta);
         title.value = route.meta.title;
         if (newVal.meta.keepAlive && state.includeList.indexOf(newVal.name) === -1) {
             state.includeList.push(newVal.name);
-            console.log(state.includeList);
+            console.log('-----', state.includeList);
         }
     }, {
         deep: true
