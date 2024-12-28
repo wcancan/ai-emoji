@@ -7,7 +7,6 @@
 <script setup>
 import { ref, onUpdated, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import Card from '@/components/Card.vue';
 
 
 const title = ref('首页');
@@ -26,6 +25,6 @@ onMounted(handler);
 
 <style scoped>
   .list-emoji {
-    
+
   }
 </style>
