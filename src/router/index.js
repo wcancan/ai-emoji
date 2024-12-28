@@ -25,6 +25,15 @@ const routes = [{
     component: () => import('@/views/details.vue'),
     props: true,
   },
+  {
+    path: '/center',
+    name: 'center',
+    component: () => import('@/views/center.vue'),
+    meta: {
+      title: 'AI表情包个人中心',
+      keepAlive: true
+    },
+  },
 
 ]
 
