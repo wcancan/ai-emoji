@@ -6,6 +6,21 @@
     </div>
     <div>
       <nut-cell title="我是标题" desc="描述文字" @click="click"></nut-cell>
+      <nut-cell title="表情包" desc="表情包" @click="clickPreview"></nut-cell>
+      <nut-popup v-model:visible="showPreview" closeable position="bottom" :style="popupPreviewStyle">
+        <template #close-icon>
+          <img class="close-btn" src="../assets/img/close.png" alt="">
+        </template>
+        <div class="popup-con">
+          <h4 class="popup-title">表情预览</h4>
+          <div class="popup-preview">
+            <img src="../assets/img/sample_photo.png" alt="">
+            <h4 class="preview-title">表情预览</h4>
+          </div>
+        </div>
+      </nut-popup>
+
+
       <nut-popup v-model:visible="show" closeable position="bottom" :style="popupStyle">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
@@ -48,9 +63,18 @@
     background: 'transparent'
 
   };
+  const popupPreviewStyle = {
+    height: '4.32rem',
+    background: 'transparent'
+  };
+
   const show = ref(false);
+  const showPreview = ref(false);
   const click = () => {
     show.value = true;
+  };
+  const clickPreview = () => {
+    showPreview.value = true;
   };
 </script>
 
@@ -103,7 +127,6 @@
     margin: 0.16rem auto 0;
     background: #FFF6E6;
     border-radius: 0.23rem;
-
   }
 
   .upload-btn {
@@ -131,5 +154,27 @@
     height: 1.6rem;
     background: url("../assets/img/sample_photo.png");
     background-size: 100% 100%;
+  }
+
+  .popup-preview {
+    width: 3.01rem;
+    margin: 0.66rem auto 0;
+
+    img {
+      width: 100%;
+      height: 3.01rem;
+      display: block;
+      border-radius: 0.23rem;
+    }
+
+    .preview-title {
+      padding: 0.24rem 0 0;
+      text-align: center;
+      font-size: 0.17rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      line-height: 0.17rem;
+    }
+
   }
 </style>
