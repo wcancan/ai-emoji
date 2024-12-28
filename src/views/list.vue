@@ -1,7 +1,7 @@
 <template>
-  <nut-navbar :title='title' :fixed="false"></nut-navbar>
-  <div></div>
-  <router-view></router-view>
+  <div class="list-emoji">
+
+  </div>
 </template>
 
 <script setup>
@@ -24,4 +24,8 @@ onMounted(handler);
 
 </script>
 
-<style scoped></style>
+<style scoped>
+  .list-emoji {
+    
+  }
+</style>
