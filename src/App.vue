@@ -16,8 +16,9 @@
 </template>
 
 <script setup>
-import { ref,reactive, watch } from "vue";
+import { ref,reactive, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { AutoSize } from "@/config/AutoSize";
 const show = ref(false);
 const click = () => {
   show.value = true;
@@ -33,5 +34,8 @@ watch(() => route, (newVal, oldVal) => {
         console.log(state.includeList);
     }
 }, { deep: true })
+onMounted(() => {
+    AutoSize()
+})
 </script>
 <style scoped></style>

@@ -1,7 +1,8 @@
 <template>
   <nut-navbar :title='title' :fixed="false"></nut-navbar>
-<div></div>
+  <div></div>
   <router-view></router-view>
+  <Card />
   <TabBar />
 </template>
 
@@ -9,6 +10,7 @@
 import { ref, onUpdated, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import TabBar from '@/components/TabBar.vue';
+import Card from '@/components/Card.vue';
 
 
 const title = ref('首页');
