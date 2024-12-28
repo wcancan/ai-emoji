@@ -3,13 +3,11 @@
   <div></div>
   <router-view></router-view>
   <Card />
-  <TabBar />
 </template>
 
 <script setup>
 import { ref, onUpdated, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import TabBar from '@/components/TabBar.vue';
 import Card from '@/components/Card.vue';
 
 

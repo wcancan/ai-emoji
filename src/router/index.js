@@ -1,54 +1,31 @@
-import { createRouter, createWebHistory } from "vue-router";
-import List from "@/views/list.vue";
+import {
+  createRouter,
+  createWebHistory
+} from "vue-router";
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/list'
   },
   {
-    path: '/',
+    path: '/list',
     name: 'list',
-    component: List, //.vue不可省略
-    meta:{
+    component: () => import('@/views/list.vue'),
+    meta: {
+      title: 'AI表情列表页',
       keepAlive: true
     },
-    children: [
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        meta: {
-          title: '首页'
-        },
-        component: () => import('@/views/dashboard.vue')
-      },
-      {
-        path: '/my',
-        name: 'my',
-        meta: {
-          title: '我的'
-        },
-        component: () => import('@/views/my.vue')
-      },
-      {
-        path: '/message',
-        name: 'message',
-        meta: {
-          title: '消息'
-        },
-        component: () => import('@/views/message.vue')
-      },
-    ],
   },
   {
     path: '/details/:id',
     name: 'details',
     meta: {
-      title: '商品详情页'
+      title: 'AI表情包详情页'
     },
     component: () => import('@/views/details.vue'),
     props: true,
-  }
+  },
+
 ]
 
 const router = createRouter({
@@ -58,7 +35,9 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { top: 0 }
+      return {
+        top: 0
+      }
     }
   }
 })
@@ -73,6 +52,5 @@ router.afterEach((to, from) => {
     window.document.title = _title;
   }
 })
-
 
 export default router
