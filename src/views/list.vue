@@ -1,6 +1,6 @@
 <template>
   <nut-navbar :title='title' :fixed="false"></nut-navbar>
-
+<div></div>
   <router-view></router-view>
   <TabBar />
 </template>
