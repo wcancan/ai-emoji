@@ -19,9 +19,7 @@
     import {
         useRoute
     } from "vue-router";
-    import {
-        AutoSize
-    } from "@/config/AutoSize";
+    
 
     const title = ref('表情包列表');
     const route = useRoute();
@@ -38,8 +36,6 @@
     }, {
         deep: true
     })
-    onMounted(() => {
-        AutoSize()
-    })
+    
 </script>
 <style scoped></style>
