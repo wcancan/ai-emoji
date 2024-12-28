@@ -1,6 +1,15 @@
 <template>
     <div>
-        <nut-navbar :title='title' :fixed="true"></nut-navbar>
+        <nut-navbar
+            :title='title'
+            :fixed="true"
+            :placeholder="false"
+            style="background: rgba(0, 0, 0, 0);"
+        >
+            <template v-slot:left>
+                <div class="icon-back"> 1</div>
+            </template>
+        </nut-navbar>
         <router-view v-slot="{ Component }">
             <keep-alive>
                 <component :is="Component" />
@@ -38,4 +47,10 @@
     })
     
 </script>
-<style scoped></style>
+<style scoped>
+.icon-back {
+    width: 0.2rem;
+    height: 0.2rem;
+    background: #333;
+}
+</style>
