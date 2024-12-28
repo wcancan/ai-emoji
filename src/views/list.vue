@@ -2,7 +2,6 @@
   <nut-navbar :title='title' :fixed="false"></nut-navbar>
   <div></div>
   <router-view></router-view>
-  <Card />
 </template>
 
 <script setup>
