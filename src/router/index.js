@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/home.vue";
+import List from "@/views/list.vue";
 
 const routes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/list'
   },
   {
     path: '/',
-    name: 'Home',
-    component: Home, //.vue不可省略
+    name: 'list',
+    component: List, //.vue不可省略
     meta:{
       keepAlive: true
     },
