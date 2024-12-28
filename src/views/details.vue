@@ -2,12 +2,88 @@
   <div class="list">
     <div class="top-banner">
       <img src="" alt="">
-
     </div>
     <div>
-      <nut-cell title="我是标题" desc="描述文字" @click="click"></nut-cell>
-      <nut-cell title="表情包" desc="表情包" @click="clickPreview"></nut-cell>
-      <nut-popup v-model:visible="showPreview" closeable position="bottom" :style="popupPreviewStyle">
+      <nut-cell title="上传" desc="描述文字" @click="handleUploadPopup()"></nut-cell>
+      <nut-cell title="表情包" desc="表情包" @click="handlePreviewPopup()"></nut-cell>
+      <nut-cell title="支付" desc="表情包" @click="handlePayPopup()"></nut-cell>
+      <nut-cell title="生成" desc="表情包" @click="handleGeneratePopup()"></nut-cell>
+      <nut-popup v-model:visible="generatePopup" closeable position="bottom" :style="popupData.generate.style">
+        <template #close-icon>
+          <img class="close-btn" src="../assets/img/close.png" alt="">
+        </template>
+        <div class="popup-con">
+          <h4 class="popup-title">正在生成</h4>
+          <div class="gen-popup-con">
+            <div class="progress-block">
+              <nut-space align="center">
+                <nut-circle-progress :stroke-width="8" :radius="33" :path-color="'rgba(142, 17, 17, 0.22)'"
+                  :color="'#fff'" :progress="20">
+                  {{''}}
+                </nut-circle-progress>
+              </nut-space>
+            </div>
+            <p class="progress-time">努力生成中...预计需要2分钟</p>
+            <p>生成的作品将储存于「我的」页面</p>
+            <div class="gen-b-btn">
+              <nut-row>
+                <nut-col :span="12">
+                  <view class="popup-btn popup-bd-btn">继续生成</view>
+                </nut-col>
+                <nut-col :span="12">
+                  <view class="popup-btn">前往查看</view>
+                </nut-col>
+              </nut-row>
+            </div>
+          </div>
+        </div>
+      </nut-popup>
+      <nut-popup v-model:visible="payPopup" closeable position="bottom" :style="popupData.pay.style">
+        <template #close-icon>
+          <img class="close-btn" src="../assets/img/close.png" alt="">
+        </template>
+        <div class="popup-con ">
+          <h4 class="popup-title">购买表情合集</h4>
+          <div class="pay-popup">
+            <div class="pay-popup-img">
+              <img src="../assets/img/sample_photo.png" alt="">
+            </div>
+            <div class="pay-block">
+              <p class="pay-title">选择支付方式</p>
+
+              <nut-radio-group class="pay-group" v-model="val" text-position="left">
+                <nut-radio label="1" class="pay-list">
+                  <i class="pay-wx-icon pay-icon"></i>
+                  <p class="pay-txt">微信支付</p>
+                  <template #icon>
+                    <i class="pay-check-icon pay-icon-r"></i>
+                  </template>
+                  <template #checkedIcon>
+                    <i class="pay-checked-icon pay-icon-r"></i>
+                  </template>
+                </nut-radio>
+
+                <nut-radio label="2" class="pay-list">
+                  <i class="pay-ali-icon pay-icon"></i>
+                  <p class="pay-txt">支付宝支付</p>
+                  <template #icon>
+                    <i class="pay-check-icon pay-icon-r"></i>
+                  </template>
+                  <template #checkedIcon>
+                    <i class="pay-checked-icon pay-icon-r"></i>
+                  </template>
+                </nut-radio>
+              </nut-radio-group>
+
+            </div>
+            <div class="pay-btn">立即支付1元</div>
+            <p class="pay-tips"> <i></i>
+              活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消
+              请仔细核对购买账号。</p>
+          </div>
+        </div>
+      </nut-popup>
+      <nut-popup v-model:visible="previewPopup" closeable position="bottom" :style="popupData.preview.style">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
         </template>
@@ -19,9 +95,7 @@
           </div>
         </div>
       </nut-popup>
-
-
-      <nut-popup v-model:visible="show" closeable position="bottom" :style="popupStyle">
+      <nut-popup v-model:visible="uploadPopup" closeable position="bottom" :style="popupData.upload.style">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
         </template>
@@ -58,23 +132,56 @@
   import {
     ref
   } from "vue";
-  const popupStyle = {
-    height: '5.36rem',
-    background: 'transparent'
+  const val = ref('1')
+
+  const popupData = {
+    upload: {
+      title: '上传图片',
+      style: {
+        height: '5.36rem',
+        background: 'transparent'
+      },
+    },
+    preview: {
+      title: '表情预览',
+      style: {
+        height: '4.32rem',
+        background: 'transparent'
+      },
+    },
+    pay: {
+      style: {
+        height: '3.51rem',
+        background: 'transparent'
+      },
+      title: '正在生成',
+    },
+    generate: {
+      style: {
+        height: '2.85rem',
+        background: 'transparent'
+      },
+      title: '购买表情合集',
+    }
 
   };
-  const popupPreviewStyle = {
-    height: '4.32rem',
-    background: 'transparent'
-  };
 
-  const show = ref(false);
-  const showPreview = ref(false);
-  const click = () => {
-    show.value = true;
+
+  const previewPopup = ref(false);
+  const uploadPopup = ref(false);
+  const payPopup = ref(false);
+  const generatePopup = ref(false);
+  const handlePreviewPopup = () => {
+    previewPopup.value = true
   };
-  const clickPreview = () => {
-    showPreview.value = true;
+  const handleUploadPopup = () => {
+    uploadPopup.value = true
+  };
+  const handlePayPopup = () => {
+    payPopup.value = true
+  };
+  const handleGeneratePopup = () => {
+    generatePopup.value = true
   };
 </script>
 
@@ -90,6 +197,134 @@
     background-origin: border-box;
     background-clip: content-box, border-box;
     border-radius: 0.36rem 0.36rem 0 0;
+    text-align: center;
+
+    .pay-popup {
+      color: #fff;
+      padding: 0.15rem 0.15rem 0;
+    }
+
+    .pay-title {
+      font-weight: bold;
+      padding: 0.18rem 0 0.13rem;
+    }
+  }
+
+  .pay-popup-img {
+    margin: 0.45rem auto 0;
+    width: 3.45rem;
+    height: 0.63rem;
+    overflow: hidden;
+    border-radius: 0.2rem;
+  }
+
+  .pay-block {
+    text-align: left;
+  }
+
+  .pay-icon {
+    width: 0.26rem;
+    height: 0.26rem;
+    position: absolute;
+  }
+
+  .pay-check-icon {
+    display: inline-block;
+    width: 0.17rem;
+    height: 0.17rem;
+    background: #fff;
+    border-radius: 50%;
+    border: 0.01px solid #C7C7C7;
+  }
+
+  .pay-group {
+    display: block;
+    width: 100%;
+  }
+
+  .pay-list {
+    display: block;
+    height: 0.26rem;
+    position: relative;
+    padding: 0.05rem 0;
+  }
+
+  .pay-txt {
+    padding-left: 0.39rem;
+    color: #fff;
+  }
+
+  .pay-icon-r {
+    position: absolute;
+    right: 0;
+    top: 0.09rem;
+    width: 0.17rem;
+    height: 0.17rem;
+  }
+
+  .pay-checked-icon {
+    border-radius: 50%;
+    background: #DF7957;
+  }
+
+  .pay-wx-icon {
+    background: url("../assets/img/p_title.png");
+    background-size: 100% 100%;
+  }
+
+  .pay-ali-icon {
+    background: url("../assets/img/close.png");
+    background-size: 100% 100%;
+  }
+
+  .gen-popup-con {
+    padding-top: 0.61rem;
+    color: #FFFFFF;
+
+    p {
+      padding: 0.03rem;
+    }
+
+    .progress-time {
+      font-weight: 600;
+    }
+
+    .gen-b-btn {
+      padding: 0.18rem 0 0.08rem;
+    }
+  }
+
+  .pay-btn {
+    margin-top: 0.1rem;
+    width: 3.45rem;
+    height: 0.44rem;
+    background: linear-gradient(90deg, #F6D29B, #FAEAC6);
+    border-radius: 0.22rem;
+    font-weight: bold;
+    color: #582F13;
+    line-height: 0.44rem;
+  }
+
+  .pay-tips {
+    position: relative;
+    font-size: 0.09rem;
+    color: #FFEDE6;
+    line-height: 0.12rem;
+    padding-top: 0.1rem;
+    padding-left: 0.38rem;
+    padding-right: 0.18rem;
+    text-align: left;
+
+    i {
+      position: absolute;
+      left: 0.2rem;
+      width: 0.15rem;
+      height: 0.15rem;
+      background: #000000;
+      border-radius: 50%;
+      opacity: 0.5;
+
+    }
   }
 
   .close-btn {
