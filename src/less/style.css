@@ -1,3 +1,16 @@
+html,
+body,
+#app {
+  height: 100%;
+  min-height: 100%;
+}
+body {
+  font-size: 0.14rem;
+  color: #303030;
+}
+div {
+  box-sizing: border-box;
+}
 .top-banner {
   width: 2.6rem;
   height: 3rem;
