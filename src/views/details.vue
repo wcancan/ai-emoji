@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="details-page">
     <div class="list-center">
       <div class="top-banner">
         <img :src="'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800'"
@@ -22,11 +22,12 @@
       <div class="list-b-btn" @click="handlePayPopup()">
         解锁表情合集
       </div>
-      <div class="list-b-btn"  @click="handleUploadPopup()">
+      <div class="list-b-btn" @click="handleUploadPopup()">
         制作表情
       </div>
     </div>
     <div>
+
       <nut-popup v-model:visible="generatePopup" closeable position="bottom" :style="popupData.generate.style">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
@@ -123,14 +124,24 @@
 
           <div class="upload-block">
             <p class="">请上传一张人脸图片</p>
+
             <div class="upload-con">
-              <nut-uploader url="https://xxxx">
+              <nut-avatar-cropper shape="square" @confirm="confirm" edit-text="">
+                <div class="upload-img-pre">
+                  <img v-if="imageUrl" :src="imageUrl" />
+                  <div class="re-upload-btn">
+                    <i></i>
+                  <p>重新上传</p>
+                  </div>
+                  
+                </div>
                 <div class="upload-btn">
                   <i class="upload-icon"></i>
                   <p>点击上传</p>
                 </div>
-              </nut-uploader>
+              </nut-avatar-cropper>
             </div>
+
           </div>
           <div class="sample-photo"></div>
           <nut-row>
@@ -151,6 +162,10 @@
   import {
     ref
   } from "vue";
+  const imageUrl = ref('')
+  const confirm = (url) => {
+    imageUrl.value = url
+  };
   const val = ref('1');
   const emojiData = {
     title: '表情名称',
@@ -423,6 +438,7 @@
     margin: 0.16rem auto 0;
     background: #FFF6E6;
     border-radius: 0.23rem;
+    overflow: hidden;
   }
 
   .upload-btn {
@@ -434,10 +450,11 @@
     background: linear-gradient(0deg, #DF4632 38.0126953125%, #F07559 70.166015625%, #FF7A29 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    padding-top: 0.68rem;
 
     i {
       display: block;
-      margin: 0.68rem auto 0.08rem;
+      margin: 0 auto 0.08rem;
       width: 0.39rem;
       height: 0.39rem;
       background: url("../assets/img/sample_photo.png");
