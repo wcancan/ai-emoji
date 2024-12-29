@@ -1,5 +1,6 @@
 <template>
   <div class="list-center">
+
     <div class="top">
         <div class="banner">
             <img :src="'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800'" alt="">
@@ -15,10 +16,14 @@
             <div class="item-box">
                 <div class="avatar">
                     <img :class="{'filter': item.status != 0 }" :src="item.avatar" />
-                    <div class="opa flex-align-end flex-center f12 col-white ">
-                        <div class="flex flex-center">
+                    <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 0">
+                        <div class="flex flex-center" v-if="item.status == 1">
                             <Loading1 class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
                             <span>生成中</span>
+                        </div>
+                        <div class="flex flex-center" v-if="item.status == 2">
+                          <MaskClose class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
+                          <span>生成失败</span>
                         </div>
                     </div>
                 </div>
@@ -33,7 +38,7 @@
 import { ref, onUpdated, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import { Loading1 } from '@nutui/icons-vue'
+import { Loading1, MaskClose } from '@nutui/icons-vue'
 
 
 const title = ref('11111');
@@ -84,6 +89,36 @@ function getCenterList () {
     name: '表情包合集5',
     status: 2,
     avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集3',
+    status: 0,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集4',
+    status: 1,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集5',
+    status: 2,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集3',
+    status: 0,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集4',
+    status: 1,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 1,
+    name: '表情包合集5',
+    status: 2,
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
   }]
   console.log(route, '----')
   route.meta.title = '111111'
@@ -109,5 +144,16 @@ onMounted(getCenterList);
 </script>
 
 <style scoped lang="less">
+  .list-center {
+    display: flex;
+    height: 100vh;
+    width:100%;
+    flex-direction: column;
+  }
+  .list {
+    width:100%;
+    flex: 1;
+    overflow: scroll;
+  }
 
 </style>
