@@ -15,3 +15,5 @@ export const getEmojiList = (param) => {
     return response;
   });
 };
+
+export const getDetail = (param) => Http.getJson(`/ProductPortal/tc/aiEmoticon/getDetail`, param)

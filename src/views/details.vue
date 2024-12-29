@@ -126,7 +126,7 @@
             <p class="">请上传一张人脸图片</p>
 
             <div class="upload-con">
-              <nut-avatar-cropper ref="avatarCropperRef"  @confirm="confirm">
+              <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
                 <div class="upload-img-pre">
                   <img v-if="imageUrl" :src="imageUrl" />
                   <div class="re-upload-btn">
@@ -168,16 +168,28 @@
   import {
     ref
   } from "vue";
+  import {
+    getDetail
+  } from '@/api/api.js'
+  const emojiData = ref({
+    title: '表情名称',
+    desc: '详细描述详细描述详细描述详细描述详细描述详细描述详细 描述详细描述详细描述'
+  });
+
+  const getEmojiDetail = async () => {
+    const resp = await getDetail({})
+    if (resp.code === 1) {
+      emojiData.value = resp.data.records;
+    }
+  }
+  getEmojiDetail()
   const imageUrl = ref('')
   const confirm = (url) => {
     imageUrl.value = url
   };
   const avatarCropperRef = ref();
   const val = ref('1');
-  const emojiData = {
-    title: '表情名称',
-    desc: '详细描述详细描述详细描述详细描述详细描述详细描述详细 描述详细描述详细描述'
-  };
+
   const emojiList = [{
       id: 1,
       name: '表情包合集0',
