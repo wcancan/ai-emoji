@@ -1,20 +1,5 @@
 <template>
   <div class="list-emoji">
-    <!-- <div class="list flex flex-between flex-wrap">
-      <div
-        class="item"
-        v-for="(item, index) in emojiList"
-        :key="index"
-      >
-        <div class="avatar">
-          <img :src="item.avatar" alt="">
-        </div>
-        <div class="title txt-c">{{item.name}}</div>
-        <div class="btnDetail txt-c" @click="go(item)">{{item.name}}</div>
-      </div>
-      <div class="item"></div>
-      <div class="item"></div>
-    </div> -->
     <nut-infinite-loading
       v-model="infinityValue"
       load-txt="Loading..."
@@ -45,7 +30,6 @@
 import { ref, onUpdated, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getEmojiList } from "@/api/api";
-
 
 
 // getEmojiList

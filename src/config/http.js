@@ -1,8 +1,15 @@
 import axios from 'axios'
+import { showToast } from '@nutui/nutui'
 
 const requestUrl = 'http://112.48.155.26:8088/product/test'
+
+const toast = showToast.text('loading', {
+  cover: true,
+  duration: 0
+})
+
 axios.interceptors.request.use(config => {
-    console.log(config)
+    console.log('config', config)
     config.url = requestUrl + config.url
     // if (config.url.indexOf("image.oss-cn-beijing.aliyuncs.com") == -1) {
     //   if (getCookie("WXSESSIONID") && config.url.indexOf("login/tokenLogin") == -1) {
@@ -47,10 +54,13 @@ axios.interceptors.request.use(config => {
     // }else if (data.result == 403 && !mobileJS.isWX &&!mobileJS.isAppWeb() && data.msg == "请登录") {
     //   setCookie("__login", "__no_login",)
     // }
-    
+    console.log('hide toast')
+    toast.hide()
     return data
   
   }, (error) => {
+    console.log('error')
+    toast.hide()
     return Promise.reject(error)
   })
 
