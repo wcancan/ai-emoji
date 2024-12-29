@@ -126,7 +126,7 @@
             <p class="">请上传一张人脸图片</p>
 
             <div class="upload-con">
-              <nut-avatar-cropper ref="avatarCropperRef" shape="square" @confirm="confirm" edit-text="">
+              <nut-avatar-cropper ref="avatarCropperRef"  @confirm="confirm">
                 <div class="upload-img-pre">
                   <img v-if="imageUrl" :src="imageUrl" />
                   <div class="re-upload-btn">
