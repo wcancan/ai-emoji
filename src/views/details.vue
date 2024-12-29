@@ -126,19 +126,25 @@
             <p class="">请上传一张人脸图片</p>
 
             <div class="upload-con">
-              <nut-avatar-cropper shape="square" @confirm="confirm" edit-text="">
+              <nut-avatar-cropper ref="avatarCropperRef" shape="square" @confirm="confirm" edit-text="">
                 <div class="upload-img-pre">
                   <img v-if="imageUrl" :src="imageUrl" />
                   <div class="re-upload-btn">
                     <i></i>
-                  <p>重新上传</p>
+                    <p>重新上传</p>
                   </div>
-                  
                 </div>
                 <div class="upload-btn">
                   <i class="upload-icon"></i>
                   <p>点击上传</p>
                 </div>
+                <template #toolbar>
+                  <div class="b-toolbar">
+                    <p>请将小脸蛋调整摆正至框内</p>
+                    <i @click="avatarCropperRef.rotate()"></i>
+                    <span @click="avatarCropperRef.confirm()"></span>
+                  </div>
+                </template>
               </nut-avatar-cropper>
             </div>
 
@@ -166,6 +172,7 @@
   const confirm = (url) => {
     imageUrl.value = url
   };
+  const avatarCropperRef = ref();
   const val = ref('1');
   const emojiData = {
     title: '表情名称',

@@ -165,6 +165,35 @@ img {
 .details-page .nut-avatar-cropper::after {
   display: none;
 }
+.details-page .nut-cropper-popup__highlight .highlight {
+  width: 3.47rem !important;
+  height: 3.47rem !important;
+  border: 2px solid #090;
+}
+.details-page .nut-cropper-popup__toolbar {
+  bottom: 50%;
+  margin-bottom: -3.1rem;
+}
+.details-page .b-toolbar {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.details-page .b-toolbar i {
+  margin: 0.17rem auto;
+  width: 0.27rem;
+  height: 0.22rem;
+  background: url("../assets/img/p_title.png");
+  background-size: 100% 100%;
+}
+.details-page .b-toolbar span {
+  margin: 0 auto;
+  background: url("../assets/img/p_title.png");
+  background-size: 100% 100%;
+  width: 1.4rem;
+  height: 0.52rem;
+  border-radius: 0.25rem;
+}
 .details-page .upload-img-pre {
   position: relative;
 }
