@@ -3,9 +3,9 @@
 
     <div class="top">
         <div class="banner">
-            <img :src="'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800'" alt="">
+            <img :src="previewEmojiData.avatar" alt="">
         </div>
-        <div class="title txt-c">1111111</div>
+        <div class="title txt-c">{{previewEmojiData.name}}</div>
     </div>
     <div class="list">
         <div
@@ -13,7 +13,7 @@
             v-for="(item, index) in emojiList"
             :key="index"
         >
-            <div class="item-box">
+            <div class="item-box" @click="handlePreview(item)">
                 <div class="avatar">
                     <img :class="{'filter': item.status != 0 }" :src="item.avatar" />
                     <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 0">
@@ -21,7 +21,7 @@
                             <Loading1 class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
                             <span>生成中</span>
                         </div>
-                        <div class="flex flex-center" v-if="item.status == 2">
+                        <div class="flex flex-center" v-if="item.status == 2" @click="handleGenerate">
                           <MaskClose class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
                           <span>生成失败</span>
                         </div>
@@ -35,29 +35,35 @@
 </template>
 
 <script setup>
-import { ref, onUpdated, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ref, createVNode } from "vue";
+import { useRouter } from "vue-router";
 
+import { showDialog } from '@nutui/nutui'
 import { Loading1, MaskClose } from '@nutui/icons-vue'
 
-
-const title = ref('11111');
-const loading = ref(true);
-const route = useRoute();
 const router = useRouter();
-console.log(route, router)
+const previewEmojiData = ref({})
 const emojiList = ref([]);
 
-const handler = () => {
-  title.value = route.meta.title;
-//   title.value = '333';
-//   console.log(title)
+const handleGenerate = () => {
+  showDialog({
+    title: '',
+    content: createVNode('span', { style: { color: 'red' } }, '确认是否重新生成？'),
+    onOk: () => {
+      // 判断是否有生成中
+      console.log('event ok')
+    }
+  })
 }
 
-console.log('222222')
+const handlePreview = (item) => {
+  if(item.status == 0) {
+    previewEmojiData.value = item
+  }
+}
+
 // 获取表情包合集数据
-function getCenterList () {
-  loading.value = true;
+const getCenterList = () => {
 
   emojiList.value = [{
     id: 1,
@@ -120,23 +126,19 @@ function getCenterList () {
     status: 2,
     avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
   }]
-  console.log(route, '----')
-  route.meta.title = '111111'
-  router.replace(route)
-  loading.value = false;
-
+  previewEmojiData.value = emojiList.value[0]
 }
 
-function goPage (item) {
+function go (item) {
   router.push({
     path: `/detail/${item.id}`
   })
 }
-// getCenterList()
+getCenterList()
 
 
 // onUpdated(getCenterList);
-onMounted(getCenterList);
+// onMounted(getCenterList);
 
 
 

@@ -28,17 +28,14 @@
 
 <script setup>
 import { ref, onUpdated, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { getEmojiList } from "@/api/api";
 
-
-// getEmojiList
-const title = ref('首页');
 const loading = ref(true);
-const route = useRoute();
 const router = useRouter();
 const emojiList = ref([]);
 
+// 翻页
 const cycle = ref(0)
 const tabsValue = ref(0)
 const sum = ref(24)
@@ -86,13 +83,7 @@ function go (item) {
     path: `/details/${item.id}`
   })
 }
-// getEmojiList()
-const handler = () => {
-  title.value = route.meta.title;
-}
 
-onUpdated(handler);
-onMounted(handler);
 
 
 
