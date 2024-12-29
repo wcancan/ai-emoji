@@ -2,39 +2,37 @@
   <div class="details-page">
     <div class="list-center">
       <div class="top-banner">
-        <img :src="'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800'"
-          alt="">
+        <img :src="emojiData.coverUrl" alt="">
       </div>
       <div class="list">
         <div class="list-emoji-title">
-          <h4>{{emojiData.title}}</h4>
-          <p>{{emojiData.desc}}</p>
+          <h4>{{emojiData.templateName}}</h4>
+          <p>{{emojiData.templateDesc}}</p>
         </div>
-        <div class="item-container" v-for="(item, index) in emojiList" :key="index">
-          <div class="item-box" @click="handlePreviewPopup()">
+        <div class="item-container" v-for="(item, index) in emojiData.emoticonList" :key="index">
+          <div class="item-box" @click="handlePopup(`preview`)">
             <div class="avatar">
-              <img :src="item.avatar" />
+              <img :src="item.cdnUrl" />
             </div>
-            <div class="title txt-c">{{item.name}}</div>
+            <div class="title txt-c">{{item.emoticonName}}</div>
           </div>
         </div>
       </div>
-      <div class="list-b-btn" @click="handlePayPopup()">
-        解锁表情合集
-      </div>
-      <div class="list-b-btn" @click="handleUploadPopup()">
+      <div v-if="btnStatus == 2" class="list-b-btn" @click="handlePopup('upload')">
         制作表情
+      </div>
+      <div class="list-b-btn" v-else @click="handlePopup('pay')">
+        解锁表情合集
       </div>
     </div>
     <div>
-
-      <nut-popup v-model:visible="generatePopup" closeable position="bottom" :style="popupData.generate.style">
+      <nut-popup v-model:visible="showPopup" closeable position="bottom" :style="popupData[popupData.curPopup].style">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
         </template>
         <div class="popup-con">
-          <h4 class="popup-title">正在生成</h4>
-          <div class="gen-popup-con">
+          <h4 class="popup-title">{{popupData[popupData.curPopup].title}}</h4>
+          <div v-if="popupData.curPopup==`generate`" class="gen-popup-con">
             <div class="progress-block">
               <nut-space align="center">
                 <nut-circle-progress :stroke-width="8" :radius="33" :path-color="'rgba(142, 17, 17, 0.22)'"
@@ -46,32 +44,16 @@
             <p class="progress-time">努力生成中...预计需要2分钟</p>
             <p>生成的作品将储存于「我的」页面</p>
             <div class="gen-b-btn">
-              <nut-row>
-                <nut-col :span="12">
-                  <view class="popup-btn popup-bd-btn">继续生成</view>
-                </nut-col>
-                <nut-col :span="12">
-                  <view class="popup-btn">前往查看</view>
-                </nut-col>
-              </nut-row>
+              <view class="popup-btn" @click="toCenterPage">前往查看</view>
             </div>
           </div>
-        </div>
-      </nut-popup>
-      <nut-popup v-model:visible="payPopup" closeable position="bottom" :style="popupData.pay.style">
-        <template #close-icon>
-          <img class="close-btn" src="../assets/img/close.png" alt="">
-        </template>
-        <div class="popup-con ">
-          <h4 class="popup-title">购买表情合集</h4>
-          <div class="pay-popup">
+          <div v-else-if="popupData.curPopup==`pay`" class="pay-popup">
             <div class="pay-popup-img">
-              <img src="../assets/img/sample_photo.png" alt="">
+              <img :src="popupData.coverUrl" alt="">
             </div>
             <div class="pay-block">
               <p class="pay-title">选择支付方式</p>
-
-              <nut-radio-group class="pay-group" v-model="val" text-position="left">
+              <nut-radio-group class="pay-group" v-model="payWay" text-position="left">
                 <nut-radio label="1" class="pay-list">
                   <i class="pay-wx-icon pay-icon"></i>
                   <p class="pay-txt">微信支付</p>
@@ -96,68 +78,51 @@
               </nut-radio-group>
 
             </div>
-            <div class="pay-btn">立即支付1元</div>
+            <div class="pay-btn" @click="handlePay">立即支付1元</div>
             <p class="pay-tips"> <i></i>
               活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消
               请仔细核对购买账号。</p>
           </div>
-        </div>
-      </nut-popup>
-      <nut-popup v-model:visible="previewPopup" closeable position="bottom" :style="popupData.preview.style">
-        <template #close-icon>
-          <img class="close-btn" src="../assets/img/close.png" alt="">
-        </template>
-        <div class="popup-con">
-          <h4 class="popup-title">表情预览</h4>
-          <div class="popup-preview">
+          <div v-else-if="popupData.curPopup==`preview`" class="popup-preview">
             <img src="../assets/img/sample_photo.png" alt="">
             <h4 class="preview-title">表情预览</h4>
           </div>
-        </div>
-      </nut-popup>
-      <nut-popup v-model:visible="uploadPopup" closeable position="bottom" :style="popupData.upload.style">
-        <template #close-icon>
-          <img class="close-btn" src="../assets/img/close.png" alt="">
-        </template>
-        <div class="popup-con">
-          <h4 class="popup-title">上传图片</h4>
-
-          <div class="upload-block">
-            <p class="">请上传一张人脸图片</p>
-
-            <div class="upload-con">
-              <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
-                <div class="upload-img-pre">
-                  <img v-if="imageUrl" :src="imageUrl" />
-                  <div class="re-upload-btn">
-                    <i></i>
-                    <p>重新上传</p>
+          <div v-else class="upload-popup">
+            <div class="upload-block">
+              <p class="">请上传一张人脸图片</p>
+              <div class="upload-con">
+                <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
+                  <div class="upload-img-pre">
+                    <img v-if="imageUrl" :src="imageUrl" />
+                    <div class="re-upload-btn">
+                      <i></i>
+                      <p>重新上传</p>
+                    </div>
                   </div>
-                </div>
-                <div class="upload-btn">
-                  <i class="upload-icon"></i>
-                  <p>点击上传</p>
-                </div>
-                <template #toolbar>
-                  <div class="b-toolbar">
-                    <p>请将小脸蛋调整摆正至框内</p>
-                    <i @click="avatarCropperRef.rotate()"></i>
-                    <span @click="avatarCropperRef.confirm()"></span>
+                  <div class="upload-btn">
+                    <i class="upload-icon"></i>
+                    <p>点击上传</p>
                   </div>
-                </template>
-              </nut-avatar-cropper>
+                  <template #toolbar>
+                    <div class="b-toolbar">
+                      <p>请将小脸蛋调整摆正至框内</p>
+                      <i @click="avatarCropperRef.rotate()"></i>
+                      <span @click="avatarCropperRef.confirm()"></span>
+                    </div>
+                  </template>
+                </nut-avatar-cropper>
+              </div>
             </div>
-
+            <div class="sample-photo"></div>
+            <nut-row>
+              <nut-col :span="12">
+                <view @click="showPopup = false" class="popup-btn popup-bd-btn">取消</view>
+              </nut-col>
+              <nut-col :span="12">
+                <view class="popup-btn" @click="handlePopup(`generate`)">上传</view>
+              </nut-col>
+            </nut-row>
           </div>
-          <div class="sample-photo"></div>
-          <nut-row>
-            <nut-col :span="12">
-              <view class="popup-btn popup-bd-btn">取消</view>
-            </nut-col>
-            <nut-col :span="12">
-              <view class="popup-btn" @click="handleGeneratePopup()">上传</view>
-            </nut-col>
-          </nut-row>
         </div>
       </nut-popup>
     </div>
@@ -169,63 +134,91 @@
     ref
   } from "vue";
   import {
-    getDetail
+    getDetail,
+    getUserAsset,
+    subscribeChargingy
   } from '@/api/api.js'
+  import {
+    useRoute,
+    useRouter
+  } from "vue-router";
+  const router = useRouter();
+  const btnStatus = ref(2); // 1解鎖表情包 2製作表情
+
   const emojiData = ref({
-    title: '表情名称',
-    desc: '详细描述详细描述详细描述详细描述详细描述详细描述详细 描述详细描述详细描述'
+    coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
+    templateName: `表情模板名称`,
+    templateDesc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
+    emoticonList: [{
+      fileId: `111`,
+      TemplateId: `素材id`,
+      fileNo: `素材id`,
+      localUrl: `素材id`,
+      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
+      emoticonId: `111`,
+      emoticonName: `表情包名称`
+    }, {
+      fileId: `111`,
+      TemplateId: `素材id`,
+      fileNo: `素材id`,
+      localUrl: `素材id`,
+      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
+      emoticonId: `111`,
+      emoticonName: `表情包名称`
+    }, {
+      fileId: `111`,
+      TemplateId: `素材id`,
+      fileNo: `素材id`,
+      localUrl: `素材id`,
+      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
+      emoticonId: `111`,
+      emoticonName: `表情包名称`
+    }],
   });
 
   const getEmojiDetail = async () => {
     const resp = await getDetail({})
     if (resp.code === 1) {
-      emojiData.value = resp.data.records;
+      emojiData.value = resp.data;
     }
   }
-  getEmojiDetail()
+  getEmojiDetail();
+  const getUserBuy = async () => {
+    const resp = await getUserAsset({
+      activityId: 11,
+      appId: 111
+    })
+    if (resp.code === 1 && resp.data && resp.data.list.length > 0) {
+      btnStatus.value = 2;
+    }
+  }
+  getUserBuy();
+  const toCenterPage = (key) => {
+    showPopup.value = false;
+    router.push({
+      path: `/center`
+    })
+  }
+  const payWay = ref('1');
+  //支付
+  const handlePay = (key) => {
+    showPopup.value = false
+  }
+
+  // const handlePay = async () => {
+  //   const resp = await subscribeChargingy({})
+  //   if (resp.code === 1) {
+  //     showPopup.value = false;
+  //   }
+  // }
   const imageUrl = ref('')
   const confirm = (url) => {
     imageUrl.value = url
   };
   const avatarCropperRef = ref();
-  const val = ref('1');
-
-  const emojiList = [{
-      id: 1,
-      name: '表情包合集0',
-      status: 0,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }, {
-      id: 1,
-      name: '表情包合集1',
-      status: 1,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }, {
-      id: 1,
-      name: '表情包合集2',
-      status: 2,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }, {
-      id: 1,
-      name: '表情包合集3',
-      status: 0,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }, {
-      id: 1,
-      name: '表情包合集4',
-      status: 1,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }, {
-      id: 1,
-      name: '表情包合集5',
-      status: 2,
-      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    }
-
-  ];
-
   const popupData = {
-    curPopup: 'upload',
+    curPopup: 'upload', // upload preview pay generate
+    coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
     upload: {
       title: '上传图片',
       style: {
@@ -245,42 +238,26 @@
         height: '3.51rem',
         background: 'transparent'
       },
-      title: '正在生成',
+      title: ' 购买表情合集',
     },
     generate: {
       style: {
         height: '2.85rem',
         background: 'transparent'
       },
-      title: '购买表情合集',
+      title: '正在生成',
     }
 
   };
-
-
-  const previewPopup = ref(false);
-  const uploadPopup = ref(false);
-  const payPopup = ref(false);
-  const generatePopup = ref(false);
-  const handlePreviewPopup = () => {
-    previewPopup.value = true
-  };
-  const handleUploadPopup = () => {
-    uploadPopup.value = true
-  };
-  const handlePayPopup = () => {
-    payPopup.value = true
-  };
-  const handleGeneratePopup = () => {
-    generatePopup.value = true
+  const showPopup = ref(false);
+  const handlePopup = (key) => {
+    showPopup.value = false;
+    popupData.curPopup = key;
+    showPopup.value = true;
   };
 </script>
 
 <style scoped lang="less">
-  .list {
-    background: #DF4632;
-  }
-
   .popup-con {
     position: relative;
     width: 100%;

@@ -17,3 +17,5 @@ export const getEmojiList = (param) => {
 };
 
 export const getDetail = (param) => Http.getJson(`/ProductPortal/tc/aiEmoticon/getDetail`, param)
+export const getUserAsset = (param) => Http.getJson(`/ProductUser/tc/userAsset/query`, param)
+export const subscribeChargingy = (param) => Http.postJson(`/ProductUser/tc/order/subscribeChargingy`, param)

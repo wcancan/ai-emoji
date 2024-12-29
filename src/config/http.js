@@ -7,6 +7,7 @@ const toast = showToast.text('loading', {
   cover: true,
   duration: 0
 })
+toast.hide();
 
 axios.interceptors.request.use(config => {
     console.log('config', config)
