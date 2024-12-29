@@ -1,13 +1,32 @@
 <template>
   <div class="list">
-    <div class="top-banner">
-      <img src="" alt="">
+    <div class="list-center">
+      <div class="top-banner">
+        <img :src="'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800'"
+          alt="">
+      </div>
+      <div class="list">
+        <div class="list-emoji-title">
+          <h4>{{emojiData.title}}</h4>
+          <p>{{emojiData.desc}}</p>
+        </div>
+        <div class="item-container" v-for="(item, index) in emojiList" :key="index">
+          <div class="item-box" @click="handlePreviewPopup()">
+            <div class="avatar">
+              <img :src="item.avatar" />
+            </div>
+            <div class="title txt-c">{{item.name}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="list-b-btn" @click="handlePayPopup()">
+        解锁表情合集
+      </div>
+      <div class="list-b-btn"  @click="handleUploadPopup()">
+        制作表情
+      </div>
     </div>
     <div>
-      <nut-cell title="上传" desc="描述文字" @click="handleUploadPopup()"></nut-cell>
-      <nut-cell title="表情包" desc="表情包" @click="handlePreviewPopup()"></nut-cell>
-      <nut-cell title="支付" desc="表情包" @click="handlePayPopup()"></nut-cell>
-      <nut-cell title="生成" desc="表情包" @click="handleGeneratePopup()"></nut-cell>
       <nut-popup v-model:visible="generatePopup" closeable position="bottom" :style="popupData.generate.style">
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
@@ -119,7 +138,7 @@
               <view class="popup-btn popup-bd-btn">取消</view>
             </nut-col>
             <nut-col :span="12">
-              <view class="popup-btn">上传</view>
+              <view class="popup-btn" @click="handleGeneratePopup()">上传</view>
             </nut-col>
           </nut-row>
         </div>
@@ -132,9 +151,47 @@
   import {
     ref
   } from "vue";
-  const val = ref('1')
+  const val = ref('1');
+  const emojiData = {
+    title: '表情名称',
+    desc: '详细描述详细描述详细描述详细描述详细描述详细描述详细 描述详细描述详细描述'
+  };
+  const emojiList = [{
+      id: 1,
+      name: '表情包合集0',
+      status: 0,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }, {
+      id: 1,
+      name: '表情包合集1',
+      status: 1,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }, {
+      id: 1,
+      name: '表情包合集2',
+      status: 2,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }, {
+      id: 1,
+      name: '表情包合集3',
+      status: 0,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }, {
+      id: 1,
+      name: '表情包合集4',
+      status: 1,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }, {
+      id: 1,
+      name: '表情包合集5',
+      status: 2,
+      avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+    }
+
+  ];
 
   const popupData = {
+    curPopup: 'upload',
     upload: {
       title: '上传图片',
       style: {
@@ -186,6 +243,10 @@
 </script>
 
 <style scoped lang="less">
+  .list {
+    background: #DF4632;
+  }
+
   .popup-con {
     position: relative;
     width: 100%;
