@@ -1,6 +1,6 @@
 <template>
   <div class="list-emoji">
-    <div class="list flex flex-between flex-wrap">
+    <!-- <div class="list flex flex-between flex-wrap">
       <div
         class="item"
         v-for="(item, index) in emojiList"
@@ -14,7 +14,30 @@
       </div>
       <div class="item"></div>
       <div class="item"></div>
-    </div>
+    </div> -->
+    <nut-infinite-loading
+      v-model="infinityValue"
+      load-txt="Loading..."
+      load-more-txt="End~"
+      :has-more="hasMore"
+      @load-more="loadMore"
+    >
+      <div class="list flex flex-between flex-wrap">
+        <div
+          class="item"
+          v-for="(item, index) in emojiList"
+          :key="index"
+        >
+          <div class="avatar">
+            <img :src="item.avatar" alt="">
+          </div>
+          <div class="title txt-c">{{item.name}}</div>
+          <div class="btnDetail txt-c" @click="go(item)">{{item.name}}</div>
+        </div>
+        <div class="item"></div>
+        <div class="item"></div>
+      </div>
+    </nut-infinite-loading>
   </div>
 </template>
 
@@ -32,6 +55,34 @@ const route = useRoute();
 const router = useRouter();
 const emojiList = ref([]);
 
+const cycle = ref(0)
+const tabsValue = ref(0)
+const sum = ref(24)
+const infinityValue = ref(false)
+const hasMore = ref(true)
+
+const loadMore = (done) => {
+  setTimeout(() => {
+    emojiList.value.push({
+    id: 2,
+    name: '表情包合集1',
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  },{
+    id: 2,
+    name: '表情包合集1',
+    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  })
+    cycle.value++
+    if (cycle.value > 2) hasMore.value = false
+    infinityValue.value = false
+  }, 1000)
+}
+
+emojiList.value = [{
+  id: 1,
+  name: '表情包合集1',
+  avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+}]
 getEmojiList({
   configureId: '',
   type: 2
@@ -71,7 +122,7 @@ onMounted(handler);
     object-fit: cover;
   }
   .list-emoji {
-    height: 20rem;
+    min-height: 100vh;
     background: red;
 
     .list {
