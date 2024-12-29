@@ -18,10 +18,10 @@
           </div>
         </div>
       </div>
-      <div v-if="btnStatus == 2" class="list-b-btn" @click="handlePopup('upload')">
+      <div v-if="btnStatus == 2" class="list-b-btn" @click="handlePopup(`upload`)">
         制作表情
       </div>
-      <div class="list-b-btn" v-else @click="handlePopup('pay')">
+      <div class="list-b-btn" v-else @click="handlePopup(`pay`)">
         解锁表情合集
       </div>
     </div>
@@ -35,9 +35,9 @@
           <div v-if="popupData.curPopup==`generate`" class="gen-popup-con">
             <div class="progress-block">
               <nut-space align="center">
-                <nut-circle-progress :stroke-width="8" :radius="33" :path-color="'rgba(142, 17, 17, 0.22)'"
-                  :color="'#fff'" :progress="20">
-                  {{''}}
+                <nut-circle-progress :stroke-width="8" :radius="33" :path-color="`rgba(142, 17, 17, 0.22)`"
+                  :color="`#fff`" :progress="20">
+                  {{``}}
                 </nut-circle-progress>
               </nut-space>
             </div>
@@ -136,8 +136,12 @@
   import {
     getDetail,
     getUserAsset,
-    subscribeChargingy
-  } from '@/api/api.js'
+    subscribeChargingy,
+    getOrderStatus,
+    createEmoticon,
+    auditImage,
+    tokenValidate
+  } from "@/api/api.js"
   import {
     useRoute,
     useRouter
@@ -199,9 +203,28 @@
       path: `/center`
     })
   }
-  const payWay = ref('1');
+  const payWay = ref(`1`);
   //支付
-  const handlePay = (key) => {
+  const handlePay = () => {
+    const payParam = {
+      user: {
+        passId: 655819189672711531
+      },
+      code: `m1320167270433034240`,
+      name: `模版名称`,
+      bids: [{
+        payWay: `1064`,
+        amount: 1,
+        extInfo: {
+          bankCode: `AP`,
+          saleType: `1`,
+          pageURL: `http://`
+        }
+      }],
+      appId: 10005,
+      activityId: 1
+    }
+
     showPopup.value = false
   }
 
@@ -211,41 +234,41 @@
   //     showPopup.value = false;
   //   }
   // }
-  const imageUrl = ref('')
+  const imageUrl = ref(``)
   const confirm = (url) => {
     imageUrl.value = url
   };
   const avatarCropperRef = ref();
   const popupData = {
-    curPopup: 'upload', // upload preview pay generate
+    curPopup: `upload`, // upload preview pay generate
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
     upload: {
-      title: '上传图片',
+      title: `上传图片`,
       style: {
-        height: '5.36rem',
-        background: 'transparent'
+        height: `5.36rem`,
+        background: `transparent`
       },
     },
     preview: {
-      title: '表情预览',
+      title: `表情预览`,
       style: {
-        height: '4.32rem',
-        background: 'transparent'
+        height: `4.32rem`,
+        background: `transparent`
       },
     },
     pay: {
       style: {
-        height: '3.51rem',
-        background: 'transparent'
+        height: `3.51rem`,
+        background: `transparent`
       },
-      title: ' 购买表情合集',
+      title: ` 购买表情合集`,
     },
     generate: {
       style: {
-        height: '2.85rem',
-        background: 'transparent'
+        height: `2.85rem`,
+        background: `transparent`
       },
-      title: '正在生成',
+      title: `正在生成`,
     }
 
   };
