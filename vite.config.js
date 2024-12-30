@@ -1,4 +1,6 @@
-import { defineConfig } from 'vite'
+import {
+	defineConfig
+} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import * as path from 'path'
 import Components from 'unplugin-vue-components/vite'
@@ -21,8 +23,8 @@ export default defineConfig({
 				javascriptEnabled: true,
 			},
 			scss: {
-        additionalData: `@import "@nutui/nutui/dist/styles/variables-jdt.scss";`
-      }
+				additionalData: `@import "@nutui/nutui/dist/styles/variables-jdt.scss";`
+			}
 		}
 	},
 	plugins: [
@@ -31,5 +33,17 @@ export default defineConfig({
 		Components({
 			resolvers: [NutUIResolver()],
 		}),
-	]
+	],
+	server: {
+		port: 8080,
+		"origin": "*",
+		proxy: {
+			'/product/': {
+				target: 'http://112.48.155.26:8088/product/',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/product/, ''),
+			  },
+
+		}
+	}
 })
