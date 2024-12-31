@@ -181,7 +181,7 @@
   });
 
   const getEmojiDetail = async () => {
-    const resp = await getDetail({})
+    const resp = await getDetail({templateId: "18977567454"})
     if (resp.code === 1) {
       emojiData.value = resp.data;
     }
