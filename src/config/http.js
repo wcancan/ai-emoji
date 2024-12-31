@@ -42,18 +42,23 @@ axios.interceptors.request.use(config => {
     reqId += setReqId();
   reqId.slice(0, 32);
   let url = config.url;
+  config.headers.sessionid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJob3VuZC1wb3J0YWwiLCJpYXQiOjE3MzU2MzQzNDcsImV4cCI6MTczNTcyMDc0NywicGFzc19pZCI6IjUzMzk0MDA2OTgwNTk4NDE1MSIsImFwcGlkIjoiIiwidGVsIjoiMTgyNDQyNzc0NjQifQ.ryE8mscFWycqkOFjsqgMxdSUTUZFGPYSQHCHcq8L7j0";
   if(config.method == "get"){
     url = url.lastIndexOf("?") >0 ? url.substr(url.lastIndexOf("?")+1,url.length): "";
+    if( config.url.indexOf("/activity/configureId")>0 || config.url.indexOf("/token/validate")>0){
+      config.headers.sessionid = ""
+    }
   }else{
     url = JSON.stringify(config.data)
   }
   config.headers.timestamp = (new Date).getTime()
-  const signature = "".concat(reqId).concat(config.headers.timestamp).concat( url);
+  
+  const signature = "".concat(reqId).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(url);
+  // const signature = "".concat(reqId).concat(config.headers.timestamp).concat( url);
   console.log("======signature============",signature);
   config.headers.reqId = reqId;
   config.headers.encrypt = "0"
   config.headers.signature = CryptoJS.MD5(signature).toString();
-
   // if (config.url.indexOf("image.oss-cn-beijing.aliyuncs.com") == -1) {
   //   if (getCookie("WXSESSIONID") && config.url.indexOf("login/tokenLogin") == -1) {
   //     config.headers.common['WXSESSIONID'] = getCookie("WXSESSIONID");

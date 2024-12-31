@@ -7,7 +7,7 @@
           <div class="avatar">
             <img :src="item.coverUrl" alt="">
           </div>
-          <div class="title txt-c">{{item.templateName}}</div>
+          <div class="title txt-c">{{item.groupName}}</div>
           <div class="btnDetail txt-c" @click="go(item)">查看表情</div>
         </div>
       </div>
@@ -41,7 +41,7 @@
 
   const loadMore = (done) => {
     // setTimeout(() => {
-    //   emojiList.value.push({
+    //   emojiData.value.push({
     //   id: 2,
     //   name: '表情包合集1',
     //   avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
@@ -57,48 +57,34 @@
   }
 
 
-  getEmojiList({
-    configureId: '666666'
-  }).then((res) => {
-    console.log(res, '1111')
-    emojiList.value = [{
-      templateId: 1,
-      templateName: '表情包合集1',
-      coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-      videoUrl: '',
-      templateMark: 0,
-      templatePrice: 1
-    }]
-    loading.value = false;
-  })
-
-
-  // getEmojiList({
-  //   configureId: '',
-  // }).then((res) => {
-
-  //   emojiList.value = [{
-  //     templateId: 1,
-  //   templateName: '表情包合集1',
-  //   coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-  //   videoUrl: '',
-  //   templateMark: 0,
-  //   templatePrice: 1
-  //   }]
-  //   loading.value = false;
-  // })
-
   const getList = async () => {
-    const resp = await getEmojiList({})
-    if (resp.code === 1) {
-      emojiData.value = resp.data;
+    const resp = await getEmojiList({
+      configureId: 'a1873951098552291329'
+    })
+    console.log(resp, '1111')
+    if (resp.code == 200) {
+      emojiList.value = resp.data;
+      // emojiData.value = [{
+      //   templateId: 1,
+      //   templateName: '表情包合集1',
+      //   coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+      //   videoUrl: '',
+      //   templateMark: 0,
+      //   templatePrice: 1
+      // }]
+      loading.value = false;
     }
   }
   getList()
 
   function go(item) {
     router.push({
-      path: `/details/${item.templateId}/mask/${item.templateMark}/p/${item.templatePrice}`
+      path: `/details`,
+      query: {
+        id: item.aiTemplateId,
+        mask: item.templateMark,
+        price: item.templatePrice
+      }
     })
   }
 </script>
