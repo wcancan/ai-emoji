@@ -37,8 +37,13 @@ export default defineConfig({
 	server: {
 		port: 8080,
 		proxy: {
+			//   '/prep-portalx/': {
+			// 	target: 'https://api.migudm.cn/prep-portalx/',
+			// 	changeOrigin: true,
+			// 	rewrite: (path) => path.replace(/^\/prep-portalx/, ''),
+			//   },
 			  '/prep-portalx/': {
-				target: 'https://api.migudm.cn/prep-portalx/',
+				target: 'http://112.48.155.26:8088/product/test/',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/prep-portalx/, ''),
 			  },

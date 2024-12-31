@@ -90,7 +90,8 @@
                 请仔细核对购买账号。</p>
             </div>
             <div v-else-if="popupData.curPopup==`preview`" class="popup-preview">
-              <img src="https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800" alt="">
+              <img src="https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800"
+                alt="">
               <h4 class="preview-title">表情预览</h4>
             </div>
             <div v-else class="upload-popup">
@@ -145,7 +146,7 @@
   import {
     getDetail,
     getUserAsset,
-    subscribeChargingy,
+    subscribeCharging,
     getOrderStatus,
     createEmoticon,
     auditImage,
@@ -156,11 +157,18 @@
     useRouter
   } from "vue-router";
   const route = useRoute();
-  console.log(route.params)
+  console.log("route.query", route.query.id)
   const router = useRouter();
-  const btnStatus = ref(2); // 1解鎖表情包 2製作表情
-
-
+  const btnStatus = ref(1); // 1解鎖表情包 2製作表情
+  let userInfo = JSON.parse(decodeURIComponent(atob(
+    'JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelUyTXprMU1qa3NJbVY0Y0NJNk1UY3pOVGN5TlRreU9Td2ljR0Z6YzE5cFpDSTZJalV6TXprME1EQTJPVGd3TlRrNE5ERTFNU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRneU5EUXlOemMwTmpRaWZRLkRvWGlQSDYyaHdveUllRHlCc0s3TGR6eDByZ1JVdFlVVHVjSXZSdTV2MWMlMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTFNek01TkRBd05qazRNRFU1T0RReE5URWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU5qTTVOVEk1TENKbGVIQWlPakUzTXpVM01qVTVNamw5LkJYWTVmZWViN19TbEJwUHpmX3k2Z1lqQ2o5b01sTEJHVkVjNl93V3FjZ0ElMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI1MzM5NDAwNjk4MDU5ODQxNTElMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODI0NDI3NzQ2NCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTYzNzkzMjQ1NE5uQ2Q2YXhlTU94RUczNWY2Mm5jZ0ZOcTl2Rlg4ekM4JTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU2Mzk1MzExMzMlN0Q='
+  )))
+  userInfo.token = "STnid0000011735639479729xDEpwIJYdcbHSOBLvZr7TRzq6IYEIw4R"
+  console.log("----------", userInfo);
+  const activityData = {
+    activityId: "test",
+    appId: "10004",
+  };
   const emojiData = ref({
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
     templateName: `表情模板名称`,
@@ -173,44 +181,43 @@
       cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
       emoticonId: `111`,
       emoticonName: `表情包名称`
-    }, {
-      fileId: `111`,
-      TemplateId: `素材id`,
-      fileNo: `素材id`,
-      localUrl: `素材id`,
-      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
-      emoticonId: `111`,
-      emoticonName: `表情包名称`
-    }, {
-      fileId: `111`,
-      TemplateId: `素材id`,
-      fileNo: `素材id`,
-      localUrl: `素材id`,
-      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
-      emoticonId: `111`,
-      emoticonName: `表情包名称`
     }],
   });
-
   const getEmojiDetail = async () => {
     const resp = await getDetail({
-      templateId: "18977567454"
+      templateId: route.query.id
     })
-    if (resp.code === 1) {
+    if (resp.code == 200) {
       emojiData.value = resp.data;
     }
   }
-  getEmojiDetail();
   const getUserBuy = async () => {
     const resp = await getUserAsset({
-      activityId: 11,
-      appId: 111
+      activityId: activityData.activityId,
+      appId: activityData.appId,
+      assetCode: route.query.id
     })
-    if (resp.code === 1 && resp.data && resp.data.list.length > 0) {
-      btnStatus.value = 2;
+    if (resp.code == 200 && resp.data && resp.data.list.length > 0) {
+      btnStatus.value = resp.data.list.filter(item => item.templateId == route.query.id).length > 0 ? 2 : 1;
+    } else {
+      btnStatus.value = 1
     }
   }
-  getUserBuy();
+
+  const chenkToken = async () => {
+    const resp = await tokenValidate({
+      token: userInfo.token,
+      //sourceId: ""
+    })
+    if (resp.code == 200) {
+      getEmojiDetail();
+      getUserBuy();
+    } else {
+      //router.push('/list')
+    }
+  }
+  chenkToken();
+
   const toCenterPage = (key) => {
     showPopup.value = false;
     router.push({
@@ -218,36 +225,59 @@
     })
   }
   const payWay = ref(`1`);
+
   //支付
-  const handlePay = () => {
+  const handlePay = async () => {
     const payParam = {
       user: {
-        passId: 655819189672711531
+        passId: userInfo.passId
       },
-      code: `m1320167270433034240`,
-      name: `模版名称`,
+      code: `m1873976352657965059`,
+      name: `爱豆`,
       bids: [{
         payWay: `1064`,
-        amount: 1,
+        amount: 11,
         extInfo: {
           bankCode: `AP`,
           saleType: `1`,
-          pageURL: `http://`
+          pageURL: `http://localhost:8080/details?id=m1873976352657965057&mask&price`
         }
       }],
-      appId: 10005,
-      activityId: 1
+      appId: activityData.appId,
+      activityId: activityData.activityId
     }
-
+    
+    const resp = await subscribeCharging(payParam);
+    console.log(resp)
+    if (resp.code == 200) {
+      //支付成功跳转页面
+    }
     showPopup.value = false
   }
 
-  // const handlePay = async () => {
-  //   const resp = await subscribeChargingy({})
-  //   if (resp.code === 1) {
-  //     showPopup.value = false;
-  //   }
-  // }
+  let orderStatus = 1;
+  const checkOrderStatus = async () => {
+    if (route.query.id) {
+      const resq = await getOrderStatus({
+        orderId: route.query.oid
+      })
+      if (resq == 200 && res.data) {
+        orderStatus = 2
+      } else {
+        setTimeout(() => {
+          if (orderStatus == 1) {
+            checkOrderStatus();
+          }
+        }, 1000);
+        setTimeout(() => {
+          orderStatus = 2
+        }, 6000);
+      }
+    }
+  }
+  checkOrderStatus();
+
+
   const imageUrl = ref(``)
   const confirm = (url) => {
     imageUrl.value = url
