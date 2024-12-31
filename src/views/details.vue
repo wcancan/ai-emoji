@@ -1,14 +1,18 @@
 <template>
   <div class="details-page">
     <div class="list-center">
-      <div class="top-banner">
-        <img :src="emojiData.coverUrl" alt="">
-      </div>
-      <div class="list">
+      <div class="top-banner-container">
+        <div class="top-banner">
+          <img :src="emojiData.coverUrl" alt="">
+        </div>
+
         <div class="list-emoji-title">
           <h4>{{emojiData.templateName}}</h4>
           <p class="list-emoji-desc">{{emojiData.templateDesc}}</p>
         </div>
+      </div>
+      
+      <div class="list">
         <div class="item-container" v-for="(item, index) in emojiData.emoticonList" :key="index">
           <div class="item-box" @click="handlePopup(`preview`)">
             <div class="avatar">
@@ -16,27 +20,41 @@
             </div>
             <div class="cover-mask">
               <p class="title txt-c">
-                {{item.emoticonName}}
                 <span>{{item.emoticonName}}</span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="btnStatus == 2" class="list-b-btn" @click="handlePopup(`upload`)">
-        制作表情
+      <div class="btn-container">
+        <div v-if="btnStatus == 2" class="list-b-btn bg-btn-make" @click="handlePopup(`upload`)">
+
+        </div>
+        <div class="list-b-btn bg-btn-lock" v-else @click="handlePopup(`pay`)"></div>
+        <div class="tips">
+          <p class="flex flex-center">
+            <span class="m-r-5"></span>
+            上传一张正面人脸照片生成一套专属表情包
+          </p>
+        </div>
       </div>
-      <div class="list-b-btn" v-else @click="handlePopup(`pay`)">
-        解锁表情合集
-      </div>
+      
     </div>
     <div>
       <nut-popup v-model:visible="showPopup" closeable position="bottom" :style="popupData[popupData.curPopup].style">
         <template #close-icon>
-          <img class="close-btn" src="../assets/img/close.png" alt="">
+          <div class="close-btn"></div>
+          <!-- <img class="close-btn" src="../assets/img/close.png" alt=""> -->
         </template>
         <div class="popup-con">
-          <h4 class="popup-title">{{popupData[popupData.curPopup].title}}</h4>
+          <!-- <h4 class="popup-title">{{popupData[popupData.curPopup].title}}</h4> -->
+          <h4 class="popup-title" 
+          :class="{
+            'popup-title-bg': popupData.curPopup != 'pay',
+            'popup-title-bg-generate':  popupData.curPopup == 'generate'
+          }">
+            {{popupData[popupData.curPopup].title}}
+          </h4>
           <div v-if="popupData.curPopup==`generate`" class="gen-popup-con">
             <div class="progress-block">
               <nut-space align="center">
@@ -53,8 +71,11 @@
             </div>
           </div>
           <div v-else-if="popupData.curPopup==`pay`" class="pay-popup">
-            <div class="pay-popup-img">
-              <img :src="popupData.coverUrl" alt="">
+            <div class="pay-popup-img-con">
+              <!-- <i>购买次数：4次</i> -->
+              <span class="times">购买次数：4次</span>
+              <span class="date">有效期至2024/12/31</span>
+              <!-- <img src="../assets/img/bg_pay_tips.png" alt=""> -->
             </div>
             <div class="pay-block">
               <p class="pay-title">选择支付方式</p>
@@ -83,10 +104,11 @@
               </nut-radio-group>
 
             </div>
-            <div class="pay-btn" @click="handlePay">立即支付1元</div>
-            <p class="pay-tips"> <i></i>
-              活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消
-              请仔细核对购买账号。</p>
+            <div class="pay-btn" @click="handlePay">立即支付¥1元</div>
+            <p class="pay-tips">
+              <i></i>
+              <span>活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消请仔细核对购买账号。</span>
+            </p>
           </div>
           <div v-else-if="popupData.curPopup==`preview`" class="popup-preview">
             <img src="../assets/img/sample_photo.png" alt="">
@@ -121,10 +143,16 @@
             <div class="sample-photo"></div>
             <nut-row>
               <nut-col :span="12">
-                <view @click="showPopup = false" class="popup-btn popup-bd-btn">取消</view>
+                <view @click="showPopup = false" class="popup-btn popup-bd-btn"></view>
               </nut-col>
               <nut-col :span="12">
-                <view class="popup-btn" @click="handlePopup(`generate`)">上传</view>
+                <view
+                  class="popup-btn popup-btn-make-dis"
+                  :class="{
+                    'popup-btn-make': imageUrl && imageUrl.length > 0
+                    }"
+                  @click="handlePopup(`generate`)"
+                ></view>
               </nut-col>
             </nut-row>
           </div>
@@ -284,11 +312,55 @@
   const handlePopup = (key) => {
     showPopup.value = false;
     popupData.curPopup = key;
+    // popupData.curPopup = 'pay';
     showPopup.value = true;
   };
 </script>
 
 <style scoped lang="less">
+  .list-center {
+    display: flex;
+    height: 100vh;
+    width:100%;
+    flex-direction: column;
+
+    .top-banner-container {
+      padding: 0.75rem 0.22rem 0;
+      width: 100%;
+      height: 3.12rem;
+    }
+    .list {
+      width:100%;
+      flex: 1;
+      overflow-y: scroll;
+    }
+    .btn-container {
+      position: relative;
+      width: 100%;
+      height: 1.18rem;
+
+      .tips {
+        position: absolute;
+        left: 50%;
+        top: 0.64rem;
+        transform: translate(-50%, 0) scale(0.91);
+        width: 100%;
+        height: 0.16rem;
+        font-weight: 400;
+        font-size: 0.12rem;
+        color: #A63B00;
+        line-height: 0.16rem;
+        span {
+          vertical-align: center;
+          display: inline-block;
+          width: 0.16rem;
+          height: 0.16rem;
+          background: url("../assets/img/tip.png") no-repeat center;
+          background-size: cover;
+        }
+      }
+    }
+  }
   .popup-con {
     position: relative;
     width: 100%;
@@ -299,28 +371,56 @@
     background-image: var(--bg), var(--border);
     background-origin: border-box;
     background-clip: content-box, border-box;
-    border-radius: 0.36rem 0.36rem 0 0;
+    border-radius: 0.2rem 0.2rem 0 0;
     text-align: center;
 
     .pay-popup {
       color: #fff;
-      padding: 0.15rem 0.15rem 0;
+      padding: 0.2rem 0.14rem 0;
     }
 
     .pay-title {
       font-weight: bold;
-      padding: 0.18rem 0 0.13rem;
+      padding: 0.2rem 0 0.12rem;
+      font-size: 0.14rem;
+      color: #010101;
+      line-height: 0.14rem;
+      background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 
-  .pay-popup-img {
-    margin: 0.45rem auto 0;
+  .pay-popup-img-con {
+    position: relative;
+    margin: 0.37rem auto 0;
+    padding: 0.14rem 0.14rem 0;
     width: 3.45rem;
     height: 0.63rem;
     overflow: hidden;
-    border-radius: 0.2rem;
-  }
+    border-radius: 0.1rem;
+    background: url("../assets/img/bg_pay_tips.png") no-repeat bottom center;
+    background-size: 100% 100%;
+    text-align: left;
 
+    .times {
+      width: 100%;
+      height: 0.22rem;
+      line-height: 0.22rem;
+      font-size: 0.14rem;
+    }
+    .date {
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      transform: scale(0.92);
+      width: 100%;
+      height: 0.18rem;
+      line-height: 0.18rem;
+      font-size: 0.12rem;
+    }
+  }
+  
   .pay-block {
     text-align: left;
   }
@@ -354,7 +454,11 @@
 
   .pay-txt {
     padding-left: 0.39rem;
-    color: #fff;
+    font-size: 0.14rem;
+    color: #010101;
+    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .pay-icon-r {
@@ -367,16 +471,18 @@
 
   .pay-checked-icon {
     border-radius: 50%;
-    background: #DF7957;
+    // background: #DF7957;
+    background: url("../assets/img/icon_checked.png");
+    background-size: 100% 100%;
   }
 
   .pay-wx-icon {
-    background: url("../assets/img/p_title.png");
+    background: url("../assets/img/iocn_pay_wx.png");
     background-size: 100% 100%;
   }
 
   .pay-ali-icon {
-    background: url("../assets/img/close.png");
+    background: url("../assets/img/icon_pay_alipay.png");
     background-size: 100% 100%;
   }
 
@@ -410,45 +516,71 @@
 
   .pay-tips {
     position: relative;
-    font-size: 0.09rem;
+    // font-size: 0.09rem;
     color: #FFEDE6;
-    line-height: 0.12rem;
-    padding-top: 0.1rem;
-    padding-left: 0.38rem;
-    padding-right: 0.18rem;
+    // padding-top: 0.14rem;
+    // padding-left: 0.39rem;
+    // padding-right: 0.19rem;
+    width: 100%;
+    height: 0.52rem;
     text-align: left;
+    overflow: hidden;
 
     i {
       position: absolute;
+      top: 0.14rem;
       left: 0.2rem;
       width: 0.15rem;
       height: 0.15rem;
-      background: #000000;
-      border-radius: 50%;
-      opacity: 0.5;
-
+      background: url("../assets/img/icon_tips_pay.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+    span {
+      position: absolute;
+      left: 0.39rem;
+      top: 0.15rem;
+      width: 3.6rem;
+      height: 0.32rem;
+      line-height: 0.16rem;
+      transform: scale(0.8);
+      transform-origin: 0 0;
+      font-size: 0.12rem;
     }
   }
-
   .close-btn {
-    width: 0.19rem;
-    height: 0.19rem;
+    width: 100%;
+    height: 100%;
+    background: url("../assets/img/close.png") no-repeat center;
+    background-size: 0.17rem;
   }
 
   .popup-title {
-    width: 2.14rem;
-    height: 0.45rem;
+    padding-top: 0.32rem;
+    width: 2.3rem;
+    height: 0.69rem;
     position: absolute;
-    top: -0.02rem;
+    top: -0.12rem;
     left: 50%;
     margin-left: -1.07rem;
-    background: url("../assets/img/p_title.png");
-    background-size: 100% 100%;
     text-align: center;
-    font-size: 0.17rem;
     font-weight: bold;
-    color: #FEFAE7;
-    line-height: 0.45rem;
+    line-height: 0.16rem;
+    font-size: 0.16rem;
+    color: #010101;
+    text-shadow: 0px 0.04rem 0.13rem rgba(180,59,51,0.4);
+    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-sizing: border-box;
+  }
+  .popup-title-bg {
+    background: url("../assets/img/img_shangchuan.png");
+    background-size: 100% 100%;
+  }
+
+  .popup-title-bg-generate {
+    background: url("../assets/img/img_title_generate.png");
+    background-size: 100% 100%;
   }
 
   .upload-block {
@@ -484,7 +616,7 @@
       margin: 0 auto 0.08rem;
       width: 0.39rem;
       height: 0.39rem;
-      background: url("../assets/img/sample_photo.png");
+      background: url("../assets/img/ic_add.png");
       background-size: 100% 100%;
     }
   }

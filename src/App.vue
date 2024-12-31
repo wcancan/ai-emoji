@@ -4,10 +4,9 @@
             :title='title'
             :fixed="true"
             :placeholder="false"
-            style="background: rgba(0, 0, 0, 0);"
         >
             <template v-slot:left>
-                <div class="icon-back"> 1</div>
+                <div class="icon-back"></div>
             </template>
         </nut-navbar>
         <router-view v-slot="{ Component }">
@@ -49,8 +48,10 @@
 </script>
 <style scoped>
 .icon-back {
-    width: 0.2rem;
-    height: 0.2rem;
-    background: #333;
+    width: 0.32rem;
+    height: 0.32rem;
+    background: url("./assets/img/ic_back.png");
+    background-size: 100% 100%;
 }
+
 </style>

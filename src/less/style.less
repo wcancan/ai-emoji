@@ -13,21 +13,29 @@ body {
 div {
   box-sizing: border-box;
 }
-
+.details-page .nut-popup {
+  padding-top: 0.02rem;
+}
 .popup-btn {
   display: block;
   margin: 0 auto;
   text-align: center;
-  width: 1.4rem;
-  height: 0.52rem;
+  width: 1.63rem;
+  height: 0.77rem;
   line-height: 0.52rem;
-  background: #DDDDDD;
-  border-radius: 0.26rem;
 }
 
+.popup-btn-make-dis {
+  background: url("../assets/img/btn_make_dis.png") no-repeat center;
+  background-size: 1.63rem 0.77rem;
+}
+.popup-btn-make {
+  background: url("../assets/img/btn_make.png") no-repeat center;
+  background-size: 1.63rem 0.77rem;
+}
 .popup-bd-btn {
-  background: #FF6D4F;
-  color: #ffffff;
+  background: url("../assets/img/btn_cancel.png") no-repeat center;
+  background-size: 1.63rem 0.77rem;
 }
 
 .list-b-btn {
@@ -40,9 +48,17 @@ div {
   line-height: 0.52rem;
   background: #FF6D4F;
 }
+.bg-btn-make {
+  background: url("../assets/img/btn_zhizuo.png") no-repeat center;
+  background-size: cover;
+}
+.bg-btn-lock {
+  background: url("../assets/img/btn_jiesuo.png") no-repeat center;
+  background-size: cover;
+}
 
 .list-center {
-  padding-top: 0.75rem;
+  // padding-top: 0.75rem;
   // background: red;
 
   .top-banner {
@@ -75,7 +91,7 @@ div {
   }
 
   .list-emoji-title {
-    padding: 0.1rem 0.07rem 0;
+    padding-top: 0.1rem;
     color: #402F1E;
     line-height: 0.16rem;
     text-shadow: 0px 4px 13px rgba(180,59,51,0.4);
@@ -162,17 +178,21 @@ div {
         .title {
           position: relative;
           width: 100%;
+          height: 0.22rem;
           font-family: Source Han Sans CN;
           font-weight: bold;
           color: #A63B00;
-          line-height: 0.12rem;
           font-size: 0.12rem;
           span {
             font-size: 0.12rem;
-            transform: scale(0.91,0.91) ;
-            position: relative;
-            // transform-origin: 0 100%;
-            // font-size: 0.09rem;
+            transform: scale(0.91,0.91) translate(-50%, -50%;);
+            transform-origin: 50% 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 0.12rem;
+            line-height: 0.12rem;
           }
         }
       }
@@ -229,9 +249,12 @@ img {
 }
 
 .details-page, .list-emoji {
-  min-height: 100vh;
   background: url("/src/assets/img/bg.png") no-repeat top;
   background-size: 100% 100%;
+}
+.details-page {
+  min-height: 100vh;
+
   .nut-avatar-cropper::after {
     display: none;
   }
@@ -256,17 +279,16 @@ img {
       margin: 0.17rem auto;
       width: 0.27rem;
       height: 0.22rem;
-      background: url("../assets/img/p_title.png");
+      background: url("../assets/img/icon_reversal.png");
       background-size: 100% 100%;
     }
 
     span {
       margin: 0 auto;
-      background: url("../assets/img/p_title.png");
+      background: url("../assets/img/btn_finish.png");
       background-size: 100% 100%;
-      width: 1.4rem;
-      height: 0.52rem;
-      border-radius: 0.25rem;
+      width: 1.54rem;
+      height: 0.67rem;
     }
   }
 
@@ -276,7 +298,7 @@ img {
     i {
       width: 0.16rem;
       height: 0.16rem;
-      background: url("../assets/img/p_title.png");
+      background: url("../assets/img/icon_upload_re.png");
       background-size: 100% 100%;
       margin-right: 0.08rem;
     }
@@ -290,7 +312,7 @@ img {
       bottom: 0;
       width: 100%;
       height: 0.55rem;
-      background: #000000;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));;
       opacity: 0.7;
     }
   }

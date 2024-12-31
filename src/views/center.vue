@@ -152,6 +152,7 @@ getCenterList()
     width:100%;
     flex-direction: column;
   }
+  
   .list {
     width:100%;
     flex: 1;
