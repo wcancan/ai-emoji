@@ -257,7 +257,7 @@
 
   let orderStatus = 1;
   const checkOrderStatus = async () => {
-    if (route.query.id) {
+    if (route.query.oid) {
       const resq = await getOrderStatus({
         orderId: route.query.oid
       })
