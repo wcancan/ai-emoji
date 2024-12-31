@@ -1,21 +1,6 @@
 import * as Http from "../config/http";
 
-/**
- * 消息推送
- * @param param
- * @returns {Promise}
- */
-export const getEmojiList = (param) => {
-  return Http.getJson(
-    "/ProductPortal/tc/open/activity/configureId",
-    param,
-    false,
-    true
-  ).then(response => {
-    return response;
-  });
-};
-
+export const getEmojiList = (param) => Http.getJson(`/ProductPortal/tc/open/activity/configureId`, param)
 export const getDetail = (param) => Http.getJson(`/ProductPortal/tc/aiEmoticon/getDetail`, param)
 export const tokenValidate = (param) => Http.postJson(`/ProductUser/login/open/token/validate`, param)
 export const getUserAsset = (param) => Http.postJson(`/ProductUser/tc/userAsset/query`, param)

@@ -17,7 +17,7 @@ const routes = [{
     },
   },
   {
-    path: '/details/:id',
+    path: '/details/:id/mask/:templateMark/p/:templatePrice',
     name: 'details',
     meta: {
       title: 'AI表情包详情页'
