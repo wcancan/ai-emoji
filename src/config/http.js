@@ -2,28 +2,28 @@ import axios from 'axios'
 import {
   showToast
 } from '@nutui/nutui'
-// import { Md5 } from 'ts-md5';//md5加密后的密码
+import { Md5 } from 'ts-md5';//md5加密后的密码
 import CryptoJS from 'crypto-js'
 
 // 假设这是你的密钥，通常从服务器获取
 const key = CryptoJS.enc.Utf8.parse('hounddefault2024');
- 
+
 // 要加密的数据
 const data = 'your data here';
- 
+
 // 加密数据
 const encryptedData = CryptoJS.AES.encrypt(data, key, {
   mode: CryptoJS.mode.ECB,
   padding: CryptoJS.pad.Pkcs7
 });
- 
+
 // 转换为字符串（Base64编码）
 const encryptedDataStr = encryptedData.toString();
- 
-console.log(encryptedDataStr,"===============");
+// console.log(encryptedDataStr, "===============");
 
-const requestUrl = '/product/test'
-// process.env.VUE_APP_BASE_URL,
+// const requestUrl = '/product/test'
+const requestUrl = '/prep-portalx'
+
 // const requestUrl = 'http://112.48.155.26:8088/product/test'
 
 const toast = showToast.text('loading', {
@@ -35,11 +35,24 @@ toast.hide();
 axios.interceptors.request.use(config => {
   console.log('config', config)
   config.url = requestUrl + config.url
-  config.headers.sid = "10001";
-  config.headers.reqId = "d2e7050784234f36aa3bb871d9f90d4"
-  config.headers.timestamp = "1728984277000"
+  // config.headers.sid = "10001";
+  const setReqId = () => Math.random().toString(32).slice(-8);
+  let reqId = setReqId();
+  for (; reqId.length < 32;)
+    reqId += setReqId();
+  reqId.slice(0, 32);
+  let url = config.url;
+  if(config.method == "get"){
+    url = url.lastIndexOf("?") >0 ? url.substr(url.lastIndexOf("?")+1,url.length): "";
+  }else{
+    url = JSON.stringify(config.data)
+  }
+  config.headers.timestamp = (new Date).getTime()
+  const signature = "".concat(reqId).concat(config.headers.timestamp).concat( url);
+  console.log("======signature============",signature);
+  config.headers.reqId = reqId;
   config.headers.encrypt = "0"
-  config.headers.signature = "d623a0b40e912c7315ca9ff349bc2a6c"
+  config.headers.signature = CryptoJS.MD5(signature).toString();
 
   // if (config.url.indexOf("image.oss-cn-beijing.aliyuncs.com") == -1) {
   //   if (getCookie("WXSESSIONID") && config.url.indexOf("login/tokenLogin") == -1) {
