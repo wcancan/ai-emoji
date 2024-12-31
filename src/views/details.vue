@@ -146,8 +146,11 @@
     useRoute,
     useRouter
   } from "vue-router";
+  const route = useRoute();
+  console.log(route.params)
   const router = useRouter();
   const btnStatus = ref(2); // 1解鎖表情包 2製作表情
+ 
 
   const emojiData = ref({
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,

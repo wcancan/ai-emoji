@@ -14,13 +14,11 @@
           :key="index"
         >
           <div class="avatar">
-            <img :src="item.avatar" alt="">
+            <img :src="item.coverUrl" alt="">
           </div>
-          <div class="title txt-c">{{item.name}}</div>
-          <div class="btnDetail txt-c" @click="go(item)">{{item.name}}</div>
+          <div class="title txt-c">{{item.templateName}}</div>
+          <div class="btnDetail txt-c" @click="go(item)">查看表情</div>
         </div>
-        <div class="item"></div>
-        <div class="item"></div>
       </div>
     </nut-infinite-loading>
   </div>
@@ -43,44 +41,49 @@ const infinityValue = ref(false)
 const hasMore = ref(true)
 
 const loadMore = (done) => {
-  setTimeout(() => {
-    emojiList.value.push({
-    id: 2,
-    name: '表情包合集1',
-    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-  },{
-    id: 2,
-    name: '表情包合集1',
-    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-  })
-    cycle.value++
-    if (cycle.value > 2) hasMore.value = false
-    infinityValue.value = false
-  }, 1000)
+  // setTimeout(() => {
+  //   emojiList.value.push({
+  //   id: 2,
+  //   name: '表情包合集1',
+  //   avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  // },{
+  //   id: 2,
+  //   name: '表情包合集1',
+  //   avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  // })
+  //   cycle.value++
+  //   if (cycle.value > 2) hasMore.value = false
+  //   infinityValue.value = false
+  // }, 1000)
 }
 
 emojiList.value = [{
-  id: 1,
-  name: '表情包合集1',
-  avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  templateId: 1,
+  templateName: '表情包合集1',
+  coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+  videoUrl: '',
+  templateMark: 0,
+  templatePrice: 1
 }]
-getEmojiList({
-  configureId: '',
-  type: 2
-}).then((res) => {
-  console.log(res, '1111')
-  emojiList.value = [{
-    id: 1,
-    name: '表情包合集1',
-    avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-  }]
-  loading.value = false;
-})
+// getEmojiList({
+//   configureId: '',
+// }).then((res) => {
+  
+//   emojiList.value = [{
+//     templateId: 1,
+//   templateName: '表情包合集1',
+//   coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+//   videoUrl: '',
+//   templateMark: 0,
+//   templatePrice: 1
+//   }]
+//   loading.value = false;
+// })
 
 
 function go (item) {
   router.push({
-    path: `/details/${item.id}`
+    path: `/details/${item.templateId}/mask/${item.templateMark}/p/${item.templatePrice}`
   })
 }
 
