@@ -23,6 +23,7 @@ const encryptedDataStr = encryptedData.toString();
 console.log(encryptedDataStr,"===============");
 
 const requestUrl = '/product/test'
+// process.env.VUE_APP_BASE_URL,
 // const requestUrl = 'http://112.48.155.26:8088/product/test'
 
 const toast = showToast.text('loading', {

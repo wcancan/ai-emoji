@@ -80,7 +80,13 @@ emojiList.value = [{
 //   loading.value = false;
 // })
 
-
+const getList = async () => {
+  const resp = await getEmojiList({})
+  if (resp.code === 1) {
+    emojiData.value = resp.data;
+  }
+}
+getList()
 function go (item) {
   router.push({
     path: `/details/${item.templateId}/mask/${item.templateMark}/p/${item.templatePrice}`
