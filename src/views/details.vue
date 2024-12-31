@@ -7,14 +7,19 @@
       <div class="list">
         <div class="list-emoji-title">
           <h4>{{emojiData.templateName}}</h4>
-          <p>{{emojiData.templateDesc}}</p>
+          <p class="list-emoji-desc">{{emojiData.templateDesc}}</p>
         </div>
         <div class="item-container" v-for="(item, index) in emojiData.emoticonList" :key="index">
           <div class="item-box" @click="handlePopup(`preview`)">
             <div class="avatar">
               <img :src="item.cdnUrl" />
             </div>
-            <div class="title txt-c">{{item.emoticonName}}</div>
+            <div class="cover-mask">
+              <p class="title txt-c">
+                {{item.emoticonName}}
+                <span>{{item.emoticonName}}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

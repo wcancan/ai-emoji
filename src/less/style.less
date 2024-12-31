@@ -43,7 +43,7 @@ div {
 
 .list-center {
   padding-top: 0.75rem;
-  background: red;
+  // background: red;
 
   .top-banner {
     margin: 0 auto;
@@ -76,14 +76,29 @@ div {
 
   .list-emoji-title {
     padding: 0.1rem 0.07rem 0;
-    color: #ffffff;
+    color: #402F1E;
     line-height: 0.16rem;
+    text-shadow: 0px 4px 13px rgba(180,59,51,0.4);
+    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 
     h4 {
       font-size: 0.17rem;
       font-weight: bold;
       line-height: 0.34rem;
     }
+  }
+
+  .list-emoji-desc {
+    font-weight: 400;
+    font-size: 12px;
+    color: #402F1E;
+    line-height: 16px;
+    text-shadow: 0px 4px 13px rgba(180,59,51,0.4);
+    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .list {
@@ -103,18 +118,18 @@ div {
       text-align: center;
 
       .item-box {
+        position: relative;
         padding: 0.06rem 0.06rem 0;
-        width: 100%;
-        height: 100%;
-        background: gold;
+        width: 1.04rem;
+        height: 1.2rem;
         border-radius: 0.08rem;
         overflow: hidden;
       }
 
       .avatar {
         position: relative;
-        width: 100%;
-        height: 0.78rem;
+        width: 0.93rem;
+        height: 0.93rem;
         overflow: hidden;
 
         .opa {
@@ -133,10 +148,33 @@ div {
         /* 调整数值来改变模糊程度 */
       }
 
-      .title {
+      .cover-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 0.98rem;
         width: 100%;
-        height: 0.2rem;
+        height: 100%;
         font-size: 0.12rem;
+        background: url("../assets/img/card_d.png") no-repeat center;
+        background-size: 100% 100%;
+
+        .title {
+          position: relative;
+          width: 100%;
+          font-family: Source Han Sans CN;
+          font-weight: bold;
+          color: #A63B00;
+          line-height: 0.12rem;
+          font-size: 0.12rem;
+          span {
+            font-size: 0.12rem;
+            transform: scale(0.91,0.91) ;
+            position: relative;
+            // transform-origin: 0 100%;
+            // font-size: 0.09rem;
+          }
+        }
       }
     }
   }
@@ -190,9 +228,10 @@ img {
   object-fit: cover;
 }
 
-.details-page {
+.details-page, .list-emoji {
   min-height: 100vh;
-  background: #DF4632;
+  background: url("/src/assets/img/bg.png") no-repeat top;
+  background-size: 100% 100%;
   .nut-avatar-cropper::after {
     display: none;
   }
