@@ -35,100 +35,104 @@
         <template #close-icon>
           <img class="close-btn" src="../assets/img/close.png" alt="">
         </template>
-        <div class="popup-con">
-          <h4 class="popup-title">{{popupData[popupData.curPopup].title}}</h4>
-          <div v-if="popupData.curPopup==`generate`" class="gen-popup-con">
-            <div class="progress-block">
-              <nut-space align="center">
-                <nut-circle-progress :stroke-width="8" :radius="33" :path-color="`rgba(142, 17, 17, 0.22)`"
-                  :color="`#fff`" :progress="20">
-                  {{``}}
-                </nut-circle-progress>
-              </nut-space>
-            </div>
-            <p class="progress-time">努力生成中...预计需要2分钟</p>
-            <p>生成的作品将储存于「我的」页面</p>
-            <div class="gen-b-btn">
-              <view class="popup-btn" @click="toCenterPage">前往查看</view>
-            </div>
-          </div>
-          <div v-else-if="popupData.curPopup==`pay`" class="pay-popup">
-            <div class="pay-popup-img">
-              <img :src="popupData.coverUrl" alt="">
-            </div>
-            <div class="pay-block">
-              <p class="pay-title">选择支付方式</p>
-              <nut-radio-group class="pay-group" v-model="payWay" text-position="left">
-                <nut-radio label="1" class="pay-list">
-                  <i class="pay-wx-icon pay-icon"></i>
-                  <p class="pay-txt">微信支付</p>
-                  <template #icon>
-                    <i class="pay-check-icon pay-icon-r"></i>
-                  </template>
-                  <template #checkedIcon>
-                    <i class="pay-checked-icon pay-icon-r"></i>
-                  </template>
-                </nut-radio>
-
-                <nut-radio label="2" class="pay-list">
-                  <i class="pay-ali-icon pay-icon"></i>
-                  <p class="pay-txt">支付宝支付</p>
-                  <template #icon>
-                    <i class="pay-check-icon pay-icon-r"></i>
-                  </template>
-                  <template #checkedIcon>
-                    <i class="pay-checked-icon pay-icon-r"></i>
-                  </template>
-                </nut-radio>
-              </nut-radio-group>
-
-            </div>
-            <div class="pay-btn" @click="handlePay">立即支付1元</div>
-            <p class="pay-tips"> <i></i>
-              活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消
-              请仔细核对购买账号。</p>
-          </div>
-          <div v-else-if="popupData.curPopup==`preview`" class="popup-preview">
-            <img src="../assets/img/sample_photo.png" alt="">
-            <h4 class="preview-title">表情预览</h4>
-          </div>
-          <div v-else class="upload-popup">
-            <div class="upload-block">
-              <p class="">请上传一张人脸图片</p>
-              <div class="upload-con">
-                <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
-                  <div class="upload-img-pre">
-                    <img v-if="imageUrl" :src="imageUrl" />
-                    <div class="re-upload-btn">
-                      <i></i>
-                      <p>重新上传</p>
-                    </div>
-                  </div>
-                  <div class="upload-btn">
-                    <i class="upload-icon"></i>
-                    <p>点击上传</p>
-                  </div>
-                  <template #toolbar>
-                    <div class="b-toolbar">
-                      <p>请将小脸蛋调整摆正至框内</p>
-                      <i @click="avatarCropperRef.rotate()"></i>
-                      <span @click="avatarCropperRef.confirm()"></span>
-                    </div>
-                  </template>
-                </nut-avatar-cropper>
+        <div class="popup-block">
+          <h4 class="popup-title" :class="'popup-t-'+popupData.curPopup"></h4>
+          <div class="popup-con">
+            <div v-if="popupData.curPopup==`generate`" class="gen-popup-con">
+              <div class="progress-block">
+                <nut-space align="center">
+                  <nut-circle-progress :stroke-width="8" :radius="33" :path-color="`rgba(142, 17, 17, 0.22)`"
+                    :color="`#fff`" :progress="20">
+                    {{``}}
+                  </nut-circle-progress>
+                </nut-space>
+              </div>
+              <p class="progress-time">努力生成中...预计需要2分钟</p>
+              <p>生成的作品将储存于「我的」页面</p>
+              <div class="gen-b-btn">
+                <view class="popup-btn" @click="toCenterPage">前往查看</view>
               </div>
             </div>
-            <div class="sample-photo"></div>
-            <nut-row>
-              <nut-col :span="12">
-                <view @click="showPopup = false" class="popup-btn popup-bd-btn">取消</view>
-              </nut-col>
-              <nut-col :span="12">
-                <view class="popup-btn" @click="handlePopup(`generate`)">上传</view>
-              </nut-col>
-            </nut-row>
+            <div v-else-if="popupData.curPopup==`pay`" class="pay-popup">
+              <div class="pay-popup-img">
+                <img :src="popupData.coverUrl" alt="">
+              </div>
+              <div class="pay-block">
+                <p class="pay-title">选择支付方式</p>
+                <nut-radio-group class="pay-group" v-model="payWay" text-position="left">
+                  <nut-radio label="1" class="pay-list">
+                    <i class="pay-wx-icon pay-icon"></i>
+                    <p class="pay-txt">微信支付</p>
+                    <template #icon>
+                      <i class="pay-check-icon pay-icon-r"></i>
+                    </template>
+                    <template #checkedIcon>
+                      <i class="pay-checked-icon pay-icon-r"></i>
+                    </template>
+                  </nut-radio>
+
+                  <nut-radio label="2" class="pay-list">
+                    <i class="pay-ali-icon pay-icon"></i>
+                    <p class="pay-txt">支付宝支付</p>
+                    <template #icon>
+                      <i class="pay-check-icon pay-icon-r"></i>
+                    </template>
+                    <template #checkedIcon>
+                      <i class="pay-checked-icon pay-icon-r"></i>
+                    </template>
+                  </nut-radio>
+                </nut-radio-group>
+
+              </div>
+              <div class="pay-btn" @click="handlePay">立即支付1元</div>
+              <p class="pay-tips"> <i></i>
+                活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消
+                请仔细核对购买账号。</p>
+            </div>
+            <div v-else-if="popupData.curPopup==`preview`" class="popup-preview">
+              <img src="https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800" alt="">
+              <h4 class="preview-title">表情预览</h4>
+            </div>
+            <div v-else class="upload-popup">
+              <div class="upload-block">
+                <p class="">请上传一张人脸图片</p>
+                <div class="upload-con">
+                  <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
+                    <div class="upload-img-pre">
+                      <img v-if="imageUrl" :src="imageUrl" />
+                      <div class="re-upload-btn">
+                        <i></i>
+                        <p>重新上传</p>
+                      </div>
+                    </div>
+                    <div class="upload-btn">
+                      <i class="upload-icon"></i>
+                      <p>点击上传</p>
+                    </div>
+                    <template #toolbar>
+                      <div class="b-toolbar">
+                        <p>请将小脸蛋调整摆正至框内</p>
+                        <i @click="avatarCropperRef.rotate()"></i>
+                        <span @click="avatarCropperRef.confirm()"></span>
+                      </div>
+                    </template>
+                  </nut-avatar-cropper>
+                </div>
+              </div>
+              <div class="sample-photo"></div>
+              <nut-row>
+                <nut-col :span="12">
+                  <view @click="showPopup = false" class="popup-btn popup-bd-btn">取消</view>
+                </nut-col>
+                <nut-col :span="12">
+                  <view class="popup-btn" @click="handlePopup(`generate`)">上传</view>
+                </nut-col>
+              </nut-row>
+            </div>
           </div>
         </div>
+
+
       </nut-popup>
     </div>
   </div>
@@ -155,7 +159,7 @@
   console.log(route.params)
   const router = useRouter();
   const btnStatus = ref(2); // 1解鎖表情包 2製作表情
- 
+
 
   const emojiData = ref({
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
@@ -189,7 +193,9 @@
   });
 
   const getEmojiDetail = async () => {
-    const resp = await getDetail({templateId: "18977567454"})
+    const resp = await getDetail({
+      templateId: "18977567454"
+    })
     if (resp.code === 1) {
       emojiData.value = resp.data;
     }
@@ -289,6 +295,44 @@
 </script>
 
 <style scoped lang="less">
+  .popup-block {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 0.1rem;
+
+    .popup-title {
+      width: 2.3rem;
+      height: 0.69rem;
+      position: absolute;
+      top: -0.024rem;
+      left: 50%;
+      margin-left: -1.07rem;
+      background: url("../assets/img/t_upload.png");
+      background-size: 100% 100%;
+      text-align: center;
+      font-size: 0.17rem;
+      font-weight: bold;
+      color: #FEFAE7;
+      line-height: 0.45rem;
+      z-index: 1;
+
+      &.popup-t-preview {
+        background: url("../assets/img/t_preview.png");
+        background-size: 100% 100%;
+      }
+
+      &.popup-t-pay {
+        background: none;
+      }
+
+      &.popup-t-generate {
+        background: url("../assets/img/t_generate.png");
+        background-size: 100% 100%;
+      }
+    }
+  }
+
   .popup-con {
     position: relative;
     width: 100%;
@@ -435,21 +479,7 @@
     height: 0.19rem;
   }
 
-  .popup-title {
-    width: 2.14rem;
-    height: 0.45rem;
-    position: absolute;
-    top: -0.02rem;
-    left: 50%;
-    margin-left: -1.07rem;
-    background: url("../assets/img/p_title.png");
-    background-size: 100% 100%;
-    text-align: center;
-    font-size: 0.17rem;
-    font-weight: bold;
-    color: #FEFAE7;
-    line-height: 0.45rem;
-  }
+
 
   .upload-block {
     padding-top: 0.55rem;
