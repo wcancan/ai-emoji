@@ -6,9 +6,15 @@ import * as path from 'path'
 import Components from 'unplugin-vue-components/vite'
 import NutUIResolver from '@nutui/nutui/dist/resolver'
 
+import { viteMockServe } from "vite-plugin-mock";
+
 
 // https://vitejs.dev/config/
-export default defineConfig({
+	
+export default defineConfig(({ command, mode }) => {
+    console.log("command", command);
+    console.log("mode", mode);
+   return{
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, 'src'),
@@ -33,6 +39,12 @@ export default defineConfig({
 		Components({
 			resolvers: [NutUIResolver()],
 		}),
+		viteMockServe({
+			mockPath: "src/mock",//存放mock文件的目录，默认是'mock'  
+			enable: command === 'serve', // 只有开发环境才开启mock, 根据命令类型（command）和 vite 的模式（mode）决定是否启用 mock 服务。
+			watchFiles: true, // 监听 mock 文件变化
+			logger: true, //是否开启日志
+		   })
 	],
 	server: {
 		port: 8080,
@@ -50,4 +62,6 @@ export default defineConfig({
 
 		}
 	}
+}
+
 })
