@@ -1,11 +1,14 @@
 <template>
-  <div class="list-center">
-
+  <div class="list-center-page">
     <div class="top">
+      <div class="top-con">
         <div class="banner">
             <img :src="previewEmojiData.avatar" alt="">
         </div>
         <div class="title txt-c">{{previewEmojiData.name}}</div>
+        
+        </div>
+        <div class="tips txt-c"><i></i>长按或截图保存<i class="tips-r"></i></div>
     </div>
     <div class="list">
         <div
@@ -17,6 +20,7 @@
                 <div class="avatar">
                     <img :class="{'filter': item.status != 0 }" :src="item.avatar" />
                     <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 0">
+                       <p class="re-btn"><span>重新生成</span></p>
                         <div class="flex flex-center" v-if="item.status == 1">
                             <Loading1 class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
                             <span>生成中</span>
@@ -27,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="title txt-c">{{item.name}}</div>
+                <div class="title"><span>{{item.name}}</span></div>
             </div>
         </div>
     </div>
@@ -146,11 +150,12 @@ getCenterList()
 </script>
 
 <style scoped lang="less">
-  .list-center {
+  .list-center-page {
     display: flex;
     height: 100vh;
     width:100%;
     flex-direction: column;
+    padding-top: 0.77rem;
   }
   
   .list {

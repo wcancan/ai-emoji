@@ -64,149 +64,234 @@ div {
 }
 
 .list-center {
+
   // padding-top: 0.75rem;
   // background: red;
-
   .top-banner {
     margin: 0 auto;
-    background: gold;
     width: 3.32rem;
     height: 1.5rem;
     border-radius: 0.1rem;
     overflow: hidden;
+    background: url("../assets/img/card_d.png") no-repeat center;
+    background-size: cover;
   }
+}
 
+.list-center-page {
   .top {
     margin: 0 auto;
-    padding: 0.13rem 0.13rem 0;
-    width: 2.45rem;
-    height: 3rem;
-    background: gold;
-    border-radius: 0.1rem;
+
+    .top-con {
+      background: url("../assets/img/card_d.png") no-repeat center;
+      background-size: 100% 100%;
+      padding: 0.13rem 0.13rem 0;
+      border-radius: 0.1rem;
+    }
 
     .banner {
-      width: 100%;
+      width: 2.19rem;
       height: 2.19rem;
+      border-radius: 0.1rem;
+      margin: 0 auto;
+      overflow: hidden;
     }
 
     .title {
       width: 100%;
-      height: 0.64rem;
-      line-height: 0.64rem;
-    }
-  }
-
-  .list-emoji-title {
-    padding-top: 0.1rem;
-    color: #402F1E;
-    line-height: 0.16rem;
-    text-shadow: 0px 4px 13px rgba(180, 59, 51, 0.4);
-    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    h4 {
-      font-size: 0.17rem;
+      height: 0.46rem;
+      line-height: 0.46rem;
       font-weight: bold;
-      line-height: 0.34rem;
+      font-size: 0.17rem;
+      color: #A63B00;
     }
-  }
 
-  .list-emoji-desc {
-    font-weight: 400;
-    font-size: 12px;
-    color: #402F1E;
-    line-height: 16px;
-    text-shadow: 0px 4px 13px rgba(180, 59, 51, 0.4);
-    background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+    .tips {
+      display: flex;
+      justify-content: center;
+      padding: 0.16rem 0;
+      width: max-content;
+      height: 0.5rem;
+      color: #FFFADB;
+      text-shadow: 1px 3px 5px rgba(180, 59, 51, 0.6);
 
-  .list {
-    padding: 0 0.14rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+      i {
+        width: 0.76rem;
+        height: 0.3rem;
+        background: url("../assets/img/tips_l.png") no-repeat center;
+        background-size: cover;
 
-    .item-container {
-      margin-bottom: 0.12rem;
-      padding: 0 0.06rem;
-      width: 32%;
-      /* 三列布局，每列宽度为33.33% */
-      height: 1.2rem;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-align: center;
-
-      .item-box {
-        position: relative;
-        padding: 0.06rem 0.06rem 0;
-        width: 1.04rem;
-        height: 1.2rem;
-        border-radius: 0.08rem;
-        overflow: hidden;
-      }
-
-      .avatar {
-        position: relative;
-        width: 0.93rem;
-        height: 0.93rem;
-        overflow: hidden;
-
-        .opa {
-          position: absolute;
-          top: 0;
-          left: 0;
-          padding-bottom: 0.05rem;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.3);
+        &.tips-r {
+          background: url("../assets/img/tips_r.png") no-repeat center;
+          background-size: cover;
         }
       }
+    }
+  }
 
-      .filter {
-        filter: blur(5px);
-        /* 调整数值来改变模糊程度 */
+ 
+}
+.list-emoji-title {
+  padding-top: 0.1rem;
+  color: #402F1E;
+  line-height: 0.16rem;
+  text-shadow: 0px 4px 13px rgba(180, 59, 51, 0.4);
+  background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  h4 {
+    font-size: 0.17rem;
+    font-weight: bold;
+    line-height: 0.34rem;
+  }
+}
+
+.list-emoji-desc {
+  font-weight: 400;
+  font-size: 12px;
+  color: #402F1E;
+  line-height: 16px;
+  text-shadow: 0px 4px 13px rgba(180, 59, 51, 0.4);
+  background: linear-gradient(0deg, #FEFAD1 0%, #FDFAF2 99.5849609375%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.list {
+  padding: 0.02rem 0.2rem 0.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .item-container {
+    position: relative;
+    margin-bottom: 0.12rem;
+    padding: 0.06rem 0.06rem 0;
+    width: 1.06rem;
+    /* 三列布局，每列宽度为33.33% */
+    height: 1.22rem;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 0.1rem;
+    background: url("../assets/img/card_b.png") no-repeat center;
+    background-size: 100% 100%;
+
+    &:hover,
+    &.selected {
+      background: url("../assets/img/card_c.png") no-repeat center;
+      background-size: cover;
+    }
+
+    .item-box {
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      position: relative;
+      width: 100%;
+      height: 0.22rem;
+      font-weight: bold;
+      color: #A63B00;
+
+      span {
+        font-size: 0.12rem;
+        transform: scale(0.91, 0.91) translate(-50%, -50%);
+        transform-origin: 50% 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 0.12rem;
+        line-height: 0.12rem;
       }
+    }
 
-      .cover-mask {
+    .avatar {
+      position: relative;
+      width: 0.93rem;
+      height: 0.93rem;
+      border-radius: 0.08rem;
+      overflow: hidden;
+
+      .opa {
         position: absolute;
         top: 0;
         left: 0;
-        padding-top: 0.98rem;
+        padding-bottom: 0.05rem;
         width: 100%;
         height: 100%;
-        font-size: 0.12rem;
-        background: url("../assets/img/card_d.png") no-repeat center;
-        background-size: 100% 100%;
+        background: rgba(0, 0, 0, 0.3);
+      }
 
-        .title {
-          position: relative;
-          width: 100%;
-          height: 0.22rem;
-          font-family: Source Han Sans CN;
-          font-weight: bold;
-          color: #A63B00;
+      .re-btn {
+        position: absolute;
+        top: 0.32rem;
+        left: 0.18rem;
+        width: 0.57rem;
+        height: 0.2rem;
+        background: rgba(99, 19, 19, 0.4);
+        border-radius: 0.1rem;
+        color: #fff;
+        text-align: center;
+        line-height: 0.2rem;
+        font-weight: bold;
+
+        span {
           font-size: 0.12rem;
+          transform: scale(0.91, 0.91) translate(-50%, -50%);
+          transform-origin: 50% 50%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 0.12rem;
+          line-height: 0.12rem;
+        }
 
-          span {
-            font-size: 0.12rem;
-            transform: scale(0.91, 0.91) translate(-50%, -50%; );
-            transform-origin: 50% 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 0.12rem;
-            line-height: 0.12rem;
-          }
+      }
+    }
+
+    .filter {
+      filter: blur(5px);
+      /* 调整数值来改变模糊程度 */
+    }
+
+    .cover-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding-top: 0.98rem;
+      width: 100%;
+      height: 100%;
+      font-size: 0.12rem;
+
+
+      .title {
+        position: relative;
+        width: 100%;
+        height: 0.22rem;
+        font-family: Source Han Sans CN;
+        font-weight: bold;
+        color: #A63B00;
+        font-size: 0.12rem;
+
+        span {
+          font-size: 0.12rem;
+          transform: scale(0.91, 0.91) translate(-50%, -50%);
+          transform-origin: 50% 50%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 0.12rem;
+          line-height: 0.12rem;
         }
       }
     }
   }
-
 }
+
 
 .list-emoji {
   .list {
@@ -254,12 +339,18 @@ img {
 }
 
 .details-page,
+.list-center-page,
 .list-emoji {
   background: url("/src/assets/img/bg.png") no-repeat top;
   background-size: 100% 100%;
-  // background: url("/src/assets/img/bg_1.png") no-repeat top;
-  // background-size: 100%;
 }
+
+// .list-center-page {
+//   // background: url("/src/assets/img/bg.png") no-repeat top;
+//   // background-size: 100% 100%;
+//   background: url("/src/assets/img/bg_2.png") no-repeat top;
+//   background-size: 100%;
+// }
 
 .details-page {
   min-height: 100vh;
@@ -269,14 +360,31 @@ img {
   }
 
   .nut-cropper-popup__highlight .highlight {
+    position: relative;
     width: 3.47rem !important;
     height: 3.47rem !important;
-    border: 2px solid #090;
+    background: url("../assets/img/cr_bg.png");
+    background-size: 100% 100%;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.72rem;
+      height: 2.15rem;
+      margin-left: -0.86rem;
+      margin-top: -1.075rem;
+      background: url("../assets/img/cr_bg_2.png");
+      background-size: 100% 100%;
+
+    }
   }
 
   .nut-cropper-popup__toolbar {
     bottom: 50%;
-    margin-bottom: -3.1rem;
+    margin-bottom: -3.2rem;
   }
 
   .b-toolbar {
@@ -322,8 +430,359 @@ img {
       width: 100%;
       height: 0.55rem;
       background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-      ;
       opacity: 0.7;
+    }
+  }
+}
+
+.list-center {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+
+  .top-banner-container {
+    padding: 0.75rem 0.22rem 0;
+    width: 100%;
+    height: 3.12rem;
+  }
+
+  .list {
+    width: 100%;
+    flex: 1;
+    overflow-y: scroll;
+  }
+
+  .btn-container {
+    position: relative;
+    width: 100%;
+    height: 1.18rem;
+
+    .tips {
+      position: absolute;
+      left: 50%;
+      top: 0.64rem;
+      transform: translate(-50%, 0) scale(0.91);
+      width: 100%;
+      height: 0.16rem;
+      font-weight: 400;
+      font-size: 0.12rem;
+      color: #a63b00;
+      line-height: 0.16rem;
+
+      span {
+        vertical-align: center;
+        display: inline-block;
+        width: 0.16rem;
+        height: 0.16rem;
+        background: url("../assets/img/tip.png") no-repeat center;
+        background-size: cover;
+      }
+    }
+  }
+}
+
+.details-page {
+  .popup-con {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    --bg: linear-gradient(180deg, #df4632, #df4632, #df4632, #f07559, #ff7a29);
+    --border: linear-gradient(0deg, #f4b583, #f8e2c2);
+    border: 2px solid transparent;
+    background-image: var(--bg), var(--border);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border-radius: 0.2rem 0.2rem 0 0;
+    text-align: center;
+
+    .pay-popup {
+      color: #fff;
+      padding: 0.2rem 0.14rem 0;
+    }
+
+    .pay-title {
+      font-weight: bold;
+      padding: 0.2rem 0 0.12rem;
+      font-size: 0.14rem;
+      color: #010101;
+      line-height: 0.14rem;
+      background: linear-gradient(0deg, #fefad1 0%, #fdfaf2 99.5849609375%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .pay-popup-img-con {
+    position: relative;
+    margin: 0.37rem auto 0;
+    padding: 0.14rem 0.14rem 0;
+    width: 3.45rem;
+    height: 0.63rem;
+    overflow: hidden;
+    border-radius: 0.1rem;
+    background: url("../assets/img/bg_pay_tips.png") no-repeat bottom center;
+    background-size: 100% 100%;
+    text-align: left;
+
+    .times {
+      width: 100%;
+      height: 0.22rem;
+      line-height: 0.22rem;
+      font-size: 0.14rem;
+    }
+
+    .date {
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      transform: scale(0.92);
+      width: 100%;
+      height: 0.18rem;
+      line-height: 0.18rem;
+      font-size: 0.12rem;
+    }
+  }
+
+  .pay-block {
+    text-align: left;
+  }
+
+  .pay-icon {
+    width: 0.26rem;
+    height: 0.26rem;
+    position: absolute;
+  }
+
+  .pay-check-icon {
+    display: inline-block;
+    width: 0.17rem;
+    height: 0.17rem;
+    background: #fff;
+    border-radius: 50%;
+    border: 0.01px solid #c7c7c7;
+  }
+
+  .pay-group {
+    display: block;
+    width: 100%;
+  }
+
+  .pay-list {
+    display: block;
+    height: 0.26rem;
+    position: relative;
+    padding: 0.05rem 0;
+  }
+
+  .pay-txt {
+    padding-left: 0.39rem;
+    font-size: 0.14rem;
+    color: #010101;
+    background: linear-gradient(0deg, #fefad1 0%, #fdfaf2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .pay-icon-r {
+    position: absolute;
+    right: 0;
+    top: 0.09rem;
+    width: 0.17rem;
+    height: 0.17rem;
+  }
+
+  .pay-checked-icon {
+    border-radius: 50%;
+    // background: #DF7957;
+    background: url("../assets/img/icon_checked.png");
+    background-size: 100% 100%;
+  }
+
+  .pay-wx-icon {
+    background: url("../assets/img/iocn_pay_wx.png");
+    background-size: 100% 100%;
+  }
+
+  .pay-ali-icon {
+    background: url("../assets/img/icon_pay_alipay.png");
+    background-size: 100% 100%;
+  }
+
+  .gen-popup-con {
+    padding-top: 0.61rem;
+    color: #ffffff;
+
+    p {
+      padding: 0.03rem;
+    }
+
+    .progress-time {
+      font-weight: 600;
+    }
+
+    .gen-b-btn {
+      padding: 0.18rem 0 0.08rem;
+    }
+  }
+
+  .pay-btn {
+    margin-top: 0.1rem;
+    width: 3.45rem;
+    height: 0.44rem;
+    background: linear-gradient(90deg, #f6d29b, #faeac6);
+    border-radius: 0.22rem;
+    font-weight: bold;
+    color: #582f13;
+    line-height: 0.44rem;
+  }
+
+  .pay-tips {
+    position: relative;
+    // font-size: 0.09rem;
+    color: #ffede6;
+    // padding-top: 0.14rem;
+    // padding-left: 0.39rem;
+    // padding-right: 0.19rem;
+    width: 100%;
+    height: 0.52rem;
+    text-align: left;
+    overflow: hidden;
+
+    i {
+      position: absolute;
+      top: 0.14rem;
+      left: 0.2rem;
+      width: 0.15rem;
+      height: 0.15rem;
+      background: url("../assets/img/icon_tips_pay.png") no-repeat center;
+      background-size: 100% 100%;
+    }
+
+    span {
+      position: absolute;
+      left: 0.39rem;
+      top: 0.15rem;
+      width: 3.6rem;
+      height: 0.32rem;
+      line-height: 0.16rem;
+      transform: scale(0.8);
+      transform-origin: 0 0;
+      font-size: 0.12rem;
+    }
+  }
+
+  .close-btn {
+    width: 100%;
+    height: 100%;
+    background: url("../assets/img/close.png") no-repeat center;
+    background-size: 0.17rem;
+  }
+
+  .popup-title {
+    padding-top: 0.32rem;
+    width: 2.3rem;
+    height: 0.69rem;
+    position: absolute;
+    top: -0.16rem;
+    left: 50%;
+    margin-left: -1.07rem;
+    text-align: center;
+    font-weight: bold;
+    line-height: 0.16rem;
+    font-size: 0.16rem;
+    color: #010101;
+    text-shadow: 0px 0.04rem 0.13rem rgba(180, 59, 51, 0.4);
+    background: linear-gradient(0deg, #fefad1 0%, #fdfaf2 99.5849609375%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-sizing: border-box;
+  }
+
+  .popup-title-bg-generate {
+    background: url("../assets/img/img_title_generate.png");
+    background-size: 100% 100%;
+  }
+
+  .popup-title-bg-upload {
+    background: url("../assets/img/t_upload.png");
+    background-size: 100% 100%;
+  }
+
+  .popup-title-bg-preview {
+    background: url("../assets/img/t_preview.png");
+    background-size: 100% 100%;
+  }
+
+  .upload-block {
+    padding-top: 0.55rem;
+    font-size: 0.14rem;
+    color: rgba(254, 250, 224, 1);
+    line-height: 0.16rem;
+    text-align: center;
+  }
+
+  .upload-con {
+    width: 1.96rem;
+    height: 1.96rem;
+    margin: 0.16rem auto 0;
+    background: #fff6e6;
+    border-radius: 0.23rem;
+    overflow: hidden;
+  }
+
+  .upload-btn {
+    width: 1.96rem;
+    height: 1.96rem;
+    font-size: 0.14rem;
+    color: #ffffff;
+    line-height: 0.16rem;
+    background: linear-gradient(0deg,
+        #df4632 38.0126953125%,
+        #f07559 70.166015625%,
+        #ff7a29 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-top: 0.68rem;
+
+    i {
+      display: block;
+      margin: 0 auto 0.08rem;
+      width: 0.39rem;
+      height: 0.39rem;
+      background: url("../assets/img/ic_add.png");
+      background-size: 100% 100%;
+    }
+  }
+
+  .sample-photo {
+    width: 3.44rem;
+    height: 1.35rem;
+    margin: 0.17rem auto;
+    background: url("../assets/img/sample_photo.png");
+    background-size: 100% 100%;
+  }
+
+  .popup-preview {
+    width: 3.01rem;
+    margin: 0.66rem auto 0;
+    border-radius: 0.23rem;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 3.01rem;
+      display: block;
+      border-radius: 0.23rem;
+    }
+
+    .preview-title {
+      padding: 0.24rem 0 0;
+      text-align: center;
+      font-size: 0.17rem;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 0.17rem;
     }
   }
 }
