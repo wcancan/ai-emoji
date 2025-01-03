@@ -62,8 +62,8 @@
       configureId: 'a1873951098552291329'
     })
     console.log(resp, '1111')
-    if (resp.code == 200) {
-      emojiList.value = resp.data;
+    if (resp.code == 200 && resp.data && resp.data.length) {
+      emojiList.value = resp.data[0].materialList;
       // emojiData.value = [{
       //   templateId: 1,
       //   templateName: '表情包合集1',
@@ -81,7 +81,7 @@
     router.push({
       path: `/details`,
       query: {
-        id: item.aiTemplateId,
+        id: item.templateId,
         mask: item.templateMark,
         price: item.templatePrice
       }
