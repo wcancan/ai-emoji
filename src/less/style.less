@@ -129,8 +129,9 @@ div {
     }
   }
 
- 
+
 }
+
 .list-emoji-title {
   padding-top: 0.1rem;
   color: #402F1E;
@@ -157,6 +158,7 @@ div {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .list {
   padding: 0.02rem 0.2rem 0.2rem;
   display: flex;
@@ -622,7 +624,11 @@ img {
     }
 
     .gen-b-btn {
-      padding: 0.18rem 0 0.08rem;
+      width: 2.73rem;
+      height: 0.76rem;
+      margin: 0.1rem auto 0;
+      background: url("../assets/img/btn_toview.png");
+      background-size: 100% 100%;
     }
   }
 
@@ -700,7 +706,8 @@ img {
   }
 
   .popup-title-bg-generate {
-    background: url("../assets/img/img_title_generate.png");
+    top: -0.14rem;
+    background: url("../assets/img/t_generate.png");
     background-size: 100% 100%;
   }
 
@@ -783,6 +790,77 @@ img {
       font-weight: bold;
       color: #ffffff;
       line-height: 0.17rem;
+    }
+  }
+}
+
+.list-center-page {
+  .close-pop {
+    position: absolute;
+    top: 0.19rem;
+    right: 0.21rem;
+    width: 0.15rem;
+    height: 0.14rem;
+    background: url("../assets/img/icon_close.png");
+    background-size: 100% 100%;
+  }
+
+  .nut-popup--center.round {
+    border-radius: 0.36rem;
+  }
+
+  .nut-popup--center {
+    background: linear-gradient(0deg, #F4B583, #F8E2C2);
+    overflow: inherit;
+  }
+
+  .nut-dialog {
+    width: 3.15rem;
+    height: 1.54rem;
+    background: linear-gradient(180deg, #DF4632, #F07559, #FF7A29);
+    border-radius: 0.36rem;
+    margin: 0.02rem;
+    position: relative;
+    padding: 0;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -0.14rem;
+      left: 50%;
+      width: 2.3rem;
+      height: 0.69rem;
+      margin-left: -1.15rem;
+      background: url("../assets/img/t_confirm.png");
+      background-size: 100% 100%;
+    }
+
+    .nut-dialog__content {
+      font-weight: bold;
+      font-size: 0.16rem;
+      margin: 0.61rem 0.2rem 0;
+      color: rgba(255, 250, 216, 1);
+    }
+
+    .footer-btn {
+      display: flex;
+      width: 2.26rem;
+
+      span {
+        width: 1.13rem;
+        height: 0.59rem;
+
+        &.btn-cancel {
+          background: url("../assets/img/btn_pop_cancel.png");
+          background-size: 100% 100%;
+        }
+
+        &.btn-ok {
+          background: url("../assets/img/btn_pop_ok.png");
+          background-size: 100% 100%;
+        }
+      }
     }
   }
 }

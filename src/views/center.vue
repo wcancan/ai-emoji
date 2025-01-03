@@ -35,6 +35,19 @@
             </div>
         </div>
     </div>
+
+     <nut-dialog
+      v-model:visible="isDialogVisible"
+    >
+    <i class="close-pop"  @click="isDialogVisible= false"></i>
+      <span>确认是否重新生成？</span>
+      <template #footer>
+        <div class="footer-btn">
+          <span class="btn-cancel" @click="isDialogVisible= false"></span>
+          <span class="btn-ok"  @click="isDialogVisible= false"></span>
+        </div>
+      </template>
+    </nut-dialog>
   </div>
 </template>
 
@@ -42,22 +55,15 @@
 import { ref, createVNode } from "vue";
 import { useRouter } from "vue-router";
 
-import { showDialog } from '@nutui/nutui'
 import { Loading1, MaskClose } from '@nutui/icons-vue'
 
 const router = useRouter();
 const previewEmojiData = ref({})
 const emojiList = ref([]);
+const isDialogVisible = ref(false);
 
 const handleGenerate = () => {
-  showDialog({
-    title: '',
-    content: createVNode('span', { style: { color: 'red' } }, '确认是否重新生成？'),
-    onOk: () => {
-      // 判断是否有生成中
-      console.log('event ok')
-    }
-  })
+  isDialogVisible.value = true
 }
 
 const handlePreview = (item) => {
