@@ -167,6 +167,9 @@
     useRoute,
     useRouter
   } from "vue-router";
+  import {
+  showToast
+} from '@nutui/nutui'
   const route = useRoute();
   console.log("route.query", route.query.id);
   const router = useRouter();
@@ -174,15 +177,15 @@
   let userInfo = JSON.parse(
     decodeURIComponent(
       atob(
-        "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelUyTXprMU1qa3NJbVY0Y0NJNk1UY3pOVGN5TlRreU9Td2ljR0Z6YzE5cFpDSTZJalV6TXprME1EQTJPVGd3TlRrNE5ERTFNU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRneU5EUXlOemMwTmpRaWZRLkRvWGlQSDYyaHdveUllRHlCc0s3TGR6eDByZ1JVdFlVVHVjSXZSdTV2MWMlMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTFNek01TkRBd05qazRNRFU1T0RReE5URWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU5qTTVOVEk1TENKbGVIQWlPakUzTXpVM01qVTVNamw5LkJYWTVmZWViN19TbEJwUHpmX3k2Z1lqQ2o5b01sTEJHVkVjNl93V3FjZ0ElMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI1MzM5NDAwNjk4MDU5ODQxNTElMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODI0NDI3NzQ2NCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTYzNzkzMjQ1NE5uQ2Q2YXhlTU94RUczNWY2Mm5jZ0ZOcTl2Rlg4ekM4JTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU2Mzk1MzExMzMlN0Q="
+        "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelU0T0RRMU1qQXNJbVY0Y0NJNk1UY3pOVGszTURreU1Dd2ljR0Z6YzE5cFpDSTZJalkxTlRJNE1EQXlOek01TlRZMU9EYzNOU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRnNE9ERXlNRFF5TmpBaWZRLjVjdXVqVWFPVEhJR3VYYzBVOTUyYVhHMkY1SkJ6WEhBeXBidXVCRGlwX0ElMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTJOVFV5T0RBd01qY3pPVFUyTlRnM056VWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU9EZzBOVEl3TENKbGVIQWlPakUzTXpVNU56QTVNakI5Ljk4OVQ4M0VzR0xoeTZ3QUNPLXduMTFaYmlVak1OZE9faDFwZmt0OWZjYm8lMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI2NTUyODAwMjczOTU2NTg3NzUlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODg4MTIwNDI2MCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTg4NDUxOTY4NURTYThwd2cydEsxT2JncmtoVUZXRkF6YjNxNEV1eUs2JTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU4ODQ1MTk0NDYlN0Q="
       )
     )
   );
-  userInfo.token = "STnid0000011735639479729xDEpwIJYdcbHSOBLvZr7TRzq6IYEIw4R";
+  userInfo.token = "STnid0000011735887310061RMi1ECWZmP9OTkrQ2z2SgwuFD5dEy7Cu";
   console.log("----------", userInfo);
   const activityData = {
-    activityId: "test",
-    appId: "10004",
+    activityId: "10004",
+    appId: "test",
   };
   const emojiData = ref({
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
@@ -198,6 +201,7 @@
       emoticonName: `表情包名称`,
     }, ],
   });
+  
   const getEmojiDetail = async () => {
     const resp = await getDetail({
       templateId: route.query.id,
@@ -226,12 +230,15 @@
   const chenkToken = async () => {
     const resp = await tokenValidate({
       token: userInfo.token,
-      //sourceId: ""
+      sourceId: "205082"
     });
     if (resp.code == 200) {
       getEmojiDetail();
       getUserBuy();
     } else {
+      // getEmojiDetail();
+      // getUserBuy();
+      // checkOrderStatus()
       //router.push('/list')
     }
   };
@@ -276,9 +283,12 @@
 
   let orderStatus = 1;
   const checkOrderStatus = async () => {
+    // console.log('odId============', odId)
     if (route.query.oid) {
+    // if (odId.value) {
       const resq = await getOrderStatus({
-        orderId: route.query.oid,
+        // orderId: route.query.oid || odId.value,
+        orderId: route.query.oid 
       });
       if (resq == 200 && res.data) {
         orderStatus = 2;
@@ -297,10 +307,42 @@
   checkOrderStatus();
 
   const imageUrl = ref(``);
+  const avatarCropperRef = ref();
+  
   const confirm = (url) => {
     imageUrl.value = url;
+    let currentDate = new Date();
+      let year = currentDate.getFullYear(); // 获取当前年份
+      let month = currentDate.getMonth() + 1; // 获取当前月份，注意月份从0开始，所以要加1
+      let day = currentDate.getDate(); 
+      const hours = currentDate.getHours(); // 获取小时
+      const minutes = currentDate.getMinutes(); // 获取分钟
+      const seconds = currentDate.getSeconds(); // 获取秒钟
+
+      const messageId = () => Math.random().toString(32).slice(-8);
+      let msgId = messageId();
+      for (; msgId.length < 32;)
+        msgId += messageId();
+      msgId.slice(0, 32);
+      const resq =  auditImage({
+        messageId: msgId,
+        publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
+        image: url
+      });
+      if (resq == 200 && res.data) {
+        console.log()
+       imageUrl.value = res.data.imageUrl;
+      } else {
+        imageUrl.value = url;
+        const toast = showToast.text('图片存在风险', {
+          cover: true,
+        })
+      }
+    
   };
-  const avatarCropperRef = ref();
+  
+ 
+  
   const popupData = {
     curPopup: `upload`, // upload preview pay generate
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
@@ -334,11 +376,33 @@
     },
   };
   const showPopup = ref(false);
+  // 生成ai表情
+  const handleCreateEmoticon = async () => {
+    const resq = await createEmoticon({
+      templateId: '', //详情接口返回
+      styleId: '',//详情接口返回
+      image: imageUrl.value
+    });
+    if (resq == 200 && res.data) {
+        
+    } else {
+      
+    }
+  };
   const handlePopup = (key) => {
-    showPopup.value = false;
-    popupData.curPopup = key;
-    // popupData.curPopup = 'pay';
-    showPopup.value = true;
+    console.log(emojiData.value)
+    if (key != 'generate') {
+      showPopup.value = false;
+      popupData.curPopup = key;
+      // popupData.curPopup = 'pay';
+      showPopup.value = true;
+    } else {
+      handleCreateEmoticon()
+    }
+    // showPopup.value = false;
+    // popupData.curPopup = key;
+    // // popupData.curPopup = 'pay';
+    // showPopup.value = true;
   };
 </script>
 

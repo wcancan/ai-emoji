@@ -42,7 +42,7 @@ axios.interceptors.request.use(config => {
     reqId += setReqId();
   reqId.slice(0, 32);
   let url = config.url;
-  config.headers.sessionid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJob3VuZC1wb3J0YWwiLCJpYXQiOjE3MzU2MzQzNDcsImV4cCI6MTczNTcyMDc0NywicGFzc19pZCI6IjUzMzk0MDA2OTgwNTk4NDE1MSIsImFwcGlkIjoiIiwidGVsIjoiMTgyNDQyNzc0NjQifQ.ryE8mscFWycqkOFjsqgMxdSUTUZFGPYSQHCHcq8L7j0";
+  config.headers.sessionid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJob3VuZC1wb3J0YWwiLCJpYXQiOjE3MzU4ODQ1MjAsImV4cCI6MTczNTk3MDkyMCwicGFzc19pZCI6IjY1NTI4MDAyNzM5NTY1ODc3NSIsImFwcGlkIjoiIiwidGVsIjoiMTg4ODEyMDQyNjAifQ.5cuujUaOTHIGuXc0U952aXG2F5JBzXHAypbuuBDip_A";
   if(config.method == "get"){
     url = url.lastIndexOf("?") >0 ? url.substr(url.lastIndexOf("?")+1,url.length): "";
     if( config.url.indexOf("/activity/configureId")>0 || config.url.indexOf("/token/validate")>0){
@@ -51,8 +51,10 @@ axios.interceptors.request.use(config => {
   }else{
     url = JSON.stringify(config.data)
   }
+  if( config.url.indexOf("/token/validate")>0){
+    config.headers.sessionid = ""
+  }
   config.headers.timestamp = (new Date).getTime()
-  
   const signature = "".concat(reqId).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(url);
   // const signature = "".concat(reqId).concat(config.headers.timestamp).concat( url);
   console.log("======signature============",signature);
