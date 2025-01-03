@@ -200,9 +200,6 @@ div {
         font-size: 0.12rem;
         transform: scale(0.91, 0.91) translate(-50%, -50%);
         transform-origin: 50% 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
         width: 100%;
         height: 0.12rem;
         line-height: 0.12rem;
@@ -224,6 +221,26 @@ div {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.3);
+      }
+
+      .re-text {
+        line-height: 0.1rem;
+        
+        img {
+          display: inline-block;
+          width: 0.08rem;
+          height: 0.08rem;
+          margin-right: 0.02rem;
+        }
+        .re-error{
+          background: url("../assets/img/icon_error.png") no-repeat center;
+          background-size: cover;
+        }
+        span {
+          font-size: 0.12rem;
+          transform: scale(0.8, 0.8) translate(0, 0);
+        transform-origin: 0 0;
+        }
       }
 
       .re-btn {
@@ -431,8 +448,7 @@ img {
       bottom: 0;
       width: 100%;
       height: 0.55rem;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-      opacity: 0.7;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
     }
   }
 }

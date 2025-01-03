@@ -21,12 +21,12 @@
                     <img :class="{'filter': item.status != 0 }" :src="item.avatar" />
                     <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 0">
                        <p class="re-btn"><span>重新生成</span></p>
-                        <div class="flex flex-center" v-if="item.status == 1">
-                            <Loading1 class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
+                        <div class="flex flex-center re-text" v-if="item.status == 1">
+                            <IconFont :name="iconLoading" class="nut-icon-am-rotate nut-icon-am-infinite"></IconFont>
                             <span>生成中</span>
                         </div>
-                        <div class="flex flex-center" v-if="item.status == 2" @click="handleGenerate">
-                          <MaskClose class="m-r-5" color='#fff' width="0.08rem" heigh="0.08rem" />
+                        <div class="flex flex-center re-text" v-if="item.status == 2" @click="handleGenerate">
+                          <IconFont :name="iconError" ></IconFont>
                           <span>生成失败</span>
                         </div>
                     </div>
@@ -54,8 +54,10 @@
 <script setup>
 import { ref, createVNode } from "vue";
 import { useRouter } from "vue-router";
+import { IconFont,Loading1, MaskClose } from '@nutui/icons-vue'
+import iconLoading from '@/assets/img/icon_loading.png';
+import iconError from '@/assets/img/icon_error.png';
 
-import { Loading1, MaskClose } from '@nutui/icons-vue'
 
 const router = useRouter();
 const previewEmojiData = ref({})
