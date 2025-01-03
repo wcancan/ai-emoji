@@ -8,7 +8,7 @@
             <img :src="item.coverUrl" alt="">
           </div>
           <div class="title txt-c">{{item.groupName}}</div>
-          <div class="btnDetail txt-c" @click="go(item)">查看表情</div>
+          <div class="btnDetail txt-c" @click="go(item)"></div>
         </div>
       </div>
     </nut-infinite-loading>
@@ -98,41 +98,43 @@
 
   .list-emoji {
     min-height: 100vh;
-    background: red;
 
     .list {
       padding: 0.88rem 0.26rem 0;
 
       .item {
         position: relative;
-        margin-bottom: 0.15rem;
+        margin-bottom: 0.32rem;
         padding: 0.08rem 0.08rem 0;
         width: 1.52rem;
-        height: 2.06rem;
-        background: yellow;
+        height: 1.89rem;
+        border-radius: 0.1rem;
+        background: url("../assets/img/card_a.png") no-repeat center;
+        background-size: 100% 100%;
 
         .avatar {
           width: 100%;
           height: 1.36rem;
+          border-radius: 0.1rem;
           overflow: hidden;
-          border-radius: 0.2rem;
         }
 
         .title {
           width: 100%;
           height: 0.36rem;
-          line-height: 0.36rem;
+          line-height: 0.26rem;
           color: #A63B00;
+          font-weight: bold;
         }
 
         .btnDetail {
           margin: 0 auto;
-          width: 0.94rem;
-          height: 0.36rem;
-          line-height: 0.36rem;
-          background: blue;
-          border-radius: 0.18rem;
-          color: gold;
+          width: 1.04rem;
+          height: 0.43rem;
+          background: url("../assets/img/btn_view.png") no-repeat center;
+          background-size: 100% 100%;
+          position: relative;
+          top: -0.1rem;
         }
       }
     }
