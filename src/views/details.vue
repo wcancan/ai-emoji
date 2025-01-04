@@ -7,19 +7,19 @@
         </div>
 
         <div class="list-emoji-title">
-          <h4>{{ emojiData.templateName }}</h4>
-          <p class="list-emoji-desc">{{ emojiData.templateDesc }}</p>
+          <h4>{{ emojiData.name }}</h4>
+          <p class="list-emoji-desc">{{ emojiData.desc }}</p>
         </div>
       </div>
 
       <div class="list">
-        <div class="item-container" v-for="(item, index) in emojiData.emoticonList" :key="index">
+        <div class="item-container" v-for="(item, index) in emojiData.files" :key="index">
           <div class="item-box" @click="handlePopup(`preview`)">
             <div class="avatar">
-              <img :src="item.cdnUrl" />
+              <img :src="item.fileUrl" />
             </div>
             <p class="title txt-c">
-              <span>{{ item.emoticonName }}</span>
+              <span>{{ item.fileName }}</span>
             </p>
           </div>
         </div>
@@ -175,11 +175,11 @@
   let userInfo = JSON.parse(
     decodeURIComponent(
       atob(
-        "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelU0T0RRMU1qQXNJbVY0Y0NJNk1UY3pOVGszTURreU1Dd2ljR0Z6YzE5cFpDSTZJalkxTlRJNE1EQXlOek01TlRZMU9EYzNOU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRnNE9ERXlNRFF5TmpBaWZRLjVjdXVqVWFPVEhJR3VYYzBVOTUyYVhHMkY1SkJ6WEhBeXBidXVCRGlwX0ElMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTJOVFV5T0RBd01qY3pPVFUyTlRnM056VWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU9EZzBOVEl3TENKbGVIQWlPakUzTXpVNU56QTVNakI5Ljk4OVQ4M0VzR0xoeTZ3QUNPLXduMTFaYmlVak1OZE9faDFwZmt0OWZjYm8lMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI2NTUyODAwMjczOTU2NTg3NzUlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODg4MTIwNDI2MCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTg4NDUxOTY4NURTYThwd2cydEsxT2JncmtoVUZXRkF6YjNxNEV1eUs2JTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU4ODQ1MTk0NDYlN0Q="
+        "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelU1TnpFNE9UVXNJbVY0Y0NJNk1UY3pOakExT0RJNU5Td2ljR0Z6YzE5cFpDSTZJalkxTlRJNE1EQXlOek01TlRZMU9EYzNOU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRnNE9ERXlNRFF5TmpBaWZRLmdYMm9IUDZvVUNnUFdUZk1lSGZRaUxtbW5famZwbGdrSGZMaWZOSTFxSFklMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTJOVFV5T0RBd01qY3pPVFUyTlRnM056VWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU9UY3hPRGsxTENKbGVIQWlPakUzTXpZd05UZ3lPVFY5Li1IbG5QSF9KLWZpcDhMN3ZkUFFQbmwwUXlCXzFYbHNsYW1vdEdES2dUTnclMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI2NTUyODAwMjczOTU2NTg3NzUlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODg4MTIwNDI2MCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTk3MTg5NDk2M2MwQVBlTG1tRHZ2MnFxclFERkdlcWZ1dUl1MDlDS29QJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU5NzE5MDkwNDUlN0Q="
       )
     )
   );
-  userInfo.token = "STnid0000011735887310061RMi1ECWZmP9OTkrQ2z2SgwuFD5dEy7Cu";
+  userInfo.token = "STnid0000011735971899288IqJIu0ZvH8VwExXQDG0mEbuv4uUgWkp6";
   console.log("----------", userInfo);
   const activityData = {
     activityId: "10004",
@@ -187,16 +187,19 @@
   };
   const emojiData = ref({
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
-    templateName: `表情模板名称`,
-    templateDesc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
-    emoticonList: [{
+    name: `表情模板名称`,
+    desc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
+    templateMark: 1,
+    templatePrice: '',
+    files: [{
       fileId: `111`,
-      TemplateId: `素材id`,
+      template2Id: `素材id`,
       fileNo: `素材id`,
+      fileType: 1,
+      originName: "th.jpg",
       localUrl: `素材id`,
-      cdnUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
-      emoticonId: `111`,
-      emoticonName: `表情包名称`,
+      fileUrl: '',
+      fileName: `表情包名称`,
     }, ],
   });
   
@@ -206,6 +209,11 @@
     });
     if (resp.code == 200) {
       emojiData.value = resp.data;
+      if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
+        btnStatus = 2
+      } else {
+        getUserBuy()
+      }
     }
   };
   const getUserBuy = async () => {
@@ -216,7 +224,7 @@
     });
     if (resp.code == 200 && resp.data && resp.data.list.length > 0) {
       btnStatus.value =
-        resp.data.list.filter((item) => item.templateId == route.query.id)
+        resp.data.list.filter((item) => item.template2Id == route.query.id)
         .length > 0 ?
         2 :
         1;
@@ -224,23 +232,25 @@
       btnStatus.value = 1;
     }
   };
+  getEmojiDetail();
+  // 不需要验证token
+  // const chenkToken = async () => {
+  //   const resp = await tokenValidate({
+  //     token: userInfo.token,
+  //     sourceId: "205082"
+  //   });
+  //   if (resp.code == 200) {
+  //     getEmojiDetail();
+  //     getUserBuy();
+  //   } else {
+  //     getEmojiDetail();
+  //     getUserBuy();
+  //     // checkOrderStatus()
+  //     //router.push('/list')
+  //   }
+  // };
 
-  const chenkToken = async () => {
-    const resp = await tokenValidate({
-      token: userInfo.token,
-      sourceId: "205082"
-    });
-    if (resp.code == 200) {
-      getEmojiDetail();
-      getUserBuy();
-    } else {
-      // getEmojiDetail();
-      // getUserBuy();
-      // checkOrderStatus()
-      //router.push('/list')
-    }
-  };
-  chenkToken();
+  // chenkToken();
 
   const toCenterPage = (key) => {
     showPopup.value = false;
@@ -256,8 +266,8 @@
       user: {
         passId: userInfo.passId,
       },
-      code: `m1873976352657965059`,
-      name: `爱豆`,
+      code: route.query.id,
+      name: emojiData.value.name,
       bids: [{
         payWay: `1064`,
         amount: 11,
