@@ -173,20 +173,10 @@
   console.log("route.query", route.query.id);
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情
-  let userInfo = JSON.parse(
-    decodeURIComponent(
-      atob(
-        "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNelU1TnpFNE9UVXNJbVY0Y0NJNk1UY3pOakExT0RJNU5Td2ljR0Z6YzE5cFpDSTZJalkxTlRJNE1EQXlOek01TlRZMU9EYzNOU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRnNE9ERXlNRFF5TmpBaWZRLmdYMm9IUDZvVUNnUFdUZk1lSGZRaUxtbW5famZwbGdrSGZMaWZOSTFxSFklMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTJOVFV5T0RBd01qY3pPVFUyTlRnM056VWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMU9UY3hPRGsxTENKbGVIQWlPakUzTXpZd05UZ3lPVFY5Li1IbG5QSF9KLWZpcDhMN3ZkUFFQbmwwUXlCXzFYbHNsYW1vdEdES2dUTnclMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI2NTUyODAwMjczOTU2NTg3NzUlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODg4MTIwNDI2MCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNTk3MTg5NDk2M2MwQVBlTG1tRHZ2MnFxclFERkdlcWZ1dUl1MDlDS29QJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzU5NzE5MDkwNDUlN0Q="
-      )
-    )
-  );
-  userInfo.token = "STnid0000011735971899288IqJIu0ZvH8VwExXQDG0mEbuv4uUgWkp6";
+  let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
   console.log("----------", userInfo);
-  const activityData = {
-    activityId: "test",
-    appId: "10004",
-  };
-  
+
+  const activityData =  JSON.parse(sessionStorage.getItem("activity"));
   const emojiData = ref({
     name: `表情模板名称`,
     desc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,

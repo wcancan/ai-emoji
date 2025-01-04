@@ -143,8 +143,11 @@ const getCenterList = () => {
 
 function go (item) {
   router.push({
-    path: `/detail/${item.id}`
-  })
+      path: `/details`,
+      query: {
+        id: item.id
+      }
+    })
 }
 getCenterList()
 
