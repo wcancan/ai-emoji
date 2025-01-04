@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <nut-navbar
-            :title='title'
-            :fixed="true"
-            :placeholder="false"
-        >
-            <template v-slot:left>
-                <div class="icon-back"></div>
-            </template>
-        </nut-navbar>
-        <router-view v-slot="{ Component }">
+    <div class="page-wrap">
+        <div class="page-top">
+            <nut-navbar :title='title' :fixed="true" :placeholder="true">
+                <template v-slot:left>
+                    <div class="icon-back"></div>
+                </template>
+            </nut-navbar>
+        </div>
+        <router-view v-slot="{ Component }" class="page-scroll">
             <keep-alive>
-                <component :is="Component" />
+                <component :is="Component"  />
             </keep-alive>
         </router-view>
     </div>
@@ -27,7 +25,7 @@
     import {
         useRoute
     } from "vue-router";
-    
+
 
     const title = ref('表情包列表');
     const route = useRoute();
@@ -44,14 +42,24 @@
     }, {
         deep: true
     })
-    
 </script>
 <style scoped>
-.icon-back {
-    width: 0.32rem;
-    height: 0.32rem;
-    background: url("./assets/img/ic_back.png");
-    background-size: 100% 100%;
-}
+    .page-wrap {
+        overflow: hidden;
+        display: flex;
+        height: 100vh;
+        flex-direction: column;
+        background: url("/src/assets/img/bg.png") no-repeat top;
+        background-size: 100% 100%;
+    }
+    .page-scroll{
+        overflow: auto;
+    }
 
+    .icon-back {
+        width: 0.32rem;
+        height: 0.32rem;
+        background: url("./assets/img/ic_back.png");
+        background-size: 100% 100%;
+    }
 </style>

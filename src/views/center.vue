@@ -163,10 +163,9 @@ getCenterList()
 <style scoped lang="less">
   .list-center-page {
     display: flex;
-    height: 100vh;
     width:100%;
     flex-direction: column;
-    padding-top: 0.77rem;
+    padding-top: 0.02rem;
   }
   
   .list {
