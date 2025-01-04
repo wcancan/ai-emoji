@@ -42,18 +42,17 @@ axios.interceptors.request.use(config => {
     reqId += setReqId();
   reqId.slice(0, 32);
   let url = config.url;
-  config.headers.sessionid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJob3VuZC1wb3J0YWwiLCJpYXQiOjE3MzU5NzE4OTUsImV4cCI6MTczNjA1ODI5NSwicGFzc19pZCI6IjY1NTI4MDAyNzM5NTY1ODc3NSIsImFwcGlkIjoiIiwidGVsIjoiMTg4ODEyMDQyNjAifQ.gX2oHP6oUCgPWTfMeHfQiLmmn_jfplgkHfLifNI1qHY";
+  let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {}
+  config.headers.sessionid = userInfo.sessionId || "";
   if(config.method == "get"){
     url = url.lastIndexOf("?") >0 ? url.substr(url.lastIndexOf("?")+1,url.length): "";
-    if( config.url.indexOf("/activity/configureId")>0 || config.url.indexOf("/token/validate")>0){
+    if( config.url.indexOf("/activity/configureId")>0){
       config.headers.sessionid = ""
     }
   }else{
     url = JSON.stringify(config.data)
   }
-  if( config.url.indexOf("/token/validate")>0){
-    config.headers.sessionid = ""
-  }
+
   config.headers.timestamp = (new Date).getTime()
   const signature = "".concat(reqId).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(url);
   // const signature = "".concat(reqId).concat(config.headers.timestamp).concat( url);

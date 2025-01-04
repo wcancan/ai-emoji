@@ -81,9 +81,7 @@
     router.push({
       path: `/details`,
       query: {
-        id: item.templateId,
-        mask: item.templateMark,
-        price: item.templatePrice
+        id: item.templateId
       }
     })
   }

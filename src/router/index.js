@@ -33,10 +33,8 @@ const routes = [{
       title: 'AI表情包个人中心',
       keepAlive: true
     },
-  },
-
+  }
 ]
-
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
@@ -52,6 +50,19 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  sessionStorage.setItem("activity", `{
+    "activityId": "10004",
+    "appId": "test"
+  }`)
+  console.log(to.path, "to.path-------------------")
+  if (to.query.data) {
+    sessionStorage.setItem("data", decodeURIComponent(atob(to.query.data)))
+  } else {
+    // console.log(to.path,"to.path-------------------")
+    // if (to.path == "/list") {
+    //   sessionStorage.removeItem("data") 
+    // }
+  }
   next()
 })
 
