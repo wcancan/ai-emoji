@@ -3,7 +3,7 @@
     <div class="list-center">
       <div class="top-banner-container">
         <div class="top-banner">
-          <img :src="emojiData.coverUrl" alt="" />
+          <img :src="cover.fileUrl" alt="" />
         </div>
 
         <div class="list-emoji-title">
@@ -13,7 +13,7 @@
       </div>
 
       <div class="list">
-        <div class="item-container" v-for="(item, index) in emojiData.files" :key="index">
+        <div class="item-container" v-for="(item, index) in emojiListData" :key="index">
           <div class="item-box" @click="handlePopup(`preview`)">
             <div class="avatar">
               <img :src="item.fileUrl" />
@@ -64,7 +64,7 @@
           <div v-else-if="popupData.curPopup == `pay`" class="pay-popup">
             <div class="pay-popup-img-con">
               <!-- <i>购买次数：4次</i> -->
-              <span class="times">购买次数：4次</span>
+              <span class="times"></span>
               <span class="date">有效期至2024/12/31</span>
               <!-- <img src="../assets/img/bg_pay_tips.png" alt=""> -->
             </div>
@@ -94,10 +94,11 @@
                 </nut-radio>
               </nut-radio-group>
             </div>
-            <div class="pay-btn" @click="handlePay">立即支付¥1元</div>
+            <!-- <div class="pay-btn" @click="handlePay">立即支付¥1元</div> -->
+            <div class="pay-btn" @click="handlePay">{{`立即支付¥${emojiData.templatePrice?emojiData.templatePrice/100: 0}元`}}</div>
             <p class="pay-tips">
               <i></i>
-              <span>活动表情合集系虚拟商品，购买后不支持退款，活动到期后权益自动取消请仔细核对购买账号。</span>
+              <span>活动表情合集系虚拟商品，购买后不支持退款，活动到期后未使用的表情合集将失效，请仔细核对购买账号。</span>
             </p>
           </div>
           <div v-else-if="popupData.curPopup == `preview`" class="popup-preview">
@@ -182,11 +183,11 @@
   userInfo.token = "STnid0000011735971899288IqJIu0ZvH8VwExXQDG0mEbuv4uUgWkp6";
   console.log("----------", userInfo);
   const activityData = {
-    activityId: "10004",
-    appId: "test",
+    activityId: "test",
+    appId: "10004",
   };
+  
   const emojiData = ref({
-    coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
     name: `表情模板名称`,
     desc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
     templateMark: 1,
@@ -202,14 +203,25 @@
       fileName: `表情包名称`,
     }, ],
   });
-  
+  let cover = ref({})
+  let emojiListData = ref([])
   const getEmojiDetail = async () => {
     const resp = await getDetail({
       templateId: route.query.id,
     });
     if (resp.code == 200) {
       emojiData.value = resp.data;
+      // 取banner图
+      resp.data.files.map((item) => {
+        if (item.fileType == 13) {
+          cover = item
+        } else {
+          emojiListData.value.push(item)
+        }
+      })
+      
       if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
+        // templateMark： 0免费， 1付费， 2限免
         btnStatus = 2
       } else {
         getUserBuy()
@@ -223,8 +235,9 @@
       assetCode: route.query.id,
     });
     if (resp.code == 200 && resp.data && resp.data.list.length > 0) {
+      console.log()
       btnStatus.value =
-        resp.data.list.filter((item) => item.template2Id == route.query.id)
+        resp.data.list.filter((item) => item.id == route.query.id)
         .length > 0 ?
         2 :
         1;
@@ -349,8 +362,6 @@
     
   };
   
- 
-  
   const popupData = {
     curPopup: `upload`, // upload preview pay generate
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
@@ -387,9 +398,11 @@
   // 生成ai表情
   const handleCreateEmoticon = async () => {
     const resq = await createEmoticon({
-      templateId: '', //详情接口返回
-      styleId: '',//详情接口返回
-      image: imageUrl.value
+      templateId: emojiData.value.template2Id, //详情接口返回
+      styleId: emojiData.value.sourceResourcesId,//详情接口返回
+      image: imageUrl.value,
+      appId: activityData.appId,
+      activityId: activityData.activityId
     });
     if (resq == 200 && res.data) {
         
