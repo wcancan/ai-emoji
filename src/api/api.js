@@ -9,3 +9,4 @@ export const subscribeCharging = (param) => Http.postJson(`/ProductUser/tc/order
 export const getOrderStatus = (param) => Http.getJson(`/ProductUser/tc/order/getStatus`, param)
 export const createEmoticon = (param) => Http.postJson(`/ProductPortal/tc/ai/emoticon/create`, param)
 export const auditImage = (param) => Http.postJson(`/ProductPortal/tc/ai/audit/image`, param)
+export const getMyEmoticon = (param) => Http.postJson(`/ProductPortal/tc/aiEmoticon/getOne`, param)
