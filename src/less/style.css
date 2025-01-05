@@ -130,11 +130,9 @@ div {
   padding: 0.02rem 0.2rem 0.2rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 .list .item-container {
   position: relative;
-  margin-bottom: 0.12rem;
   padding: 0.06rem 0.06rem 0;
   width: 1.06rem;
   /* 三列布局，每列宽度为33.33% */
@@ -144,6 +142,7 @@ div {
   border-radius: 0.1rem;
   background: url("../assets/img/card_b.png") no-repeat center;
   background-size: 100% 100%;
+  margin: 0 0.028rem 0.12rem;
 }
 .list .item-container:hover,
 .list .item-container.selected {
