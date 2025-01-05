@@ -51,8 +51,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   sessionStorage.setItem("activity", `{
-    "activityId": "10004",
-    "appId": "test"
+    "activityId": "test",
+    "appId": "10004"
   }`)
   console.log(to.path, "to.path-------------------")
   if (to.query.data) {
