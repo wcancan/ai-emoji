@@ -10,3 +10,4 @@ export const getOrderStatus = (param) => Http.getJson(`/ProductUser/tc/order/get
 export const createEmoticon = (param) => Http.postJson(`/ProductPortal/tc/ai/emoticon/create`, param)
 export const auditImage = (param) => Http.postJson(`/ProductPortal/tc/ai/audit/image`, param)
 export const getMyEmoticon = (param) => Http.postJson(`/ProductPortal/tc/aiEmoticon/getOne`, param)
+export const retryTask = (param) => Http.postJson(`/ProductPortal/tc/aiEmoticon/retryTask`, param)
