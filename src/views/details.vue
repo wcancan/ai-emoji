@@ -169,8 +169,10 @@
   import {
   showToast
 } from '@nutui/nutui'
+  import { amberTrack } from '@/Composables/amber.js'
+
+  amberTrack('1', {name: 1})
   const route = useRoute();
-  console.log("route.query", route.query.id);
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
