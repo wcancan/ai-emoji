@@ -109,7 +109,7 @@
             <div class="upload-block">
               <p class="">请上传一张人脸图片</p>
               <div class="upload-con">
-                <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
+                <!-- <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
                   <div class="upload-img-pre">
                     <img v-if="imageUrl" :src="imageUrl" />
                     <div class="re-upload-btn">
@@ -128,7 +128,19 @@
                       <span @click="avatarCropperRef.confirm()"></span>
                     </div>
                   </template>
-                </nut-avatar-cropper>
+                </nut-avatar-cropper> -->
+                
+                <nut-uploader
+                  ref="uploadRef"
+                  :auto-upload="false"
+                  :before-upload="beforeUpload"
+                  maximum="1"
+                  multiple
+                  list-type="list"
+                >
+                  <nut-button type="success" size="small">上传文件</nut-button>
+                </nut-uploader>
+
               </div>
             </div>
             <div class="sample-photo"></div>
@@ -146,13 +158,16 @@
         </div>
       </nut-popup>
     </div>
+    <myCropper />
   </div>
 </template>
 
 <script setup>
   import {
-    ref
+    ref,
+    defineAsyncComponent
   } from "vue";
+  import myCropper from '../component/cropper.vue'
   import {
     getDetail,
     getUserAsset,
@@ -236,6 +251,7 @@
       btnStatus.value = 1;
     }
   };
+ 
   getEmojiDetail();
   // 不需要验证token
   // const chenkToken = async () => {
@@ -321,6 +337,20 @@
   const imageUrl = ref(``);
   const avatarCropperRef = ref();
   
+  // beforeUpload
+  const beforeUpload = (files) =>  {
+    console.log(11111, files)
+    const file = files[0]
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      // 在此处可以将base64String发送到服务器进行处理
+      console.log(e.target.result)
+      imageUrl.value = e.target.result
+    };
+    reader.readAsDataURL(file);
+    return true;
+  };
+
   const confirm = (url) => {
     imageUrl.value = url;
     let currentDate = new Date();
