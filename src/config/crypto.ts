@@ -17,7 +17,9 @@ export default {
         return hash.toString(CryptoJS.enc.Utf8)
     },
     md5(content: string, type: keyof typeof CryptoJS.enc = "Hex") {
-        const hash = CryptoJS.MD5(content)
-        return hash.toString(CryptoJS.enc[type])
+        // reqId+timestamp+sessionId+请求参数
+        // const hash = CryptoJS.MD5(content)
+        return CryptoJS.MD5(content).toString()
+        // return hash.toString(CryptoJS.enc[type])
     },
 }

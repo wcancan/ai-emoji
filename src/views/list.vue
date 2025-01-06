@@ -76,11 +76,13 @@
 
   const getList = async () => {
     const resp = await getEmojiList({
+      pageNo:1,
+      pageSize: 10,
       configureId: 'a1873951098552291329'
     })
     console.log(resp, '1111')
-    if (resp.code == 200 && resp.data && resp.data.length) {
-      emojiList.value = resp.data[0].materialList;
+    if (resp.code == 200 && resp.data) {
+      emojiList.value = resp.data.list;
       // emojiData.value = [{
       //   templateId: 1,
       //   templateName: '表情包合集1',
@@ -112,7 +114,7 @@
     })
   }
   onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time', start_time)
+    const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
@@ -122,6 +124,7 @@
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.getItem('start_time', start_time)
+    sessionStorage.removeItem('start_time')
+    next()
   })
 </script>

@@ -209,22 +209,25 @@
       templateId: route.query.id,
     });
     if (resp.code == 200) {
-      emojiData.value = resp.data;
-      // 取banner图
-      resp.data.files.map((item) => {
-        if (item.fileType == 13) {
-          cover = item
-        } else {
-          emojiListData.value.push(item)
-        }
-      })
+      if (resp.data) {
+        emojiData.value = resp.data;
+        // 取banner图
+        resp.data.files.map((item) => {
+          if (item.fileType == 13) {
+            cover = item
+          } else {
+            emojiListData.value.push(item)
+          }
+        })
 
-      if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
-        // templateMark： 0免费， 1付费， 2限免
-        btnStatus = 2
-      } else {
-        getUserBuy()
+        if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
+          // templateMark： 0免费， 1付费， 2限免
+          btnStatus = 2
+        } else {
+          getUserBuy()
+        }
       }
+      
     }
   };
   const getUserBuy = async () => {
@@ -414,6 +417,27 @@
 
     }
   };
+  // 生成ai表情回调
+  const createEmoticonCallbackFn = async () => {
+    const resq = await createEmoticonCallback({
+      templateId: emojiData.value.template2Id, //详情接口返回
+      styleId: emojiData.value.sourceResourcesId, //详情接口返回
+      image: imageUrl.value,
+      appId: activityData.appId,
+      activityId: activityData.activityId
+    });
+    if (resq == 200 && res.data) {
+      // amberTrack('page_click', {
+      //   ...amberParams,
+      //   element_id: emojiData.value.template2Id,
+      //   element_name: emojiData.value.name,
+      //   element_type: '3'
+      // })
+    } else {
+
+    }
+  };
+  
   const handlePopup = (key,url) => {
     console.log(emojiData.value)
     popupData.coverUrl = url || "";
@@ -439,7 +463,7 @@
     // showPopup.value = true;
   };
   onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time', start_time)
+    const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
@@ -449,7 +473,8 @@
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.getItem('start_time', start_time)
+    sessionStorage.removeItem('start_time')
+    next()
   })
 </script>
 

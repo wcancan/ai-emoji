@@ -17,7 +17,7 @@
           <div class="avatar">
             <img :class="{'filter': item.status != 2 }" :src="item.webpUrl" />
             <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 2">
-              <p class="re-btn"><span>重新生成</span></p>
+              <p class="re-btn" v-if="item.status == 3"><span>重新生成</span></p>
               <div class="flex flex-center re-text" v-if="item.status == 1">
                 <IconFont :name="iconLoading" class="nut-icon-am-rotate nut-icon-am-infinite"></IconFont>
                 <span>{{item.statusDesc}}</span>
@@ -88,8 +88,7 @@
   }
 
   const handlePreview = (item) => {
-    previewEmojiData.value = item
-    if (item.status == 0) {
+    if (item.status == 2) {
       previewEmojiData.value = item
     }
   }
@@ -130,7 +129,7 @@
 
   getCenterList()
   onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time', start_time)
+    const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
@@ -140,7 +139,7 @@
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.getItem('start_time', start_time)
+    sessionStorage.removeItem('start_time')
   })
 </script>
 

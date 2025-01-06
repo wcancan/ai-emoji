@@ -40,7 +40,13 @@ axios.interceptors.request.use(config => {
     if (config.url.indexOf("/activity/configureId") > 0 || config.url.indexOf("/activity/detail")>0) {
       config.headers.sessionid = ""
     }
+    // if (config.url.indexOf("/activity/configureId") >0) {
+    //   config.headers.sessionid = ""
+    // }
   } else {
+    if (config.url.indexOf("/activity/getAiEmoticons") > 0) {
+      config.headers.sessionid = ""
+    }
     if (encrypt == 1) {
       config.data = {
         body: CryptoJS.encrypt(JSON.stringify(config.data), "hounddefault2024")
@@ -48,8 +54,8 @@ axios.interceptors.request.use(config => {
     }
     encParam = JSON.stringify(config.data)
   }
-
-  const signature = "".concat(getReqId()).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(encParam);
+  // reqId+timestamp+sessionId+请求参数
+  const signature = "".concat(config.headers.reqId).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(encParam);
   console.log("======signature============", signature);
   config.headers.signature = CryptoJS.md5(signature);
 
