@@ -95,7 +95,8 @@
               </nut-radio-group>
             </div>
             <!-- <div class="pay-btn" @click="handlePay">立即支付¥1元</div> -->
-            <div class="pay-btn" @click="handlePay">{{`立即支付¥${emojiData.templatePrice?emojiData.templatePrice/100: 0}元`}}</div>
+            <div class="pay-btn" @click="handlePay">
+              {{`立即支付¥${emojiData.templatePrice?emojiData.templatePrice/100: 0}元`}}</div>
             <p class="pay-tips">
               <i></i>
               <span>活动表情合集系虚拟商品，购买后不支持退款，活动到期后未使用的表情合集将失效，请仔细核对购买账号。</span>
@@ -167,9 +168,11 @@
     useRouter
   } from "vue-router";
   import {
-  showToast
-} from '@nutui/nutui'
-  import { amberTrack } from '@/Composables/amber.js'
+    showToast
+  } from '@nutui/nutui'
+  import {
+    amberTrack
+  } from '@/Composables/amber.js'
 
   const route = useRoute();
   const router = useRouter();
@@ -177,7 +180,7 @@
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
   console.log("----------", userInfo);
 
-  const activityData =  JSON.parse(sessionStorage.getItem("activity"));
+  const activityData = JSON.parse(sessionStorage.getItem("activity"));
   const emojiData = ref({
     name: `表情模板名称`,
     desc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
@@ -210,7 +213,7 @@
           emojiListData.value.push(item)
         }
       })
-      
+
       if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
         // templateMark： 0免费， 1付费， 2限免
         btnStatus = 2
@@ -297,10 +300,10 @@
   const checkOrderStatus = async () => {
     // console.log('odId============', odId)
     if (route.query.oid) {
-    // if (odId.value) {
+      // if (odId.value) {
       const resq = await getOrderStatus({
         // orderId: route.query.oid || odId.value,
-        orderId: route.query.oid 
+        orderId: route.query.oid
       });
       if (resq == 200 && res.data) {
         orderStatus = 2;
@@ -319,40 +322,40 @@
   checkOrderStatus();
 
   const imageUrl = ref(``);
-  const avatarCropperRef = ref();
-  
-  const confirm = (url) => {
+  const avatarCropperRef = ref(null);
+
+  const confirm = async (url) => {
     imageUrl.value = url;
     let currentDate = new Date();
-      let year = currentDate.getFullYear(); // 获取当前年份
-      let month = currentDate.getMonth() + 1; // 获取当前月份，注意月份从0开始，所以要加1
-      let day = currentDate.getDate(); 
-      const hours = currentDate.getHours(); // 获取小时
-      const minutes = currentDate.getMinutes(); // 获取分钟
-      const seconds = currentDate.getSeconds(); // 获取秒钟
+    let year = currentDate.getFullYear(); // 获取当前年份
+    let month = currentDate.getMonth() + 1; // 获取当前月份，注意月份从0开始，所以要加1
+    let day = currentDate.getDate();
+    const hours = currentDate.getHours(); // 获取小时
+    const minutes = currentDate.getMinutes(); // 获取分钟
+    const seconds = currentDate.getSeconds(); // 获取秒钟
 
-      const messageId = () => Math.random().toString(32).slice(-8);
-      let msgId = messageId();
-      for (; msgId.length < 32;)
-        msgId += messageId();
-      msgId.slice(0, 32);
-      const resq =  auditImage({
-        messageId: msgId,
-        publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
-        image: url
-      });
-      if (resq == 200 && res.data) {
-        console.log()
-        imageUrl.value = res.data.imageUrl;
-      } else {
-        imageUrl.value = url;
-        const toast = showToast.text('图片存在风险', {
-          cover: true,
-        })
-      }
-    
+    const messageId = () => Math.random().toString(32).slice(-8);
+    let msgId = messageId();
+    for (; msgId.length < 32;)
+      msgId += messageId();
+    msgId.slice(0, 32);
+    const resq = await auditImage({
+      messageId: msgId,
+      publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
+      image: url
+    });
+    if (resq.code == 200 && resq.data) {
+      imageUrl.value = resq.data.imageUrl;
+    } else {
+      imageUrl.value = url;
+      const toast = showToast.text('图片存在风险', {
+        cover: true,
+      })
+    }
+    avatarCropperRef.value.cancel();
+
   };
-  
+
   const popupData = {
     curPopup: `upload`, // upload preview pay generate
     coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
@@ -395,15 +398,15 @@
     })
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
-      styleId: emojiData.value.sourceResourcesId,//详情接口返回
+      styleId: emojiData.value.sourceResourcesId, //详情接口返回
       image: imageUrl.value,
       appId: activityData.appId,
       activityId: activityData.activityId
     });
     if (resq == 200 && res.data) {
-        
+
     } else {
-      
+
     }
   };
   const handlePopup = (key) => {
@@ -424,5 +427,5 @@
 </script>
 
 <style scoped lang="less">
- 
+
 </style>
