@@ -173,7 +173,7 @@
   import {
     amberTrack
   } from '@/Composables/amber.js'
-
+    
   const route = useRoute();
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情

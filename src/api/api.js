@@ -1,7 +1,8 @@
 import * as Http from "../config/http";
 
-export const getEmojiList = (param) => Http.getJson(`/ProductPortal/tc/open/activity/configureId`, param)
+// export const getEmojiList = (param) => Http.getJson(`/ProductPortal/tc/open/activity/configureId`, param)
 // export const getDetail = (param) => Http.getJson(`/ProductPortal/tc/aiEmoticon/getDetail`, param)
+export const getEmojiList = (param) => Http.getJson(`/ProductPortal/tc/open/activity/getAiEmoticons`, param)
 export const getDetail = (param) => Http.postJson(`/ProductPortal/tc/aiTemplate/detail`, param)
 export const tokenValidate = (param) => Http.postJson(`/ProductUser/login/open/token/validate`, param)
 export const getUserAsset = (param) => Http.postJson(`/ProductUser/tc/userAsset/query`, param)
@@ -11,3 +12,4 @@ export const createEmoticon = (param) => Http.postJson(`/ProductPortal/tc/ai/emo
 export const auditImage = (param) => Http.postJson(`/ProductPortal/tc/ai/audit/image`, param)
 export const getMyEmoticon = (param) => Http.postJson(`/ProductPortal/tc/aiEmoticon/getOne`, param)
 export const retryTask = (param) => Http.postJson(`/ProductPortal/tc/aiEmoticon/retryTask`, param)
+export const getActivityDetail = (param) => Http.getJson(`/ProductPortal/tc/open/activity/detail`, param)
