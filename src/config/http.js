@@ -45,9 +45,16 @@ axios.interceptors.request.use(config => {
   config.headers.sessionid = userInfo.sessionId || "";
   if(config.method == "get"){
     url = url.lastIndexOf("?") >0 ? url.substr(url.lastIndexOf("?")+1,url.length): "";
+    // if( config.url.indexOf("/activity/configureId")>0  || config.url.indexOf("/activity/detail")>0){
+    //   config.headers.sessionid = ""
+    // }
     if( config.url.indexOf("/activity/configureId")>0){
       config.headers.sessionid = ""
     }
+
+    // if( config.url.indexOf("/activity/detail")>0){
+    //   config.headers.sessionid = ""
+    // }
   }else{
     url = JSON.stringify(config.data)
   }

@@ -2,6 +2,9 @@ import {
   createRouter,
   createWebHistory
 } from "vue-router";
+import {
+  amberTrack
+} from '@/Composables/amber.js'
 
 const backUrl = {
     homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
@@ -66,6 +69,11 @@ router.beforeEach((to, from, next) => {
     "appId": "10004"
   }`)
   console.log(to.path, "to.path-------------------")
+  amberTrack('page_click', {
+    element_id: emojiData.value.template2Id,
+    element_name: activityData.activityId,
+    element_type: '3'
+  })
   if (to.query.data) {
     sessionStorage.setItem("data", decodeURIComponent(atob(to.query.data)))
   } else {

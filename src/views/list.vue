@@ -25,7 +25,8 @@
     useRouter
   } from "vue-router";
   import {
-    getEmojiList
+    getEmojiList,
+    getActivityDetail
   } from "@/api/api";
 
   const loading = ref(true);
@@ -55,7 +56,14 @@
     //   infinityValue.value = false
     // }, 1000)
   }
-
+  
+  const getActivityDetails = async () => {
+    const resp1 = await getActivityDetail({
+      activityId: 'test'
+    })
+    console.log(resp1, '1111')
+  }
+  getActivityDetails()
 
   const getList = async () => {
     const resp = await getEmojiList({
