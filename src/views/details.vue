@@ -14,7 +14,7 @@
 
       <div class="list">
         <div class="item-container" v-for="(item, index) in emojiListData" :key="index">
-          <div class="item-box" @click="handlePopup(`preview`)">
+          <div class="item-box" @click="handlePopup(`preview`,item.fileUrl)">
             <div class="avatar">
               <img :src="item.fileUrl" />
             </div>
@@ -103,7 +103,7 @@
             </p>
           </div>
           <div v-else-if="popupData.curPopup == `preview`" class="popup-preview">
-            <img src="../assets/img/sample_photo.png" alt="" />
+            <img :src="popupData.coverUrl" alt="" />
             <h4 class="preview-title">表情预览</h4>
           </div>
           <div v-else class="upload-popup">
@@ -409,8 +409,9 @@
 
     }
   };
-  const handlePopup = (key) => {
+  const handlePopup = (key,url) => {
     console.log(emojiData.value)
+    popupData.coverUrl = url || "";
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
