@@ -20,11 +20,10 @@ const encryptedData = CryptoJS.AES.encrypt(data, key, {
 // 转换为字符串（Base64编码）
 const encryptedDataStr = encryptedData.toString();
 // console.log(encryptedDataStr, "===============");
-
-// const requestUrl = '/product/test'
-const requestUrl = '/prep-portalx'
-
-// const requestUrl = 'http://112.48.155.26:8088/product/test'
+let requestUrl = '/prep'
+if(window.location.hostname == "localhost"){
+  requestUrl = '/test'
+}
 
 const toast = showToast.text('loading', {
   cover: true,
