@@ -53,7 +53,8 @@
   } from "vue";
   import {
     useRouter,
-    useRoute
+    useRoute,
+    onBeforeRouteLeave
   } from "vue-router";
   import {
     IconFont,
@@ -62,12 +63,19 @@
   } from '@nutui/icons-vue'
   import iconLoading from '@/assets/img/icon_loading.png';
   import iconError from '@/assets/img/icon_error.png';
+  import {
+    amberTrack
+  } from '@/Composables/amber.js'
 
   import {
     getMyEmoticon,
     retryTask
   } from "@/api/api.js";
 
+  const amberParams = {
+    page_id: 'list',
+    page_name: '/list'
+  }
   const pageTitle = defineModel('title')
   const router = useRouter();
   const route = useRoute();
@@ -121,6 +129,19 @@
   };
 
   getCenterList()
+  onBeforeRouteLeave((to, from, next) => {
+    const start_time = sessionStorage.getItem('start_time', start_time)
+    const end_time = new Date().getTime()
+    if (start_time && Number(start_time)) {
+      amberTrack('page_view', {
+        ...amberParams,
+        stay_time: end_time- start_time,
+        end_time: start_time,
+        operation_type: 2, // 1进入，2离开
+      })
+    }
+    sessionStorage.getItem('start_time', start_time)
+  })
 </script>
 
 <style scoped lang="less">

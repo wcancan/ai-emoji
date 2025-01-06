@@ -33,18 +33,11 @@
     amberTrack
   } from '@/Composables/amber.js'
 
-  onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time', start_time)
-    const end_time = new Date().getTime()
-    if (start_time && Number(start_time)) {
-      amberTrack('page_view', {
-        stay_time: end_time- start_time,
-        end_time: start_time,
-        operation_type: 2, // 1进入，2离开
-      })
-    }
-    sessionStorage.getItem('start_time', start_time)
-  })
+  const amberParams = {
+    page_id: 'list',
+    page_name: '/list'
+  }
+  
   const loading = ref(true);
   const router = useRouter();
   const emojiList = ref([]);
@@ -111,4 +104,17 @@
       
     })
   }
+  onBeforeRouteLeave((to, from, next) => {
+    const start_time = sessionStorage.getItem('start_time', start_time)
+    const end_time = new Date().getTime()
+    if (start_time && Number(start_time)) {
+      amberTrack('page_view', {
+        ...amberParams,
+        stay_time: end_time- start_time,
+        end_time: start_time,
+        operation_type: 2, // 1进入，2离开
+      })
+    }
+    sessionStorage.getItem('start_time', start_time)
+  })
 </script>

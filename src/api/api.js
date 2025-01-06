@@ -1,7 +1,5 @@
 import * as Http from "../config/http";
 
-// export const getEmojiList = (param) => Http.getJson(`/ProductPortal/tc/open/activity/configureId`, param)
-// export const getDetail = (param) => Http.getJson(`/ProductPortal/tc/aiEmoticon/getDetail`, param)
 export const getEmojiList = (param) => Http.postJson(`/ProductPortal/tc/open/activity/getAiEmoticons`, param)
 export const getDetail = (param) => Http.postJson(`/ProductPortal/tc/aiTemplate/detail`, param)
 export const tokenValidate = (param) => Http.postJson(`/ProductUser/login/open/token/validate`, param)
