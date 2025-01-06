@@ -68,10 +68,9 @@
     retryTask
   } from "@/api/api.js";
 
-
+  const pageTitle = defineModel('title')
   const router = useRouter();
   const route = useRoute();
-  console.log("route", route)
   const previewEmojiData = ref({})
   const emojiList = ref([]);
   const isDialogVisible = ref(false);
@@ -107,8 +106,10 @@
       emojiList.value = resp.data.files.filter((item) => item.status != 0);
       previewEmojiData.value = resp.data.templateInfo
       retryId = resp.data.taskId || "11-a7049a8b-7d28-49b1-9961-49736ef26e09"
+      pageTitle.value = resp.data.templateInfo.templateName
     }
   };
+
   const toRetryTask = async () => {
     const resp = await retryTask({
       taskId: retryId
@@ -119,10 +120,7 @@
     isDialogVisible.value = false
   };
 
-
   getCenterList()
-  // onUpdated(getCenterList);
-  // onMounted(getCenterList);
 </script>
 
 <style scoped lang="less">

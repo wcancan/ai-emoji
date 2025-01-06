@@ -39,7 +39,11 @@ export default defineConfig(({
 			}
 		},
 		plugins: [
-			vue(),
+			vue({
+				script: {
+					defineModel: true
+				}
+			}),
 			// 开启 unplugin 插件，自动引入 NutUI 组件
 			Components({
 				resolvers: [NutUIResolver()],
