@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrap">
         <div class="page-top">
-            <nut-navbar :title='title' :fixed="true" :placeholder="true">
+            <nut-navbar :title='title' :fixed="true" :placeholder="true" @click-back="handleGoBack">
                 <template v-slot:left>
                     <div class="icon-back"></div>
                 </template>
@@ -23,17 +23,25 @@
         onMounted
     } from "vue";
     import {
-        useRoute
+        useRoute,
+        useRouter
     } from "vue-router";
 
-
-    const title = ref('表情包列表');
+    const title = ref('AI表情');
     const route = useRoute();
+    const router = useRouter();
     const state = reactive({
         includeList: []
     })
+    const handleGoBack = () => {
+        if (route.meta.isExternal) {
+            window.location.href = route.meta.backUrl
+        } else {
+            router.back()
+        }
+    }
     watch(() => route, (newVal, oldVal) => {
-        console.log('watch router', newVal.meta.keepAlive, newVal.name, newVal.meta);
+        console.log('watch router', newVal);
         title.value = route.meta.title;
         if (newVal.meta.keepAlive && state.includeList.indexOf(newVal.name) === -1) {
             state.includeList.push(newVal.name);

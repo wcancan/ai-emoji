@@ -65,7 +65,7 @@
             <div class="pay-popup-img-con">
               <!-- <i>购买次数：4次</i> -->
               <span class="times"></span>
-              <span class="date">有效期至2024/12/31</span>
+              <span class="date">有效期至2025/02/28</span>
               <!-- <img src="../assets/img/bg_pay_tips.png" alt=""> -->
             </div>
             <div class="pay-block">

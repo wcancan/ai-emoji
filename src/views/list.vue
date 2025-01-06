@@ -82,6 +82,9 @@
       path: `/details`,
       query: {
         id: item.templateId
+      },
+      meta: {
+        title: item.templateId
       }
     })
   }

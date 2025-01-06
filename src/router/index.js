@@ -3,6 +3,11 @@ import {
   createWebHistory
 } from "vue-router";
 
+const backUrl = {
+    homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
+    centerListUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html'
+}
+
 const routes = [{
     path: '/',
     redirect: '/list'
@@ -13,14 +18,18 @@ const routes = [{
     component: () => import('@/views/list.vue'),
     meta: {
       title: 'AI表情列表页',
-      keepAlive: true
+      keepAlive: true,
+      backUrl: backUrl.homeUrl,
+      isExternal: true
     },
   },
   {
     path: '/details',
     name: 'details',
     meta: {
-      title: 'AI表情包详情页'
+      title: 'AI表情包详情页',
+      backUrl: '/list',
+      isExternal: false
     },
     component: () => import('@/views/details.vue'),
     props: true,
@@ -31,7 +40,9 @@ const routes = [{
     component: () => import('@/views/center.vue'),
     meta: {
       title: 'AI表情包个人中心',
-      keepAlive: true
+      keepAlive: true,
+      backUrl: backUrl.centerListUrl,
+      isExternal: true
     },
   }
 ]
