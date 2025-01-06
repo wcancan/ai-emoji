@@ -165,7 +165,8 @@
   } from "@/api/api.js";
   import {
     useRoute,
-    useRouter
+    useRouter,
+    onBeforeRouteLeave
   } from "vue-router";
   import {
     showToast
@@ -173,12 +174,16 @@
   import {
     amberTrack
   } from '@/Composables/amber.js'
-    
+  
+  const amberParams = {
+    page_id: 'list',
+    page_name: '/list'
+  }
   const route = useRoute();
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
-  console.log("----------", userInfo);
+  
 
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
   const emojiData = ref({
@@ -391,11 +396,6 @@
   const showPopup = ref(false);
   // 生成ai表情
   const handleCreateEmoticon = async () => {
-    amberTrack('page_click', {
-      element_id: emojiData.value.template2Id,
-      element_name: activityData.activityId,
-      element_type: '3'
-    })
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -404,7 +404,12 @@
       activityId: activityData.activityId
     });
     if (resq == 200 && res.data) {
-
+      amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: emojiData.value.name,
+        element_type: '3'
+      })
     } else {
 
     }
@@ -412,6 +417,14 @@
   const handlePopup = (key,url) => {
     console.log(emojiData.value)
     popupData.coverUrl = url || "";
+    if (key == 'preview') {
+       amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: emojiData.value.name,
+        element_type: '3'
+      })
+    }
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
@@ -425,6 +438,19 @@
     // // popupData.curPopup = 'pay';
     // showPopup.value = true;
   };
+  onBeforeRouteLeave((to, from, next) => {
+    const start_time = sessionStorage.getItem('start_time', start_time)
+    const end_time = new Date().getTime()
+    if (start_time && Number(start_time)) {
+      amberTrack('page_view', {
+        ...amberParams,
+        stay_time: end_time- start_time,
+        end_time: start_time,
+        operation_type: 2, // 1进入，2离开
+      })
+    }
+    sessionStorage.getItem('start_time', start_time)
+  })
 </script>
 
 <style scoped lang="less">

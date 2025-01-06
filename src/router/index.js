@@ -72,6 +72,8 @@ router.beforeEach((to, from, next) => {
   const start_time = new Date().getTime()
   sessionStorage.setItem('start_time', start_time)
   amberTrack('page_view', {
+    age_id: to.name,
+    page_name: '/' + to.name,
     start_time: start_time,
     operation_type: 1, // 1进入，2离开
   })
