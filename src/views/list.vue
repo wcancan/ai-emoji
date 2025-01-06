@@ -22,13 +22,29 @@
     onMounted
   } from "vue";
   import {
-    useRouter
+    useRouter,
+    onBeforeRouteLeave
   } from "vue-router";
   import {
     getEmojiList,
     getActivityDetail
   } from "@/api/api";
+  import {
+    amberTrack
+  } from '@/Composables/amber.js'
 
+  onBeforeRouteLeave((to, from, next) => {
+    const start_time = sessionStorage.getItem('start_time', start_time)
+    const end_time = new Date().getTime()
+    if (start_time && Number(start_time)) {
+      amberTrack('page_view', {
+        stay_time: end_time- start_time,
+        end_time: start_time,
+        operation_type: 2, // 1进入，2离开
+      })
+    }
+    sessionStorage.getItem('start_time', start_time)
+  })
   const loading = ref(true);
   const router = useRouter();
   const emojiList = ref([]);

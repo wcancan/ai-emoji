@@ -69,11 +69,11 @@ router.beforeEach((to, from, next) => {
     "appId": "10004"
   }`)
   if(to.query.title) to.meta.title = to.query.title 
-  console.log(to.path, "to.path-------------------")
-  amberTrack('page_click', {
-    element_id: emojiData.value.template2Id,
-    element_name: activityData.activityId,
-    element_type: '3'
+  const start_time = new Date().getTime()
+  sessionStorage.setItem('start_time', start_time)
+  amberTrack('page_view', {
+    start_time: start_time,
+    operation_type: 1, // 1进入，2离开
   })
   if (to.query.data) {
     sessionStorage.setItem("data", decodeURIComponent(atob(to.query.data)))
@@ -85,6 +85,7 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+
 
 router.afterEach((to, from) => {
   const _title = to.meta.title;
