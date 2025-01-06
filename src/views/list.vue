@@ -89,11 +89,10 @@
     router.push({
       path: `/details`,
       query: {
-        id: item.templateId
-      },
-      meta: {
-        title: item.templateId
+        id: item.templateId,
+        title: item.templateName
       }
+      
     })
   }
 </script>

@@ -42,7 +42,7 @@ const routes = [{
     name: 'center',
     component: () => import('@/views/center.vue'),
     meta: {
-      title: 'AI表情包个人中心',
+      title: '',
       keepAlive: true,
       backUrl: backUrl.centerListUrl,
       isExternal: true
@@ -68,6 +68,7 @@ router.beforeEach((to, from, next) => {
     "activityId": "test",
     "appId": "10004"
   }`)
+  if(to.query.title) to.meta.title = to.query.title 
   console.log(to.path, "to.path-------------------")
   amberTrack('page_click', {
     element_id: emojiData.value.template2Id,
