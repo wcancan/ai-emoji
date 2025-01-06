@@ -37,7 +37,7 @@
     page_id: 'list',
     page_name: '/list'
   }
-  
+
   const loading = ref(true);
   const router = useRouter();
   const emojiList = ref([]);
@@ -95,6 +95,13 @@
   getList()
 
   function go(item) {
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: item.templateId,
+      element_name: item.templateName,
+      element_type: '3',
+      is_leaved: '1'
+    })
     router.push({
       path: `/details`,
       query: {

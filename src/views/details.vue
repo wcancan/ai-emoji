@@ -396,11 +396,6 @@
   const showPopup = ref(false);
   // 生成ai表情
   const handleCreateEmoticon = async () => {
-    amberTrack('page_click', {
-      element_id: emojiData.value.template2Id,
-      element_name: activityData.activityId,
-      element_type: '3'
-    })
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -409,13 +404,26 @@
       activityId: activityData.activityId
     });
     if (resq == 200 && res.data) {
-
+      amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: emojiData.value.name,
+        element_type: '3'
+      })
     } else {
 
     }
   };
   const handlePopup = (key) => {
     console.log(emojiData.value)
+    if (key == 'preview') {
+       amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: emojiData.value.name,
+        element_type: '3'
+      })
+    }
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
