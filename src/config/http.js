@@ -4,7 +4,7 @@ import {
   showToast
 } from '@nutui/nutui'
 
-const encrypt = "0";
+const encrypt = "1";
 const getReqId = () => {
   const setReqId = () => Math.random().toString(32).slice(-8);
   let id = setReqId();
@@ -37,12 +37,9 @@ axios.interceptors.request.use(config => {
 
   if (config.method == "get") {
     encParam = encParam.lastIndexOf("?") > 0 ? encParam.substr(encParam.lastIndexOf("?") + 1, encParam.length) : "";
-    if (config.url.indexOf("/activity/configureId") > 0 || config.url.indexOf("/activity/detail")>0) {
+    if (config.url.indexOf("/activity/configureId") > 0 || config.url.indexOf("/activity/detail") > 0) {
       config.headers.sessionid = ""
     }
-    // if (config.url.indexOf("/activity/configureId") >0) {
-    //   config.headers.sessionid = ""
-    // }
   } else {
     if (config.url.indexOf("/activity/getAiEmoticons") > 0) {
       config.headers.sessionid = ""
@@ -66,24 +63,23 @@ axios.interceptors.request.use(config => {
 
 
 axios.interceptors.response.use(response => {
-  // if (!getCookie("WXSESSIONID") && response.headers.wxsessionid) {
-  //   setCookie("WXSESSIONID", response.headers.wxsessionid)
-  // }
-  // if ((response.config.url.indexOf("login/tokenLogin") != -1|| response.config.url.indexOf("web/user/login/login") != -1) && response.headers.wxsessionid) {
-  //   setCookie("WXSESSIONID", response.headers.wxsessionid);
-  // }
-  let data = response.data
-  if (encrypt == 1 && data.data) {
-    try {
-      data.data = JSON.parse(CryptoJS.decrypted(data.data, "hounddefault2024"))
-    } catch (t) {
-      console.log(t)
-      console.log("解密失败", data.data)
+  if (response.data.code == 500) {
+    sessionStorage.removeItem("data");
+    window.location.href = "https://avatar.migudm.cn/h5/newyear2025/"
+  } else {
+    let data = response.data
+    if (encrypt == 1 && data.data) {
+      try {
+        data.data = JSON.parse(CryptoJS.decrypted(data.data, "hounddefault2024"))
+      } catch (t) {
+        console.log(t)
+        console.log("解密失败", data.data)
+      }
     }
+    console.log('hide toast')
+    toast.hide()
+    return data
   }
-  console.log('hide toast')
-  toast.hide()
-  return data
 
 }, (error) => {
   console.log('error')
