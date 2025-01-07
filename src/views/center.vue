@@ -50,7 +50,7 @@
 <script setup>
   import {
     ref,
-    createVNode
+    watch
   } from "vue";
   import {
     useRouter,
@@ -105,6 +105,7 @@
 
   let retryId = "";
   const getCenterList = async () => {
+    emojiList.value = [];
     const resp = await getMyEmoticon({
       mergeId: route.query.mergeId || ""
     });
@@ -128,7 +129,9 @@
     isDialogVisible.value = false
   };
 
-  getCenterList()
+  watch(() => route.query, (newId, oldId) => {
+    getCenterList()
+  })
   onBeforeRouteLeave((to, from, next) => {
     const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()
