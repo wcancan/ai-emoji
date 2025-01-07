@@ -303,6 +303,10 @@
     console.log(resp);
     if (resp.code == 200) {
       //支付成功跳转页面
+      if (resp.data && resp.data.paymentInfo) {
+        const payUrl = resp.data.paymentInfo.payParameter.wapPayUrl 
+        window.location.href = payUrl
+      }
     }
     showPopup.value = false;
   };

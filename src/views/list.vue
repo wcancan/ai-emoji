@@ -7,7 +7,7 @@
           <div class="avatar">
             <img :src="item.coverUrl" alt="">
           </div>
-          <div class="title txt-c">{{item.groupName}}</div>
+          <div class="title txt-c">{{item.templateName}}</div>
           <div class="btnDetail txt-c" @click="go(item)"></div>
         </div>
       </div>
@@ -52,7 +52,7 @@
   let params = ref({
     pageNo:1,
     pageSize: 10,
-    configureId: 'a1873951098552291329'
+    configureId: 'a1876466496061399041'
   })
 
   const loadMore = (done) => {
