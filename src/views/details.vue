@@ -250,12 +250,6 @@
     }
   };
 
-  watch(() => route.query.id, (newId, oldId) => {
-    getEmojiDetail()
-  },{
-    immediate: true
-  })
-
   const toCenterPage = (key) => {
     showPopup.value = false;
     window.location.href = backUrl.centerListUrl
@@ -275,7 +269,7 @@
       name: emojiData.value.name,
       bids: [{
         payWay: `1064`,
-        amount: 11,
+        amount: 1,
         extInfo: {
           bankCode: `AP`,
           saleType: `1`,
@@ -325,7 +319,7 @@
 
   const imageUrl = ref(``);
   const avatarCropperRef = ref(null);
-
+  const auditErrImg = ref("");
   const confirm = async (url) => {
     imageUrl.value = url;
     let currentDate = new Date();
@@ -346,11 +340,11 @@
       publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
       image: url
     });
-    imageUrl.value = url;
+    
     if (resq.code == 200 && resq.data) {
-      // imageUrl.value = resq.data.imageUrl;
+      auditErrImg.value = url
     } else {
-      imageUrl.value = url;
+      imageUrl.value = auditErrImg.value
       const toast = showToast.text('图片存在风险', {
         cover: true,
       })
@@ -394,6 +388,9 @@
   const showPopup = ref(false);
   // 生成ai表情
   const handleCreateEmoticon = async (key) => {
+    if(imageUrl.value == ""){
+      return
+    }
     showPopup.value = false;
     popupData.curPopup = key;
     showPopup.value = true;
@@ -440,19 +437,22 @@
         element_type: '3'
       })
     }
+   
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
-      // popupData.curPopup = 'pay';
       showPopup.value = true;
     } else {
       handleCreateEmoticon(key)
     }
-    // showPopup.value = false;
-    // popupData.curPopup = key;
-    // // popupData.curPopup = 'pay';
-    // showPopup.value = true;
   };
+  watch(() => route.query.id, (newId, oldId) => {
+    auditErrImg.value = ""
+    imageUrl.value = ""
+    getEmojiDetail()
+  },{
+    immediate: true
+  })
   onBeforeRouteLeave((to, from, next) => {
     const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()
