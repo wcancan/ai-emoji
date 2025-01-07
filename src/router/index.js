@@ -69,7 +69,8 @@ const getActivityDetails = async (to) => {
   })
   let configureId = ''
   if (resp1.data && resp1.data.activityRelevanceList && resp1.data.activityRelevanceList.length) {
-    configureId = resp1.data.activityRelevanceList.filter((item) => item.relevanceName == '').relevanceId;
+    let configureIds = resp1.data.activityRelevanceList.filter((item) => item.relevanceType == 8)
+    configureId = configureIds && configureIds.length ? configureIds[0].relevanceId : 'a1876466496061399041'
   }
   let data = resp1.data || {
     activityId: "test",
@@ -79,7 +80,7 @@ const getActivityDetails = async (to) => {
   sessionStorage.setItem("activity", JSON.stringify({
     "activityId": data.activityId ,
     "appId": data.appConfigId,
-    "configureId": configureId || 'a1876466496061399041'
+    "configureId": configureId
   }))
 
   if (to.query.title) to.meta.title = to.query.title
