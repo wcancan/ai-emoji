@@ -10,8 +10,8 @@ import {
 } from "@/api/api";
 
 const backUrl = {
-    homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
-    centerListUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html'
+  homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
+  centerListUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html'
 }
 
 const routes = [{
@@ -65,18 +65,18 @@ const router = createRouter({
     }
   }
 })
-const getActivityDetails = async () => {
+const getActivityDetails = async (to) => {
   const resp1 = await getActivityDetail({
     activityId: 'test'
   })
   let data = resp1.data
-  
-  sessionStorage.setItem("activity", `{
-    "activityId": ${data.activityId || "test"},
-    "appId": ${data.appConfigId || "10004"} 
-  }`)
 
-  if(to.query.title) to.meta.title = to.query.title 
+  sessionStorage.setItem("activity", JSON.stringify({
+    "activityId": data.activityId || "test",
+    "appId": data.appConfigId || "10004"
+  }))
+
+  if (to.query.title) to.meta.title = to.query.title
   const start_time = new Date().getTime()
   sessionStorage.setItem('start_time', start_time)
   amberTrack('page_view', {
@@ -94,9 +94,9 @@ const getActivityDetails = async () => {
     // }
   }
 }
-router.beforeEach((to, from, next) => {   
-  getActivityDetails()
-  
+router.beforeEach((to, from, next) => {
+  getActivityDetails(to)
+
   next()
 })
 

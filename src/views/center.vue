@@ -112,7 +112,7 @@
       console.log(resp.data)
       emojiList.value = resp.data.files.filter((item) => item.status != 0);
       previewEmojiData.value = resp.data.templateInfo
-      retryId = resp.data.taskId || "11-a7049a8b-7d28-49b1-9961-49736ef26e09"
+      retryId = resp.data.taskId
       pageTitle.value = resp.data.templateInfo.templateName
     }
   };
