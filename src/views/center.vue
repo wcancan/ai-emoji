@@ -131,6 +131,8 @@
 
   watch(() => route.query, (newId, oldId) => {
     getCenterList()
+  },{
+    immediate: true
   })
   onBeforeRouteLeave((to, from, next) => {
     const start_time = sessionStorage.getItem('start_time')
