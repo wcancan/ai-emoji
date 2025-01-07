@@ -8,11 +8,9 @@ import {
 import {
   getActivityDetail
 } from "@/api/api";
+import backUrl from '@/config/urlConfig.js'
 
-const backUrl = {
-  homeUrl: 'https://avatar.migudm.cn/h5/newyear2025/',
-  centerListUrl: 'https://avatar.migudm.cn/h5/newyear2025/?page=usercenter&tab=aigif'
-}
+localStorage.setItem("userData","JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNell4TmpjME9EZ3NJbVY0Y0NJNk1UY3pOakkxTXpnNE9Dd2ljR0Z6YzE5cFpDSTZJalkxTlRJNE1EQXlOek01TlRZMU9EYzNOU0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRnNE9ERXlNRFF5TmpBaWZRLmdFV3BUWm9uVTdEdDVhUW5aS0NvaW1ld3RrNGFlbmV6dUNFeDRpc3BNVU0lMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSTJOVFV5T0RBd01qY3pPVFUyTlRnM056VWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMk1UWTNORGc0TENKbGVIQWlPakUzTXpZeU5UTTRPRGg5LjIxUnhCMk1id1owNXJMRHNkYXRndEFHem90a25tRGJBRHhtVWpjZmI3LTAlMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjI2NTUyODAwMjczOTU2NTg3NzUlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxODg4MTIwNDI2MCUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIwJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNjE2NzQ4ODM0NHQ2bVNUT2VEa0kwNjc0clF0cjhyNmNSbzZNdE14dXhYJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzYxNjc0ODg1NjUlN0Q=")
 console.log(import.meta)
 const routes = [{
     path: '/',
@@ -91,7 +89,7 @@ const getActivityDetails = async (to) => {
     sessionStorage.setItem("data", userData)
   } else {
     sessionStorage.removeItem("data");
-    window.location.href = "https://avatar.migudm.cn/h5/newyear2025/"
+    window.location.href = backUrl.homeUrl
   }
 }
 router.beforeEach((to, from, next) => {

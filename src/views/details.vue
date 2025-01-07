@@ -49,16 +49,16 @@
           <div v-if="popupData.curPopup == `generate`" class="gen-popup-con">
             <div class="progress-block">
               <nut-space align="center">
-                <nut-circle-progress :stroke-width="8" :radius="33" :path-color="`rgba(142, 17, 17, 0.22)`"
-                  :color="`#fff`" :progress="20">
+                <nut-circle-progress class="nut-icon-am-rotate nut-icon-am-infinite" :stroke-width="7" :radius="30" :path-color="`rgba(255, 255, 255, 0.4)`"
+                  :color="`#fff`" :progress="25">
                   {{ `` }}
                 </nut-circle-progress>
               </nut-space>
             </div>
-            <p class="progress-time">努力生成中...预计需要2分钟</p>
+            <p class="progress-time">{{ creatTxt }}</p>
             <p>生成的作品将储存于「我的」页面</p>
             <div class="gen-b-btn">
-              <view class="popup-btn" @click="toCenterPage">前往查看</view>
+              <view class="popup-btn" @click="toCenterPage"></view>
             </div>
           </div>
           <div v-else-if="popupData.curPopup == `pay`" class="pay-popup">
@@ -174,15 +174,18 @@
   import {
     amberTrack
   } from '@/Composables/amber.js'
-  
+  import backUrl from '@/config/urlConfig.js'
   const amberParams = {
     page_id: 'list',
     page_name: '/list'
   }
+  const creatTxt = ref('努力生成中...预计需要2分钟')
+  // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
+  
   
 
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
@@ -237,7 +240,6 @@
       assetCode: route.query.id,
     });
     if (resp.code == 200 && resp.data && resp.data.list.length > 0) {
-      console.log()
       btnStatus.value =
         resp.data.list.filter((item) => item.id == route.query.id)
         .length > 0 ?
@@ -269,9 +271,10 @@
 
   const toCenterPage = (key) => {
     showPopup.value = false;
-    router.push({
-      path: `/center`,
-    });
+    window.location.href = backUrl.centerListUrl
+    // router.push({
+    //   path: `/center`,
+    // });
   };
   const payWay = ref(`1`);
 
@@ -352,8 +355,9 @@
       publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
       image: url
     });
+    imageUrl.value = url;
     if (resq.code == 200 && resq.data) {
-      imageUrl.value = resq.data.imageUrl;
+      // imageUrl.value = resq.data.imageUrl;
     } else {
       imageUrl.value = url;
       const toast = showToast.text('图片存在风险', {
@@ -398,7 +402,16 @@
   };
   const showPopup = ref(false);
   // 生成ai表情
-  const handleCreateEmoticon = async () => {
+  const handleCreateEmoticon = async (key) => {
+    showPopup.value = false;
+    popupData.curPopup = key;
+    showPopup.value = true;
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    var timerId = setTimeout(function() {
+      creatTxt.value = '努力生成中，请稍后'
+    }, 1000);
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -406,40 +419,27 @@
       appId: activityData.appId,
       activityId: activityData.activityId
     });
-    if (resq == 200 && res.data) {
+    if (resq.code == 200) {
+      // router.push({
+      //   path: `/center`,
+      //   query: {
+      //     mergeId: ''
+      //   }
+      // })
+    } else {
+      const toast = showToast.text(resq.message, {
+        cover: true,
+      })
+    }
       amberTrack('page_click', {
         ...amberParams,
         element_id: emojiData.value.template2Id,
         element_name: emojiData.value.name,
         element_type: '3'
       })
-    } else {
-
-    }
-  };
-  // 生成ai表情回调
-  const createEmoticonCallbackFn = async () => {
-    const resq = await createEmoticonCallback({
-      templateId: emojiData.value.template2Id, //详情接口返回
-      styleId: emojiData.value.sourceResourcesId, //详情接口返回
-      image: imageUrl.value,
-      appId: activityData.appId,
-      activityId: activityData.activityId
-    });
-    if (resq == 200 && res.data) {
-      // amberTrack('page_click', {
-      //   ...amberParams,
-      //   element_id: emojiData.value.template2Id,
-      //   element_name: emojiData.value.name,
-      //   element_type: '3'
-      // })
-    } else {
-
-    }
   };
   
   const handlePopup = (key,url) => {
-    console.log(emojiData.value)
     popupData.coverUrl = url || "";
     if (key == 'preview') {
        amberTrack('page_click', {
@@ -455,7 +455,7 @@
       // popupData.curPopup = 'pay';
       showPopup.value = true;
     } else {
-      handleCreateEmoticon()
+      handleCreateEmoticon(key)
     }
     // showPopup.value = false;
     // popupData.curPopup = key;
