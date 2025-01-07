@@ -5,13 +5,11 @@
         <div class="top-banner">
           <img :src="cover.fileUrl" alt="" />
         </div>
-
         <div class="list-emoji-title">
           <h4>{{ emojiData.name }}</h4>
           <p class="list-emoji-desc">{{ emojiData.desc }}</p>
         </div>
       </div>
-
       <div class="list">
         <div class="item-container" v-for="(item, index) in emojiListData" :key="index">
           <div class="item-box" @click="handlePopup(`preview`,item.fileUrl)">
@@ -49,8 +47,8 @@
           <div v-if="popupData.curPopup == `generate`" class="gen-popup-con">
             <div class="progress-block">
               <nut-space align="center">
-                <nut-circle-progress class="nut-icon-am-rotate nut-icon-am-infinite" :stroke-width="7" :radius="30" :path-color="`rgba(255, 255, 255, 0.4)`"
-                  :color="`#fff`" :progress="25">
+                <nut-circle-progress class="nut-icon-am-rotate nut-icon-am-infinite" :stroke-width="7" :radius="30"
+                  :path-color="`rgba(255, 255, 255, 0.4)`" :color="`#fff`" :progress="25">
                   {{ `` }}
                 </nut-circle-progress>
               </nut-space>
@@ -152,7 +150,8 @@
 
 <script setup>
   import {
-    ref
+    ref,
+    watch
   } from "vue";
   import {
     getDetail,
@@ -185,8 +184,8 @@
   const router = useRouter();
   const btnStatus = ref(1); // 1解鎖表情包 2製作表情
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
-  
-  
+
+
 
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
   const emojiData = ref({
@@ -208,6 +207,7 @@
   let cover = ref({})
   let emojiListData = ref([])
   const getEmojiDetail = async () => {
+    emojiListData.value = [];
     const resp = await getDetail({
       templateId: route.query.id,
     });
@@ -230,7 +230,7 @@
           getUserBuy()
         }
       }
-      
+
     }
   };
   const getUserBuy = async () => {
@@ -249,25 +249,10 @@
       btnStatus.value = 1;
     }
   };
-  getEmojiDetail();
-  // 不需要验证token
-  // const chenkToken = async () => {
-  //   const resp = await tokenValidate({
-  //     token: userInfo.token,
-  //     sourceId: "205082"
-  //   });
-  //   if (resp.code == 200) {
-  //     getEmojiDetail();
-  //     getUserBuy();
-  //   } else {
-  //     getEmojiDetail();
-  //     getUserBuy();
-  //     // checkOrderStatus()
-  //     //router.push('/list')
-  //   }
-  // };
 
-  // chenkToken();
+  watch(() => route.query.id, (newId, oldId) => {
+    getEmojiDetail()
+  })
 
   const toCenterPage = (key) => {
     showPopup.value = false;
@@ -413,7 +398,7 @@
     if (timerId) {
       clearTimeout(timerId);
     }
-    var timerId = setTimeout(function() {
+    var timerId = setTimeout(function () {
       creatTxt.value = '努力生成中，请稍后'
     }, 1000);
     const resq = await createEmoticon({
@@ -435,18 +420,18 @@
         cover: true,
       })
     }
-      amberTrack('page_click', {
-        ...amberParams,
-        element_id: emojiData.value.template2Id,
-        element_name: emojiData.value.name,
-        element_type: '3'
-      })
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: emojiData.value.template2Id,
+      element_name: emojiData.value.name,
+      element_type: '3'
+    })
   };
-  
-  const handlePopup = (key,url) => {
+
+  const handlePopup = (key, url) => {
     popupData.coverUrl = url || "";
     if (key == 'preview') {
-       amberTrack('page_click', {
+      amberTrack('page_click', {
         ...amberParams,
         element_id: emojiData.value.template2Id,
         element_name: emojiData.value.name,
@@ -472,7 +457,7 @@
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time- start_time,
+        stay_time: end_time - start_time,
         end_time: start_time,
         operation_type: 2, // 1进入，2离开
       })
