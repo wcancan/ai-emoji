@@ -274,20 +274,34 @@
       code: route.query.id,
       name: emojiData.value.name,
       bids: [{
+        // payWay 1WX 2AP
         payWay: `1064`,
-        amount: 11,
+        amount: emojiData.value.templatePrice  || 1,
         extInfo: {
-          bankCode: `AP`,
+          bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
-          pageURL: `http://localhost:8080/details?id=m1873976352657965057&mask&price`,
+          pageURL: `${backUrl.payBack}/details?id=${route.query.id}`,
         },
       }, ],
       appId: activityData.appId,
       activityId: activityData.activityId,
     };
-
+    
+    const isWeChat = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf("micromessenger") != -1) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    if(isWeChat()) {
+      
+      payParam.bids[0].extInfo.payMethod = 30
+    }
     const resp = await subscribeCharging(payParam);
-    console.log(resp);
+
     if (resp.code == 200) {
       //支付成功跳转页面
       if (resp.data && resp.data.paymentInfo) {
