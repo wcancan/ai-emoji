@@ -49,46 +49,30 @@
   const infinityValue = ref(false)
   const hasMore = ref(true)
 
+  let params = ref({
+    pageNo:1,
+    pageSize: 10,
+    configureId: 'a1873951098552291329'
+  })
+
   const loadMore = (done) => {
-    // setTimeout(() => {
-    //   emojiData.value.push({
-    //   id: 2,
-    //   name: '表情包合集1',
-    //   avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    // },{
-    //   id: 2,
-    //   name: '表情包合集1',
-    //   avatar: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-    // })
-    //   cycle.value++
-    //   if (cycle.value > 2) hasMore.value = false
-    //   infinityValue.value = false
-    // }, 1000)
+    params.value.pageNo = params.value.pageNo + 1
+    // getList(params)
   }
   
   
-
-  const getList = async () => {
-    const resp = await getEmojiList({
-      pageNo:1,
-      pageSize: 10,
-      configureId: 'a1873951098552291329'
-    })
-    console.log(resp, '1111')
+  const getList = async (params) => {
+    const resp = await getEmojiList(params.value)
+    
     if (resp.code == 200 && resp.data) {
-      emojiList.value = resp.data.list;
-      // emojiData.value = [{
-      //   templateId: 1,
-      //   templateName: '表情包合集1',
-      //   coverUrl: 'https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
-      //   videoUrl: '',
-      //   templateMark: 0,
-      //   templatePrice: 1
-      // }]
+      emojiList.value = resp.data.list
+      emojiList.value = emojiList.value.concat(resp.data.list);
+      console.log(emojiList.value)
+      hasMore.value = resp.data.hasNextPage
       loading.value = false;
     }
   }
-  getList()
+  getList(params)
 
   function go(item) {
     amberTrack('page_click', {
@@ -98,6 +82,7 @@
       element_type: '3',
       is_leaved: '1'
     })
+    console.log(item)
     router.push({
       path: `/details`,
       query: {

@@ -10,10 +10,10 @@ import {
 } from "@/api/api";
 
 const backUrl = {
-  homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
-  centerListUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html'
+  homeUrl: 'https://avatar.migudm.cn/h5/newyear2025/',
+  centerListUrl: 'https://avatar.migudm.cn/h5/newyear2025/?page=usercenter&tab=aigif'
 }
-
+console.log(import.meta)
 const routes = [{
     path: '/',
     redirect: '/list'
