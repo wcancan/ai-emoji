@@ -2,11 +2,12 @@
   <div class="list-center-page">
     <div class="top">
       <div class="top-con">
+        <div class="top-con-mask">
+          <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
+        </div>
         <div class="banner">
           <img :src="previewEmojiData.coverLocalUrl || previewEmojiData.webpUrl" alt="">
         </div>
-        <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
-
       </div>
       <div class="tips txt-c"><i></i>长按或截图保存<i class="tips-r"></i></div>
     </div>
@@ -134,7 +135,7 @@
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time- start_time,
+        stay_time: end_time - start_time,
         end_time: start_time,
         operation_type: 2, // 1进入，2离开
       })

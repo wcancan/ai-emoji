@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrap">
         <div class="page-top">
-            <nut-navbar :title='route.meta.title || title' :fixed="true" :placeholder="true" @click-back="handleGoBack">
+            <nut-navbar :title='route.meta.title || title' :fixed="false" :placeholder="true" @click-back="handleGoBack">
                 <template v-slot:left>
                     <div class="icon-back"></div>
                 </template>
