@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="btn-container">
+      <div class="btn-container" v-if="btnStatus != 3">
         <div v-if="btnStatus == 2" class="list-b-btn bg-btn-make" @click="handlePopup(`upload`)"></div>
         <div class="list-b-btn bg-btn-lock" v-else @click="handlePopup(`pay`)"></div>
         <div class="tips">
@@ -182,7 +182,7 @@
   // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
   const router = useRouter();
-  const btnStatus = ref(1); // 1解鎖表情包 2製作表情
+  const btnStatus = ref(3); // 1解鎖表情包 2製作表情 3不展示
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
 
 
@@ -207,7 +207,10 @@
   let cover = ref({})
   let emojiListData = ref([])
   const getEmojiDetail = async () => {
-    emojiListData.value = [];
+    btnStatus.value = 3
+    emojiListData.value = []
+    emojiData.value = {}
+    cover.value = {}
     const resp = await getDetail({
       templateId: route.query.id,
     });
@@ -217,7 +220,7 @@
         // 取banner图
         resp.data.files.map((item) => {
           if (item.fileType == 13) {
-            cover = item
+            cover.value = item
           } else {
             emojiListData.value.push(item)
           }
@@ -225,12 +228,11 @@
 
         if (emojiData.value.templateMark == 0 || emojiData.value.templateMark == 2) {
           // templateMark： 0免费， 1付费， 2限免
-          btnStatus = 2
+          btnStatus.value = 2
         } else {
           getUserBuy()
         }
       }
-
     }
   };
   const getUserBuy = async () => {
