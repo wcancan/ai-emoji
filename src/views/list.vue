@@ -48,11 +48,11 @@
   const sum = ref(24)
   const infinityValue = ref(false)
   const hasMore = ref(true)
-
+  let activity = sessionStorage.getItem("activity") ? JSON.parse(sessionStorage.getItem("activity")) : {}
   let params = ref({
     pageNo:1,
     pageSize: 10,
-    configureId: 'a1876466496061399041'
+    configureId: activity.configureId
   })
 
   const loadMore = (done) => {
@@ -67,7 +67,6 @@
     if (resp.code == 200 && resp.data) {
       emojiList.value = resp.data.list
       emojiList.value = emojiList.value.concat(resp.data.list);
-      console.log(emojiList.value)
       hasMore.value = resp.data.hasNextPage
       loading.value = false;
     }
