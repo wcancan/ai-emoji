@@ -69,11 +69,14 @@ const getActivityDetails = async (to) => {
   const resp1 = await getActivityDetail({
     activityId: 'test'
   })
-  let data = resp1.data
+  let data = resp1.data || {
+    activityId: "test",
+    appId: "10004"
+  }
 
   sessionStorage.setItem("activity", JSON.stringify({
-    "activityId": data.activityId || "test",
-    "appId": data.appConfigId || "10004"
+    "activityId": data.activityId ,
+    "appId": data.appConfigId
   }))
 
   if (to.query.title) to.meta.title = to.query.title
