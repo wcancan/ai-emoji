@@ -27,7 +27,7 @@
   } from "vue-router";
   import {
     getEmojiList,
-    getActivityDetail
+    
   } from "@/api/api";
   import {
     amberTrack
@@ -66,13 +66,7 @@
     // }, 1000)
   }
   
-  const getActivityDetails = async () => {
-    const resp1 = await getActivityDetail({
-      activityId: 'test'
-    })
-    console.log(resp1, '1111')
-  }
-  getActivityDetails()
+  
 
   const getList = async () => {
     const resp = await getEmojiList({

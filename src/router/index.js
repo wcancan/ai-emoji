@@ -5,6 +5,9 @@ import {
 import {
   amberTrack
 } from '@/Composables/amber.js'
+import {
+  getActivityDetail
+} from "@/api/api";
 
 const backUrl = {
     homeUrl: 'https://cn.vuejs.org/guide/essentials/lifecycle.html',
@@ -62,12 +65,17 @@ const router = createRouter({
     }
   }
 })
-
-router.beforeEach((to, from, next) => {
+const getActivityDetails = async () => {
+  const resp1 = await getActivityDetail({
+    activityId: 'test'
+  })
+  let data = resp1.data
+  
   sessionStorage.setItem("activity", `{
-    "activityId": "test",
-    "appId": "10004"
+    "activityId": ${data.activityId || "test"},
+    "appId": ${data.appConfigId || "10004"} 
   }`)
+
   if(to.query.title) to.meta.title = to.query.title 
   const start_time = new Date().getTime()
   sessionStorage.setItem('start_time', start_time)
@@ -85,6 +93,10 @@ router.beforeEach((to, from, next) => {
     //   sessionStorage.removeItem("data") 
     // }
   }
+}
+router.beforeEach((to, from, next) => {   
+  getActivityDetails()
+  
   next()
 })
 
