@@ -252,6 +252,8 @@
 
   watch(() => route.query.id, (newId, oldId) => {
     getEmojiDetail()
+  },{
+    immediate: true
   })
 
   const toCenterPage = (key) => {
