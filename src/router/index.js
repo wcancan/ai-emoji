@@ -85,13 +85,13 @@ const getActivityDetails = async (to) => {
     start_time: start_time,
     operation_type: 1, // 1进入，2离开
   })
-  if (to.query.data) {
-    sessionStorage.setItem("data", decodeURIComponent(atob(to.query.data)))
+
+  let userData = localStorage.getItem("userData") ? decodeURIComponent(atob(localStorage.getItem("userData"))) : "";
+  if (userData && JSON.parse(userData).sessionId) {
+    sessionStorage.setItem("data", userData)
   } else {
-    // console.log(to.path,"to.path-------------------")
-    // if (to.path == "/list") {
-    //   sessionStorage.removeItem("data") 
-    // }
+    sessionStorage.removeItem("data");
+    window.location.href = "https://avatar.migudm.cn/h5/newyear2025/"
   }
 }
 router.beforeEach((to, from, next) => {
