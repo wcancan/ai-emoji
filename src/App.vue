@@ -1,7 +1,8 @@
 <template>
     <div class="page-wrap">
         <div class="page-top">
-            <nut-navbar :title='route.meta.title || title' :fixed="false" :placeholder="true" @click-back="handleGoBack">
+            <nut-navbar :title='route.query.title || title' :fixed="false" :placeholder="true"
+                @click-back="handleGoBack">
                 <template v-slot:left>
                     <div class="icon-back"></div>
                 </template>
@@ -24,7 +25,7 @@
         useRouter
     } from "vue-router";
 
-    const title = ref('');
+    const title = ref('AI表情列表页');
     const route = useRoute();
     const router = useRouter();
     const handleGoBack = () => {
@@ -44,7 +45,8 @@
         background: url("/src/assets/img/bg.png") no-repeat top;
         background-size: 100% 100%;
     }
-    .page-scroll{
+
+    .page-scroll {
         overflow: auto;
     }
 

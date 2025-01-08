@@ -88,8 +88,8 @@
     })
     console.log(item)
     router.push({
-      path: `/details`,
       query: {
+        page:"details",
         id: item.templateId,
         title: item.templateName
       }

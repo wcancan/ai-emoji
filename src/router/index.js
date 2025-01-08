@@ -14,7 +14,7 @@ localStorage.setItem("userData","JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUp
 
 const routes = [{
     path: '/',
-    redirect: '/list'
+    component: () => import('@/views/layout.vue'),
   },
   {
     path: '/list',

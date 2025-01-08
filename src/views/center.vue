@@ -94,16 +94,8 @@
     }
   }
 
-  function go(item) {
-    router.push({
-      path: `/details`,
-      query: {
-        id: item.id
-      }
-    })
-  }
-
   let retryId = "";
+  pageTitle.value = ""
   const getCenterList = async () => {
     emojiList.value = [];
     const resp = await getMyEmoticon({

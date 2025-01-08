@@ -255,9 +255,6 @@
   const toCenterPage = (key) => {
     showPopup.value = false;
     window.location.href = backUrl.centerListUrl
-    // router.push({
-    //   path: `/center`,
-    // });
   };
   const payWay = ref(`1`);
 
@@ -276,7 +273,7 @@
         extInfo: {
           bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
-          pageURL: `${backUrl.payBack}/details?id=${route.query.id}`,
+          pageURL: `${backUrl.payBack}?details=${route.query.page}&id=${route.query.id}`,
         },
       }, ],
       appId: activityData.appId,
@@ -424,12 +421,12 @@
       activityId: activityData.activityId
     });
     if (resq.code == 200) {
-      // router.push({
-      //   path: `/center`,
-      //   query: {
-      //     mergeId: ''
-      //   }
-      // })
+      router.push({
+        query: {
+          page: `center`,
+          mergeId: ''
+        }
+      })
     } else {
       const toast = showToast.text(resq.message, {
         cover: true,
@@ -462,7 +459,7 @@
       handleCreateEmoticon(key)
     }
   };
-  watch(() => route.query.id, (newId, oldId) => {
+  watch(() => route.query, (newId, oldId) => {
     auditErrImg.value = ""
     imageUrl.value = ""
     getEmojiDetail()
