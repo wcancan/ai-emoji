@@ -11,7 +11,7 @@ import {
 } from "@/api/api";
 import backUrl from '@/config/urlConfig.js'
 
-localStorage.setItem("userData","JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNell5TXpnek5qWXNJbVY0Y0NJNk1UY3pOak15TkRjMk5pd2ljR0Z6YzE5cFpDSTZJakk1TXprNE9URTVOall5TVRVeU9ETTROQ0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRjMk1URXlOVEU1TWpVaWZRLkdxSm9wOFNaMkcyY21wb0paQnVQU21Cd3lNSFBIcmUtREk3XzZ1M19ZZFElMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSXlPVE01T0RreE9UWTJNakUxTWpnek9EUWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMk1qTTRNelkyTENKbGVIQWlPakUzTXpZek1qUTNOalo5LmNNTnBxTGVPbkN0T3ZxMnJYaEx5dmdzVXJoVDV0b2RwMF9iVFowZUZMNTAlMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjIyOTM5ODkxOTY2MjE1MjgzODQlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxNzYxMTI1MTkyNSUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIyJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNjIzODM2NjMxM3VmRVYwc013R3FzTHZPM2JOdWF0VUxDTnZjS2ZsR0lJJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlRTUlOTIlQUElRTUlOTIlOTUlRTclOTQlQTglRTYlODglQjclMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzYyMzgzNjQ2OTUlN0Q=")
+localStorage.setItem("userData", "JTdCJTIyc2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SnBjM01pT2lKb2IzVnVaQzF3YjNKMFlXd2lMQ0pwWVhRaU9qRTNNell5TXpnek5qWXNJbVY0Y0NJNk1UY3pOak15TkRjMk5pd2ljR0Z6YzE5cFpDSTZJakk1TXprNE9URTVOall5TVRVeU9ETTROQ0lzSW1Gd2NHbGtJam9pSWl3aWRHVnNJam9pTVRjMk1URXlOVEU1TWpVaWZRLkdxSm9wOFNaMkcyY21wb0paQnVQU21Cd3lNSFBIcmUtREk3XzZ1M19ZZFElMjIlMkMlMjJkaWdpdGFsU2Vzc2lvbklkJTIyJTNBJTIyZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5SjFjMlZ5YVdRaU9pSXlPVE01T0RreE9UWTJNakUxTWpnek9EUWlMQ0poY0hCcFpDSTZJaUlzSW5Cb2IyNWxJam9pSWl3aWFXRjBJam94TnpNMk1qTTRNelkyTENKbGVIQWlPakUzTXpZek1qUTNOalo5LmNNTnBxTGVPbkN0T3ZxMnJYaEx5dmdzVXJoVDV0b2RwMF9iVFowZUZMNTAlMjIlMkMlMjJwYXNzSWQlMjIlM0ElMjIyOTM5ODkxOTY2MjE1MjgzODQlMjIlMkMlMjJzZWNyZXQlMjIlM0ElMjIlMjIlMkMlMjJtc2lzZG4lMjIlM0ElMjIxNzYxMTI1MTkyNSUyMiUyQyUyMm1zaXNkblR5cGUlMjIlM0ElMjIyJTIyJTJDJTIydXNlc3Npb25JZCUyMiUzQSUyMlVEbmlkMDAwMDAxMTczNjIzODM2NjMxM3VmRVYwc013R3FzTHZPM2JOdWF0VUxDTnZjS2ZsR0lJJTIyJTJDJTIybmlja25hbWUlMjIlM0ElMjIlRTUlOTIlQUElRTUlOTIlOTUlRTclOTQlQTglRTYlODglQjclMjIlMkMlMjJ0YWd2YWxzJTIyJTNBJTVCJTIyMCUyMiUyQyUyMjAlMjIlNUQlMkMlMjJfbG9jYWx0aW1lU3RhbXBlXyUyMiUzQTE3MzYyMzgzNjQ2OTUlN0Q=")
 
 const routes = [{
     path: '/',
@@ -64,7 +64,7 @@ const router = createRouter({
     }
   }
 })
-const getActivityDetails = async (to) => {
+router.beforeEach(async (to, from, next) => {
   const resp1 = await getActivityDetail({
     activityId: 'a1868848519272112130'
   })
@@ -77,9 +77,8 @@ const getActivityDetails = async (to) => {
     activityId: "test",
     appId: "10004"
   }
-  
   sessionStorage.setItem("activity", JSON.stringify({
-    "activityId": data.activityId ,
+    "activityId": data.activityId,
     "appId": data.appConfigId,
     "configureId": configureId
   }))
@@ -101,10 +100,6 @@ const getActivityDetails = async (to) => {
     sessionStorage.removeItem("data");
     window.location.href = backUrl.homeUrl
   }
-}
-router.beforeEach((to, from, next) => {
-  getActivityDetails(to)
-
   next()
 })
 

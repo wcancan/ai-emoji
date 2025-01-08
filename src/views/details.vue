@@ -273,7 +273,7 @@
         extInfo: {
           bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
-          pageURL: `${backUrl.payBack}?details=${route.query.page}&id=${route.query.id}`,
+          pageURL: `${backUrl.payBack}/#/?page=${route.query.page}&id=${route.query.id}`,
         },
       }, ],
       appId: activityData.appId,
