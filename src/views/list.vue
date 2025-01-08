@@ -18,10 +18,10 @@
 <script setup>
   import {
     ref,
-    onUpdated,
-    onMounted
+    watch
   } from "vue";
   import {
+    useRoute,
     useRouter,
     onBeforeRouteLeave
   } from "vue-router";
@@ -39,6 +39,7 @@
   }
 
   const loading = ref(true);
+  const route = useRoute()
   const router = useRouter();
   const emojiList = ref([]);
 
@@ -57,7 +58,7 @@
 
   const loadMore = (done) => {
     params.value.pageNo = params.value.pageNo + 1
-    // getList(params)
+    getList(params)
   }
   
   
@@ -71,8 +72,12 @@
       loading.value = false;
     }
   }
-  getList(params)
-
+  
+  watch(() => route.query, (newId, oldId) => {  
+    getList(params)
+  },{
+    immediate: true
+  })
   function go(item) {
     amberTrack('page_click', {
       ...amberParams,
