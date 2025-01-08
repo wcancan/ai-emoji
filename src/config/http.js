@@ -14,10 +14,10 @@ const getReqId = () => {
   return id
 }
 
-let requestUrl = '/prep'
-if (window.location.hostname == "localhost") {
-  requestUrl = '/test'
-}
+let requestUrl = 'https://api.migudm.cn/prep-portalx'
+// if (window.location.hostname == "localhost") {
+//   requestUrl = '/test'
+// }
 
 const toast = showToast.text('loading', {
   cover: true,

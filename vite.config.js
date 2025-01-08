@@ -20,6 +20,7 @@ export default defineConfig(({
 	console.log("command", command);
 	console.log("mode", mode);
 	return {
+		base: './',
 		resolve: {
 			alias: {
 				'@': path.resolve(__dirname, 'src'),
@@ -63,11 +64,11 @@ export default defineConfig(({
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/test/, ''),
 				},
-				'/prep/': {
-					target: 'https://api.migudm.cn/prep-portalx/',
-					changeOrigin: true,
-					rewrite: (path) => path.replace(/^\/prep/, ''),
-				},
+				// '/prep/': {
+				// 	target: 'https://api.migudm.cn/prep-portalx/',
+				// 	changeOrigin: true,
+				// 	rewrite: (path) => path.replace(/^\/prep/, ''),
+				// },
 				'/portalx/': {
 					target: 'https://api.migudm.cn/portalx/',
 					changeOrigin: true,
