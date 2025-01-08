@@ -12,6 +12,7 @@ node_modules
 dist
 dist-ssr
 yarn.lock
+newyear2025_aigif
 *.local
 
 # Editor directories and files
