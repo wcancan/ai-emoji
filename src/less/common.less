@@ -5,6 +5,7 @@ body {
     font-family: PingFangSC-Regular, PingFang SC;
     color: #333;
 }
+
 /*移动端*/
 /*rem布局基于375的图，rem与px换算公式：量出的尺寸除以20,100%宽为18.75rem */
 .fl {
@@ -25,26 +26,32 @@ body {
 .clearfix {
     zoom: 1;
 }
+
 /* 清浮动的兼容性写法*/
 .flex {
     display: flex;
     align-items: center;
 }
+
 .flex-align-end {
     display: flex;
     align-items: end;
 }
+
 .flex-between {
     justify-content: space-between;
 }
+
 .flex-center {
     justify-content: center;
 }
+
 .flex-grow {
     flex: 1
 }
+
 .flex-wrap {
-    flex-wrap:wrap
+    flex-wrap: wrap
 }
 
 .box-border {
@@ -109,58 +116,9 @@ body {
     z-index: 2;
 }
 
-/*背景*/
-.bg-red {
-    background: #FA5858;
-}
-
-.bg-gray-f5 {
-    background: #f5f5f5;
-}
-
-.bg-b {
-    background: #bbb;
-}
-
-.bg-white {
-    background-color: #fff;
-}
-
 /*文字对齐*/
 .txt-c {
     text-align: center;
-}
-
-/*文字颜色*/
-.col-theme {
-    color: #BF0100;
-}
-
-.col-white {
-    color: #fff;
-}
-.col-black {
-    color: black;
-}
-
-.col-gray-3 {
-    color: #333;
-}
-
-.col-gray-6 {
-    color: #666;
-}
-
-.col-gray-9 {
-    color: #999;
-}
-
-.col-gray-4a {
-    color: #4a4a4a;
-}
-
-.col-gray-9b {
-    color: #9b9b9b;
 }
 
 /*文字大小*/
@@ -206,152 +164,7 @@ body {
 .align-top {
     vertical-align: top;
 }
+
 .align-middle {
     vertical-align: middle;
-}
-.f-regular {
-    font-family: PingFangSC-Regular,PingFang SC;
-}
-
-/*底部弹出层*/
-.actionsheet {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    -webkit-transform: translateY(100%);
-    transform: translateY(100%);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    z-index: 5000;
-    width: 100%;
-    background-color: #efeff4;
-    -webkit-transition: -webkit-transform .3s;
-    transition: -webkit-transform .3s;
-    transition: transform .3s;
-    transition: transform .3s, -webkit-transform .3s;
-}
-
-.actionsheet-active {
-    -webkit-transform: translate(0);
-    transform: translate(0);
-}
-
-/*向左的箭头   */
-.arrowLeft:after {
-    content: '';
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    border-top: 1px solid #fff;
-    border-left: 1px solid #fff;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    transform-origin: center;
-}
-
-/* 外边距 */
-.m-b-5 {
-    margin-bottom: 0.05rem;
-}
-.m-b-10 {
-    margin-bottom: 0.1rem;
-}
-.m-b-20 {
-    margin-bottom: 0.2rem;
-}
-.m-r-2 {
-    margin-right: 0.02rem;
-}
-.m-r-5 {
-    margin-right: 0.05rem;
-}
-.m-r-10 {
-    margin-right: 0.1rem;
-}
-/* 内边距 */
-.p-t-10 {
-    padding-top: 0.1rem;
-}
-.p-t-20 {
-    padding-top: 0.2rem;
-}
-.p-b-5 {
-    padding-bottom: 0.05rem;
-}
-.p-b-20 {
-    padding-bottom: 0.2rem;
-}
-.p-b-50 {
-    padding-bottom: 0.5rem;
-}
-.p-b-60 {
-    padding-bottom: 0.6rem;
-}
-/*统一header*/
-header {
-    position: relative;
-    display: flex;
-    width: 100vw;
-    height: 40px;
-    background: #fff;
-    justify-content: flex-start
-}
-
-.go_back {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 12.5vw;
-    height: 40px;
-}
-
-.go_back span {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    width: 100%;
-    height: 100%;
-    color: #333;
-    text-align: center;
-    line-height: 40px;
-}
-
-.common-title {
-    width: 100%;
-    text-align: center;
-    line-height: 40px;
-    color: #333;
-}
-
-/* 统一footer高度*/
-.foot-height {
-    width: 100%;
-    height: 48px;
-}
-
-/* 统一内边距 */
-.my-wrapper {
-    padding: 0 0.15rem;
-    box-sizing: border-box;
-    width: 100%
-}
-
-.my-label {
-    padding: 0 0.02rem;
-    border: 1px solid #C69548;
-    color: #C69548;
-    height: 0.14rem;
-    line-height: 0.14rem;
-}
-.my-label-theme {
-    border-color: #BF0100;
-    color: #BF0100;
-}
-.my-label-default {
-    padding: 0 0.02rem;
-    height: 0.14rem;
-    line-height: 0.14rem;
-}
-.panel-title {
-    line-height: 0.2rem
 }
