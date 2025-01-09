@@ -269,7 +269,7 @@
       bids: [{
         // payWay 1WX 2AP
         payWay: `1064`,
-        amount: emojiData.value.templatePrice  || 1,
+        amount: emojiData.value.templatePrice || 1,
         extInfo: {
           bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
@@ -279,7 +279,7 @@
       appId: activityData.appId,
       activityId: activityData.activityId,
     };
-    
+
     const isWeChat = () => {
       const userAgent = navigator.userAgent.toLowerCase();
       var ua = navigator.userAgent.toLowerCase();
@@ -289,21 +289,54 @@
         return false;
       }
     };
-    if(isWeChat()) {
-      
-      payParam.bids[0].extInfo.payMethod = 30
+    if (isWeChat()) {
+      //payParam.bids[0].extInfo.payMethod = 30
     }
+
     const resp = await subscribeCharging(payParam);
 
     if (resp.code == 200) {
+      amberTrackPaymentConfirm({
+        order_id: resp.data.odId, //生成订单id
+        status: "待支付", //待支付；成功；失败
+        amount: resp.data.paymentInfo.amount,
+        method: payWay.value,
+      })
       //支付成功跳转页面
       if (resp.data && resp.data.paymentInfo) {
-        const payUrl = resp.data.paymentInfo.payParameter.wapPayUrl 
+        const payUrl = resp.data.paymentInfo.payParameter.wapPayUrl
         window.location.href = payUrl
       }
     }
     showPopup.value = false;
   };
+  const amberTrackPaymentConfirm = (data) => {
+    amberTrack('payment_confirm', {
+      ...amberParams,
+      ...data,
+      time: new Date().getTime(),
+      payment_type: 2,
+      product_name: emojiData.value.name, //表情合集ID
+      product_id: route.query.id //表情合集ID
+    })
+    console.log("payment_confirm", {
+      ...amberParams,
+      ...data,
+      time: new Date().getTime(),
+      payment_type: 2,
+      product_name: emojiData.value.name, //表情合集ID
+      product_id: route.query.id //表情合集ID
+    })
+  }
+  // amberTrack('poster_emoji_view', {
+  //   ...amberParams,
+  //   page_name: "个人-AI表情详情页", //生成订单id
+  //   emoji_name: "表情合集名称", //待支付；成功；失败
+  //   emoji_id: "表情合集ID",
+  //   expression_name: "表情名称", //1微信；2支付宝，只有待支付有值上报
+  //   expression_id: "表情ID",
+  //   operation_type: 2 //1：显示表情 2：长按或截图保存
+  // })
 
   let orderStatus = 1;
   const checkOrderStatus = async () => {
@@ -314,17 +347,20 @@
         // orderId: route.query.oid || odId.value,
         orderId: route.query.oid
       });
-      if (resq == 200 && res.data) {
+      amberTrackPaymentConfirm({
+        order_id: route.query.oid, //生成订单id
+        status: resq.code == 200 ? "成功" : "失败",
+        amount: "",
+        method: "",
+      })
+      if (resq.code == 200 && res.data) {
         orderStatus = 2;
       } else {
-        setTimeout(() => {
-          if (orderStatus == 1) {
+        if (orderStatus == 1) {
+          setTimeout(() => {
             checkOrderStatus();
-          }
-        }, 1000);
-        setTimeout(() => {
-          orderStatus = 2;
-        }, 6000);
+          }, 1000);
+        }
       }
     }
   };
@@ -353,7 +389,7 @@
       publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
       image: url
     });
-    
+
     if (resq.code == 200 && resq.data) {
       auditErrImg.value = url
     } else {
@@ -401,7 +437,7 @@
   const showPopup = ref(false);
   // 生成ai表情
   const handleCreateEmoticon = async (key) => {
-    if(imageUrl.value == ""){
+    if (imageUrl.value == "") {
       return
     }
     showPopup.value = false;
@@ -450,7 +486,7 @@
         element_type: '3'
       })
     }
-   
+
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
@@ -463,7 +499,7 @@
     auditErrImg.value = ""
     imageUrl.value = ""
     getEmojiDetail()
-  },{
+  }, {
     immediate: true
   })
   onBeforeRouteLeave((to, from, next) => {
