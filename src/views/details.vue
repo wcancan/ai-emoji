@@ -34,7 +34,7 @@
       </div>
     </div>
     <div>
-      <nut-popup v-model:visible="showPopup" closeable position="bottom" :style="popupData[popupData.curPopup].style">
+      <nut-popup v-model:visible="showPopup" @open="handlePopOpen" @close="handlePopClose" closeable position="bottom" :style="popupData[popupData.curPopup].style">
         <template #close-icon>
           <div class="close-btn"></div>
           <!-- <img class="close-btn" src="../assets/img/close.png" alt=""> -->
@@ -108,7 +108,7 @@
             <div class="upload-block">
               <p class="">请上传一张人脸图片</p>
               <div class="upload-con">
-                <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm">
+                <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm" @change="handleUploadStart">
                   <div class="upload-img-pre">
                     <img v-if="imageUrl" :src="imageUrl" />
                     <div class="re-upload-btn">
@@ -254,7 +254,7 @@
 
   const toCenterPage = (key) => {
     showPopup.value = false;
-    window.location.href = backUrl.centerListUrl
+    // window.location.href = backUrl.centerListUrl
   };
   const payWay = ref(`1`);
 
@@ -399,7 +399,12 @@
       })
     }
     avatarCropperRef.value.cancel();
-
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: emojiData.value.template2Id,
+      element_name: popupData.curPopup + emojiData.value.name,
+      element_type: '3'
+    })
   };
 
   const popupData = {
@@ -460,7 +465,7 @@
       router.push({
         query: {
           page: `center`,
-          mergeId: ''
+          mergeId: resq.data.mergeId
         }
       })
     } else {
@@ -476,17 +481,92 @@
     })
   };
 
-  const handlePopup = (key, url) => {
-    popupData.coverUrl = url || "";
-    if (key == 'preview') {
+  const popKeyFlag = ref({
+    key: '',
+    start_time: ''
+  })
+
+  const startTimes = {
+    "upload": 0,
+    "preview": 0,
+    "pay": 0,
+    "generate": 0,
+  }
+  const stopWatch = watch(popupData.curPopup, (newVal,oldVal)=>{
+    // if (newVal) {
       amberTrack('page_click', {
         ...amberParams,
         element_id: emojiData.value.template2Id,
-        element_name: emojiData.value.name,
+        element_name: newVal + emojiData.value.name,
+        element_type: '3'
+      })
+      const times = new Date().getTime()
+      startTimes[newVal] = times
+        //key: upload preview pay generate
+      amberTrack('pop_view', {
+        ...amberParams,
+        pop_name: newVal,
+        pop_type: newVal == 'pay' ? 6 : (newVal == 'upload' ? 7 : 5),
+        start_time: times,
+        stay_time: '',
+        end_time: ''
+      })
+    // } else {
+      amberTrack('pop_view', {
+        ...amberParams,
+        pop_name: oldVal,
+        pop_type: oldVal == 'pay' ? 6 : (oldVal == 'upload' ? 7 : 5),
+        start_time: startTimes[oldVal],
+        stay_time: times-startTimes[oldVal],
+        end_time: times
+      })
+    // }
+  })
+  
+  const handlePopOpen = (key, url) => {
+    console.log('handlePopOpen', key)
+    amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: popupData.curPopup + emojiData.value.name,
+        element_type: '3'
+      })
+      const times = new Date().getTime()
+      startTimes[popupData.curPopup] = times
+        //key: upload preview pay generate
+      amberTrack('pop_view', {
+        ...amberParams,
+        pop_name: popupData.curPopup,
+        pop_type: popupData.curPopup == 'pay' ? 6 : (popupData.curPopup == 'upload' ? 7 : 5),
+        start_time: times,
+        stay_time: '',
+        end_time: ''
+      })
+  }
+  const handlePopClose = (key, url) => {
+    console.log('handlePopClose', key)
+    const times = new Date().getTime()
+    amberTrack('pop_view', {
+      ...amberParams,
+      pop_name: popupData.curPopup,
+      pop_type: popupData.curPopup == 'pay' ? 6 : (popupData.curPopup == 'upload' ? 7 : 5),
+      start_time: startTimes[popupData.curPopup],
+      stay_time: times-startTimes[popupData.curPopup],
+      end_time: times
+    })
+    if (popupData.curPopup == 'upload') {
+      amberTrack('page_click', {
+        ...amberParams,
+        element_id: emojiData.value.template2Id,
+        element_name: popupData.curPopup + emojiData.value.name,
         element_type: '3'
       })
     }
-
+  }
+  const handlePopup = (key, url) => {
+    console.log('handlePopup', popupData.curPopup)
+    popupData.coverUrl = url || "";
+    //key: upload preview pay generate
     if (key != 'generate') {
       showPopup.value = false;
       popupData.curPopup = key;
@@ -494,6 +574,7 @@
     } else {
       handleCreateEmoticon(key)
     }
+    console.log('handlePopup2', popupData.curPopup)
   };
   watch(() => route.query, (newId, oldId) => {
     auditErrImg.value = ""
@@ -502,6 +583,15 @@
   }, {
     immediate: true
   })
+  
+  const handleUploadStart = (key, url) => {
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: emojiData.value.template2Id,
+      element_name: popupData.curPopup + emojiData.value.name,
+      element_type: '3'
+    })
+  }
   onBeforeRouteLeave((to, from, next) => {
     const start_time = sessionStorage.getItem('start_time')
     const end_time = new Date().getTime()

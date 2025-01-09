@@ -65,7 +65,7 @@ const router = createRouter({
 })
 router.beforeEach(async (to, from, next) => {
   const resp1 = await getActivityDetail({
-    activityId: 'a1868848519272112130'
+    activityId: backUrl.activityId
   })
   let configureId = ''
   if (resp1.data && resp1.data.activityRelevanceList && resp1.data.activityRelevanceList.length) {
