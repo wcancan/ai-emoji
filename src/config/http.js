@@ -1,5 +1,6 @@
 import axios from 'axios'
 import CryptoJS from '../config/crypto.ts'
+import backUrl from '@/config/urlConfig.js'
 import {
   showToast
 } from '@nutui/nutui'
@@ -65,7 +66,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   if (response.data.code == 500) {
     sessionStorage.removeItem("data");
-    window.location.href = "https://avatar.migudm.cn/h5/newyear2025/"
+    window.location.href = backUrl.homeUrl
   } else {
     let data = response.data
     if (encrypt == 1 && data.data) {
