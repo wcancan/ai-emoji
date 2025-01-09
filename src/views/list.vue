@@ -66,8 +66,13 @@
     const resp = await getEmojiList(params.value)
     
     if (resp.code == 200 && resp.data) {
-      emojiList.value = resp.data.list
-      emojiList.value = emojiList.value.concat(resp.data.list);
+      // emojiList.value = resp.data.list
+      if (resp.data.list && resp.data.list) {
+        resp.data.list.forEach(item => {
+          emojiList.value.push(item)
+        });
+      }
+      // emojiList.value = emojiList.value.concat(resp.data.list);
       hasMore.value = resp.data.hasNextPage
       loading.value = false;
     }
