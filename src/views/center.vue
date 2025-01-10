@@ -3,10 +3,11 @@
     <div class="top">
       <div class="top-con">
         <div class="top-con-mask">
+          <img :src="previewEmojiData.gifUrl" alt="" style="opacity: 0;">
           <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
         </div>
         <div class="banner">
-          <img :src="previewEmojiData.coverLocalUrl || previewEmojiData.webpUrl" alt="">
+          <img :src="previewEmojiData.webpUrl || previewEmojiData.coverUrl" alt="">
         </div>
       </div>
       <div class="tips txt-c"><i></i>长按或截图保存<i class="tips-r"></i></div>
@@ -101,20 +102,38 @@
       previewEmojiData.value = item
     }
   }
-  
+
   let retryId = "";
   pageTitle.value = ""
+  emojiList.value = [];
   const getCenterList = async () => {
-    emojiList.value = [];
     const resp = await getMyEmoticon({
       mergeId: route.query.mergeId || ""
     });
     //status1 生成中 2生成成功 3生成失败 0已删除
     if (resp.code == 200 && resp.data) {
-      emojiList.value = resp.data.files.filter((item) => item.status != 0);
-      previewEmojiData.value = resp.data.templateInfo
+      let filesList = [];
+      let list = [];
+      let isFresh = false;
+      resp.data.files.forEach(item => {
+        if (item.status != 0) {
+          filesList.push(item)
+        }
+        if (item.status == 2) {
+          list.push(item)
+        } else if (item.status == 1) {
+          isFresh = true;
+        }
+      });
+      emojiList.value = filesList;
+      previewEmojiData.value = list.length > 0 ? list[0] : resp.data.templateInfo
       retryId = resp.data.taskId
       pageTitle.value = resp.data.templateInfo.templateName
+      if (isFresh) {
+        setTimeout(() => {
+          getCenterList();
+        }, 3000);
+      }
     }
   };
 
@@ -128,8 +147,9 @@
     }
     isDialogVisible.value = false
   };
-  
+
   onMounted(() => {
+    emojiList.value = [];
     getCenterList()
   })
   onBeforeRouteLeave((to, from, next) => {
