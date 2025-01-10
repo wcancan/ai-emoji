@@ -18,12 +18,12 @@
           <div class="avatar">
             <img :class="{'filter': item.status != 2 }" :src="item.webpUrl" />
             <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 2">
-              <p class="re-btn" v-if="item.status == 3"><span>重新生成</span></p>
+              <p class="re-btn" v-if="item.status == 3" @click="handleGenerate(item)"><span>重新生成</span></p>
               <div class="flex flex-center re-text" v-if="item.status == 1">
                 <IconFont :name="iconLoading" class="nut-icon-am-rotate nut-icon-am-infinite"></IconFont>
                 <span>{{item.statusDesc}}</span>
               </div>
-              <div class="flex flex-center re-text" v-if="item.status == 3" @click="handleGenerate(item)">
+              <div class="flex flex-center re-text" v-if="item.status == 3">
                 <IconFont :name="iconError"></IconFont>
                 <span>{{item.statusDesc}}</span>
               </div>
@@ -83,9 +83,17 @@
   const previewEmojiData = ref({})
   const emojiList = ref([]);
   const isDialogVisible = ref(false);
+  const isHandleGenerate = ref(false)
 
   const handleGenerate = (item) => {
-    isDialogVisible.value = true;
+    isHandleGenerate.value = false
+    if (isHandleGenerate) {
+      isDialogVisible.value = true;
+    } else {
+      const toast = showToast.text('已重新生成', {
+        cover: true,
+      })
+    }
   }
 
   const handlePreview = (item) => {
@@ -93,7 +101,7 @@
       previewEmojiData.value = item
     }
   }
-
+  
   let retryId = "";
   pageTitle.value = ""
   const getCenterList = async () => {
@@ -103,7 +111,6 @@
     });
     //status1 生成中 2生成成功 3生成失败 0已删除
     if (resp.code == 200 && resp.data) {
-      console.log(resp.data)
       emojiList.value = resp.data.files.filter((item) => item.status != 0);
       previewEmojiData.value = resp.data.templateInfo
       retryId = resp.data.taskId
@@ -116,6 +123,7 @@
       taskId: retryId
     });
     if (resp.code == 200) {
+      isHandleGenerate.value = true
       getCenterList();
     }
     isDialogVisible.value = false
