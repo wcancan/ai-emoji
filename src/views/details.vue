@@ -119,16 +119,16 @@
           <div v-else class="upload-popup">
             <div class="upload-block">
               <p class="">请上传一张人脸图片</p>
-              <div class="upload-con">
+              <div class="upload-con" @click="popClick('上传照片',7,3)">
                 <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm" @change="handleUploadStart">
-                  <div class="upload-img-pre" @click="popClick('重新上传',7,3)">
+                  <div class="upload-img-pre">
                     <img v-if="imageUrl" :src="imageUrl" />
                     <div class="re-upload-btn">
                       <i></i>
                       <p>重新上传</p>
                     </div>
                   </div>
-                  <div class="upload-btn" @click="popClick('上传照片',7,3)">
+                  <div class="upload-btn">
                     <i class="upload-icon"></i>
                     <p>点击上传</p>
                   </div>
@@ -252,7 +252,7 @@
   };
 
   const toCenterPage = (key) => {
-    popClick("前往查看",5,3)
+    popClick("前往查看", 5, 3, true)
     if (timeGetGenerate) {
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
@@ -278,7 +278,7 @@
   disabledAp.value = !(isWeChat())
   //支付
   const handlePay = async () => {
-    popClick("立即支付",6,3)
+    popClick("立即支付", 6, 3)
     const payParam = {
       user: {
         passId: userInfo.passId,
@@ -315,14 +315,28 @@
     }
     showPopup.value = false;
   };
- const popClick = (name,p_type,e_type)=>{
-     amberTrack('pop_click', {
+  const popClick = (name, p_type, e_type, is_leaved = false) => {
+    amberTrack('pop_click', {
       pop_name: name,
       pop_type: p_type,
       element_id: emojiData.value.template2Id,
       element_name: emojiData.value.name,
       element_type: e_type
     })
+    let data = {}
+    if (is_leaved) {
+      data = {
+        is_leaved: "是"
+      }
+    }
+    amberTrack('page_click', {
+      ...amberParams,
+      ...data,
+      element_id: emojiData.value.template2Id,
+      element_name: popupData.curPopup + emojiData.value.name,
+      element_type: '3'
+    })
+    console.log("popClick---------------")
   }
   const amberTrackPaymentConfirm = (data) => {
     amberTrack('payment_confirm', {
@@ -348,8 +362,8 @@
       })
       if (resq.code == 200 && resq.data) {
         getEmojiDetail();
-      }else{
-         setTimeout(() => {
+      } else {
+        setTimeout(() => {
           checkOrderStatus();
         }, 10000);
       }
@@ -464,10 +478,10 @@
       }
     }
   };
-  
+
   // 生成ai表情
   const handleCreateEmoticon = async (key) => {
-    popClick("开始生成",7,3)
+    popClick("开始生成", 7, 3)
     if (imageUrl.value == "") {
       return
     }
@@ -480,7 +494,7 @@
     }
     timerId = setTimeout(function () {
       creatTxt.value = '努力生成中，请稍后'
-    }, 1000*60);
+    }, 1000 * 60);
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
