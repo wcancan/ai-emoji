@@ -21,7 +21,7 @@ const routes = [{
     name: 'list',
     component: () => import('@/views/list.vue'),
     meta: {
-      title: 'AI表情列表页',
+      title: 'AI表情',
       keepAlive: true,
       backUrl: backUrl.homeUrl,
       isExternal: true

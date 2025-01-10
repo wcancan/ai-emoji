@@ -5,7 +5,7 @@
       <div class="list flex flex-between flex-wrap">
         <div class="item" v-for="(item, index) in emojiList" :key="index">
           <div class="avatar">
-            <img :src="item.coverUrl" alt="">
+            <img :src="item.coverUrl" alt=""  @click="go(item)">
           </div>
           <div class="title txt-c">{{item.templateName}}</div>
           <div class="btnDetail txt-c" @click="go(item)"></div>
