@@ -81,7 +81,7 @@
                   </template>
                 </nut-radio>
 
-                <nut-radio label="2" class="pay-list">
+                <nut-radio label="2" :disabled="disabledAp" class="pay-list">
                   <i class="pay-ali-icon pay-icon"></i>
                   <p class="pay-txt">支付宝支付</p>
                   <template #icon>
@@ -265,8 +265,18 @@
     showPopup.value = false;
     window.location.href = backUrl.centerListUrl
   };
+  const isWeChat = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf("micromessenger") != -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const payWay = ref(`1`);
-
+  const disabledAp = ref(true);
+  disabledAp.value = !(isWeChat())
   //支付
   const handlePay = async () => {
     const payParam = {
@@ -288,19 +298,6 @@
       appId: activityData.appId,
       activityId: activityData.activityId,
     };
-
-    const isWeChat = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      var ua = navigator.userAgent.toLowerCase();
-      if (ua.indexOf("micromessenger") != -1) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    if (isWeChat()) {
-      //payParam.bids[0].extInfo.payMethod = 30
-    }
 
     const resp = await subscribeCharging(payParam);
 
