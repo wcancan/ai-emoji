@@ -34,7 +34,8 @@
       </div>
     </div>
     <div>
-      <nut-popup v-model:visible="showPopup" @open="handlePopOpen" @close="handlePopClose" closeable position="bottom" :style="popupData[popupData.curPopup].style">
+      <nut-popup v-model:visible="showPopup" @open="handlePopOpen" @close="handlePopClose" closeable position="bottom"
+        :style="popupData[popupData.curPopup].style">
         <template #close-icon>
           <div class="close-btn"></div>
           <!-- <img class="close-btn" src="../assets/img/close.png" alt=""> -->
@@ -151,7 +152,8 @@
 <script setup>
   import {
     ref,
-    watch
+    watch,
+    onMounted
   } from "vue";
   import {
     getDetail,
@@ -493,56 +495,56 @@
     "pay": 0,
     "generate": 0,
   }
-  const stopWatch = watch(popupData.curPopup, (newVal,oldVal)=>{
+  const stopWatch = watch(popupData.curPopup, (newVal, oldVal) => {
     // if (newVal) {
-      amberTrack('page_click', {
-        ...amberParams,
-        element_id: emojiData.value.template2Id,
-        element_name: newVal + emojiData.value.name,
-        element_type: '3'
-      })
-      const times = new Date().getTime()
-      startTimes[newVal] = times
-        //key: upload preview pay generate
-      amberTrack('pop_view', {
-        ...amberParams,
-        pop_name: newVal,
-        pop_type: newVal == 'pay' ? 6 : (newVal == 'upload' ? 7 : 5),
-        start_time: times,
-        stay_time: '',
-        end_time: ''
-      })
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: emojiData.value.template2Id,
+      element_name: newVal + emojiData.value.name,
+      element_type: '3'
+    })
+    const times = new Date().getTime()
+    startTimes[newVal] = times
+    //key: upload preview pay generate
+    amberTrack('pop_view', {
+      ...amberParams,
+      pop_name: newVal,
+      pop_type: newVal == 'pay' ? 6 : (newVal == 'upload' ? 7 : 5),
+      start_time: times,
+      stay_time: '',
+      end_time: ''
+    })
     // } else {
-      amberTrack('pop_view', {
-        ...amberParams,
-        pop_name: oldVal,
-        pop_type: oldVal == 'pay' ? 6 : (oldVal == 'upload' ? 7 : 5),
-        start_time: startTimes[oldVal],
-        stay_time: times-startTimes[oldVal],
-        end_time: times
-      })
+    amberTrack('pop_view', {
+      ...amberParams,
+      pop_name: oldVal,
+      pop_type: oldVal == 'pay' ? 6 : (oldVal == 'upload' ? 7 : 5),
+      start_time: startTimes[oldVal],
+      stay_time: times - startTimes[oldVal],
+      end_time: times
+    })
     // }
   })
-  
+
   const handlePopOpen = (key, url) => {
     console.log('handlePopOpen', key)
     amberTrack('page_click', {
-        ...amberParams,
-        element_id: emojiData.value.template2Id,
-        element_name: popupData.curPopup + emojiData.value.name,
-        element_type: '3'
-      })
-      const times = new Date().getTime()
-      startTimes[popupData.curPopup] = times
-        //key: upload preview pay generate
-      amberTrack('pop_view', {
-        ...amberParams,
-        pop_name: popupData.curPopup,
-        pop_type: popupData.curPopup == 'pay' ? 6 : (popupData.curPopup == 'upload' ? 7 : 5),
-        start_time: times,
-        stay_time: '',
-        end_time: ''
-      })
+      ...amberParams,
+      element_id: emojiData.value.template2Id,
+      element_name: popupData.curPopup + emojiData.value.name,
+      element_type: '3'
+    })
+    const times = new Date().getTime()
+    startTimes[popupData.curPopup] = times
+    //key: upload preview pay generate
+    amberTrack('pop_view', {
+      ...amberParams,
+      pop_name: popupData.curPopup,
+      pop_type: popupData.curPopup == 'pay' ? 6 : (popupData.curPopup == 'upload' ? 7 : 5),
+      start_time: times,
+      stay_time: '',
+      end_time: ''
+    })
   }
   const handlePopClose = (key, url) => {
     console.log('handlePopClose', key)
@@ -552,7 +554,7 @@
       pop_name: popupData.curPopup,
       pop_type: popupData.curPopup == 'pay' ? 6 : (popupData.curPopup == 'upload' ? 7 : 5),
       start_time: startTimes[popupData.curPopup],
-      stay_time: times-startTimes[popupData.curPopup],
+      stay_time: times - startTimes[popupData.curPopup],
       end_time: times
     })
     if (popupData.curPopup == 'upload') {
@@ -566,8 +568,10 @@
   }
   const handlePopup = (key, item) => {
     console.log('handlePopup', popupData.curPopup)
-    popupData.coverUrl = item.fileUrl || "";
-    popupData.tName = item.fileName;
+    if (item) {
+      popupData.coverUrl = item.fileUrl || "";
+      popupData.tName = item.fileName;
+    }
     //key: upload preview pay generate
     if (key != 'generate') {
       showPopup.value = false;
@@ -578,14 +582,12 @@
     }
     console.log('handlePopup2', popupData.curPopup)
   };
-  watch(() => route.query, (newId, oldId) => {
+  onMounted(() => {
     auditErrImg.value = ""
     imageUrl.value = ""
     getEmojiDetail()
-  }, {
-    immediate: true
   })
-  
+
   const handleUploadStart = (key, url) => {
     amberTrack('page_click', {
       ...amberParams,

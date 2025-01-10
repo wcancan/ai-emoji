@@ -50,7 +50,7 @@
 <script setup>
   import {
     ref,
-    watch
+    onMounted
   } from "vue";
   import {
     useRouter,
@@ -120,11 +120,9 @@
     }
     isDialogVisible.value = false
   };
-
-  watch(() => route.query, (newId, oldId) => {
+  
+  onMounted(() => {
     getCenterList()
-  },{
-    immediate: true
   })
   onBeforeRouteLeave((to, from, next) => {
     const start_time = sessionStorage.getItem('start_time')
