@@ -92,7 +92,7 @@
                   </template>
                 </nut-radio>
 
-                <nut-radio v-if="disabledAp" label="2"  class="pay-list">
+                <nut-radio v-if="disabledAp" label="2" class="pay-list">
                   <i class="pay-ali-icon pay-icon"></i>
                   <p class="pay-txt">支付宝支付</p>
                   <template #icon>
@@ -119,7 +119,7 @@
           <div v-else class="upload-popup">
             <div class="upload-block">
               <p class="">请上传一张人脸图片</p>
-              <div class="upload-con">
+              <div class="upload-con" @click="popClick('上传照片',7,3)">
                 <nut-avatar-cropper ref="avatarCropperRef" @confirm="confirm" @change="handleUploadStart">
                   <div class="upload-img-pre">
                     <img v-if="imageUrl" :src="imageUrl" />
@@ -144,7 +144,7 @@
             </div>
             <div class="sample-photo"></div>
             <nut-row>
-              <nut-col :span="12">
+              <nut-col :span="12" @click="popClick('取消',7,3)">
                 <view @click="showPopup = false" class="popup-btn popup-bd-btn"></view>
               </nut-col>
               <nut-col :span="12">
@@ -201,27 +201,10 @@
   const btnStatus = ref(3); // 1解鎖表情包 2製作表情 3不展示
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
   var timerId = null
-
-
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
-  const emojiData = ref({
-    name: `表情模板名称`,
-    desc: `表情模板描述详细描述详细描述详细描述详细描述详细描述详细描述详细`,
-    templateMark: 1,
-    templatePrice: '',
-    files: [{
-      fileId: `111`,
-      template2Id: `素材id`,
-      fileNo: `素材id`,
-      fileType: 1,
-      originName: "th.jpg",
-      localUrl: `素材id`,
-      fileUrl: '',
-      fileName: `表情包名称`,
-    }, ],
-  });
-  let cover = ref({})
-  let emojiListData = ref([])
+  const emojiData = ref({});
+  const cover = ref({})
+  const emojiListData = ref([])
   const getEmojiDetail = async () => {
     btnStatus.value = 3
     emojiListData.value = []
@@ -269,6 +252,7 @@
   };
 
   const toCenterPage = (key) => {
+    popClick("前往查看", 5, 3, true)
     if (timeGetGenerate) {
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
@@ -294,6 +278,7 @@
   disabledAp.value = !(isWeChat())
   //支付
   const handlePay = async () => {
+    popClick("立即支付", 6, 3)
     const payParam = {
       user: {
         passId: userInfo.passId,
@@ -307,7 +292,7 @@
         extInfo: {
           bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
-          pageURL: `${backUrl.payBack}/#/?page=${route.query.page}&id=${route.query.id}`,
+          pageURL: `${backUrl.payBack}/#/?page=${route.query.page}&id=${route.query.id}&title=${route.query.title}`,
         },
       }, ],
       appId: activityData.appId,
@@ -315,7 +300,6 @@
     };
 
     const resp = await subscribeCharging(payParam);
-
     if (resp.code == 200) {
       amberTrackPaymentConfirm({
         order_id: resp.data.odId, //生成订单id
@@ -331,6 +315,29 @@
     }
     showPopup.value = false;
   };
+  const popClick = (name, p_type, e_type, is_leaved = false) => {
+    amberTrack('pop_click', {
+      pop_name: name,
+      pop_type: p_type,
+      element_id: emojiData.value.template2Id,
+      element_name: emojiData.value.name,
+      element_type: e_type
+    })
+    let data = {}
+    if (is_leaved) {
+      data = {
+        is_leaved: "是"
+      }
+    }
+    amberTrack('page_click', {
+      ...amberParams,
+      ...data,
+      element_id: emojiData.value.template2Id,
+      element_name: popupData.curPopup + emojiData.value.name,
+      element_type: '3'
+    })
+    console.log("popClick---------------")
+  }
   const amberTrackPaymentConfirm = (data) => {
     amberTrack('payment_confirm', {
       ...amberParams,
@@ -340,48 +347,25 @@
       product_name: emojiData.value.name, //表情合集ID
       product_id: route.query.id //表情合集ID
     })
-    console.log("payment_confirm", {
-      ...amberParams,
-      ...data,
-      time: new Date().getTime(),
-      payment_type: 2,
-      product_name: emojiData.value.name, //表情合集ID
-      product_id: route.query.id //表情合集ID
-    })
   }
-  // amberTrack('poster_emoji_view', {
-  //   ...amberParams,
-  //   page_name: "个人-AI表情详情页", //生成订单id
-  //   emoji_name: "表情合集名称", //待支付；成功；失败
-  //   emoji_id: "表情合集ID",
-  //   expression_name: "表情名称", //1微信；2支付宝，只有待支付有值上报
-  //   expression_id: "表情ID",
-  //   operation_type: 2 //1：显示表情 2：长按或截图保存
-  // })
 
-  let orderStatus = 1;
   const checkOrderStatus = async () => {
-    // console.log('odId============', odId)
-    if (route.query.oid) {
-      // if (odId.value) {
+    if (route.query.orderId) {
       const resq = await getOrderStatus({
-        // orderId: route.query.oid || odId.value,
-        orderId: route.query.oid
+        orderId: route.query.orderId
       });
       amberTrackPaymentConfirm({
-        order_id: route.query.oid, //生成订单id
-        status: resq.code == 200 ? "成功" : "失败",
+        order_id: route.query.orderId, //生成订单id
+        status: resq.data ? "成功" : "待支付",
         amount: "",
         method: "",
       })
-      if (resq.code == 200 && res.data) {
-        orderStatus = 2;
+      if (resq.code == 200 && resq.data) {
+        getEmojiDetail();
       } else {
-        if (orderStatus == 1) {
-          setTimeout(() => {
-            checkOrderStatus();
-          }, 1000);
-        }
+        setTimeout(() => {
+          checkOrderStatus();
+        }, 10000);
       }
     }
   };
@@ -413,10 +397,20 @@
 
     if (resq.code == 200 && resq.data) {
       auditErrImg.value = url
+      amberTrack('photo_security_audit', {
+        ...amberParams,
+        is_pass: "是",
+        fail_reason: ""
+      })
     } else {
       imageUrl.value = auditErrImg.value
       const toast = showToast.text('图片存在风险', {
         cover: true,
+      })
+      amberTrack('photo_security_audit', {
+        ...amberParams,
+        is_pass: "否",
+        fail_reason: resq.message
       })
     }
     avatarCropperRef.value.cancel();
@@ -484,8 +478,10 @@
       }
     }
   };
+
   // 生成ai表情
   const handleCreateEmoticon = async (key) => {
+    popClick("开始生成", 7, 3)
     if (imageUrl.value == "") {
       return
     }
@@ -498,7 +494,7 @@
     }
     timerId = setTimeout(function () {
       creatTxt.value = '努力生成中，请稍后'
-    }, 1000*60);
+    }, 1000 * 60);
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -512,9 +508,19 @@
     }
     if (resq.code == 200) {
       getCenterList(resq.data.mergeId)
+      amberTrack('avatar_generate', {
+        ...amberParams,
+        is_success: "是",
+        fail_reason: ""
+      })
     } else {
       const toast = showToast.text(resq.message, {
         cover: true,
+      })
+      amberTrack('avatar_generate', {
+        ...amberParams,
+        is_success: "否",
+        fail_reason: resq.message
       })
     }
     amberTrack('page_click', {
@@ -668,7 +674,6 @@
     }
     next()
   })
-  
 </script>
 
 <style scoped lang="less">
