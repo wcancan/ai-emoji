@@ -81,7 +81,18 @@
                   </template>
                 </nut-radio>
 
-                <nut-radio label="2" :disabled="disabledAp" class="pay-list">
+                <nut-radio v-if="!disabledAp" label="2" disabled class="pay-list pay-list-disable">
+                  <i class="pay-ali-icon pay-icon"></i>
+                  <p class="pay-txt">支付宝支付</p>
+                  <template #icon>
+                    <i class="pay-check-icon pay-icon-r"></i>
+                  </template>
+                  <template #checkedIcon>
+                    <i class="pay-checked-icon pay-icon-r"></i>
+                  </template>
+                </nut-radio>
+
+                <nut-radio v-if="disabledAp" label="2"  class="pay-list">
                   <i class="pay-ali-icon pay-icon"></i>
                   <p class="pay-txt">支付宝支付</p>
                   <template #icon>
