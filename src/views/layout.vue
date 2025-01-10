@@ -1,5 +1,5 @@
 <template>
-    <Details v-if="route.query.page=='details'" />
+    <Details v-if="route.query.page=='details'" v-model:title="title" />
     <Center v-else-if="route.query.page=='center'" v-model:title="title" />
     <List v-else />
 </template>
@@ -17,5 +17,4 @@
     } from "vue-router";
     const route = useRoute();;
     const title = ref('');
-    
 </script>

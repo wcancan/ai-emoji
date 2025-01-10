@@ -1,7 +1,7 @@
 <template>
     <div class="page-wrap">
         <div class="page-top">
-            <nut-navbar :title='route.query.title || title' :fixed="false" :placeholder="true"
+            <nut-navbar :title='title || route.query.title' :fixed="false" :placeholder="true"
                 @click-back="handleGoBack">
                 <template v-slot:left>
                     <div class="icon-back"></div>
@@ -25,9 +25,13 @@
         useRouter
     } from "vue-router";
 
-    const title = ref('AI表情');
+    const title = ref('');
+    
     const route = useRoute();
     const router = useRouter();
+    if (route.query.page != 'center' || route.query.page != 'details') {
+        title.value = 'AI表情'
+    }
     const handleGoBack = () => {
         if (route.meta.isExternal) {
             window.location.href = route.meta.backUrl

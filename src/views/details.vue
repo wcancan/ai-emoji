@@ -193,7 +193,8 @@
     page_name: '/details'
   }
   var timeGetGenerate = null
-
+  const pageTitle = defineModel('title')
+  pageTitle.value = ''
   const creatTxt = ref('努力生成中...预计需要2分钟')
   // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
@@ -216,6 +217,7 @@
     if (resp.code == 200) {
       if (resp.data) {
         emojiData.value = resp.data;
+        pageTitle.value = resp.data.name
         // 取banner图
         resp.data.files.map((item) => {
           if (item.fileType == 13) {
