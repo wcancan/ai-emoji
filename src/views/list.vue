@@ -50,9 +50,6 @@
   const emojiList = ref([]);
 
   // 翻页
-  const cycle = ref(0)
-  const tabsValue = ref(0)
-  const sum = ref(24)
   const infinityValue = ref(false)
   const hasMore = ref(true)
   let activity = sessionStorage.getItem("activity") ? JSON.parse(sessionStorage.getItem("activity")) : {}
@@ -96,7 +93,6 @@
       element_type: '3',
       is_leaved: '1'
     })
-    console.log(item)
     router.push({
       query: {
         page: "details",
@@ -112,7 +108,7 @@
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time - start_time,
+        stay_time: (end_time - start_time)/1000,
         end_time: start_time,
         operation_type: 2, // 1进入，2离开
       })

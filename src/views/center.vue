@@ -132,7 +132,7 @@
       if (isFresh) {
         setTimeout(() => {
           getCenterList();
-        }, 3000);
+        }, 10000);
       }
     }
   };
@@ -158,12 +158,13 @@
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time - start_time,
+        stay_time: (end_time - start_time)/1000,
         end_time: start_time,
         operation_type: 2, // 1进入，2离开
       })
     }
     sessionStorage.removeItem('start_time')
+    next()
   })
 </script>
 
