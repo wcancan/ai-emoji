@@ -25,7 +25,7 @@
         useRouter
     } from "vue-router";
 
-    const title = ref('AI表情列表页');
+    const title = ref('AI表情');
     const route = useRoute();
     const router = useRouter();
     const handleGoBack = () => {

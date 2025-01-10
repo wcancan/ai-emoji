@@ -12,7 +12,7 @@
       </div>
       <div class="list">
         <div class="item-container" v-for="(item, index) in emojiListData" :key="index">
-          <div class="item-box" @click="handlePopup(`preview`,item.fileUrl)">
+          <div class="item-box" @click="handlePopup(`preview`,item)">
             <div class="avatar">
               <img :src="item.fileUrl" />
             </div>
@@ -102,7 +102,7 @@
           </div>
           <div v-else-if="popupData.curPopup == `preview`" class="popup-preview">
             <img :src="popupData.coverUrl" alt="" />
-            <h4 class="preview-title">表情预览</h4>
+            <h4 class="preview-title">{{popupData.tName}}</h4>
           </div>
           <div v-else class="upload-popup">
             <div class="upload-block">
@@ -254,7 +254,7 @@
 
   const toCenterPage = (key) => {
     showPopup.value = false;
-    // window.location.href = backUrl.centerListUrl
+    window.location.href = backUrl.centerListUrl
   };
   const payWay = ref(`1`);
 
@@ -409,7 +409,8 @@
 
   const popupData = {
     curPopup: `upload`, // upload preview pay generate
-    coverUrl: `https://img1.baidu.com/it/u=3598104138,3632108415&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800`,
+    coverUrl: ``,
+    tName: ``,
     upload: {
       title: `上传图片`,
       style: {
@@ -563,9 +564,10 @@
       })
     }
   }
-  const handlePopup = (key, url) => {
+  const handlePopup = (key, item) => {
     console.log('handlePopup', popupData.curPopup)
-    popupData.coverUrl = url || "";
+    popupData.coverUrl = item.fileUrl || "";
+    popupData.tName = item.fileName;
     //key: upload preview pay generate
     if (key != 'generate') {
       showPopup.value = false;
