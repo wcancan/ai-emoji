@@ -200,7 +200,7 @@
   const router = useRouter();
   const btnStatus = ref(3); // 1解鎖表情包 2製作表情 3不展示
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
-
+  var timerId = null
 
 
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
@@ -272,6 +272,10 @@
     if (timeGetGenerate) {
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
+    }
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null
     }
     showPopup.value = false;
     window.location.href = backUrl.centerListUrl
@@ -469,7 +473,7 @@
       if (unGenerate && unGenerate.length) {
         timeGetGenerate = setTimeout(function () {
           getCenterList(mergeId)
-        }, 5000);
+        }, 10000);
       } else {
         router.push({
           query: {
@@ -490,10 +494,11 @@
     showPopup.value = true;
     if (timerId) {
       clearTimeout(timerId);
+      timerId = null
     }
-    var timerId = setTimeout(function () {
+    timerId = setTimeout(function () {
       creatTxt.value = '努力生成中，请稍后'
-    }, 1000);
+    }, 1000*60);
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -501,8 +506,11 @@
       appId: activityData.appId,
       activityId: activityData.activityId
     });
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null
+    }
     if (resq.code == 200) {
-      console.log(resq.data.mergeId)
       getCenterList(resq.data.mergeId)
     } else {
       const toast = showToast.text(resq.message, {
@@ -586,6 +594,10 @@
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
     }
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null
+    }
     const times = new Date().getTime()
     amberTrack('pop_view', {
       ...amberParams,
@@ -646,6 +658,14 @@
       })
     }
     sessionStorage.removeItem('start_time')
+    if (timeGetGenerate) {
+      clearTimeout(timeGetGenerate)
+      timeGetGenerate = null
+    }
+    if (timerId) {
+      clearTimeout(timerId);
+      timerId = null
+    }
     next()
   })
   

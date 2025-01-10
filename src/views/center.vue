@@ -132,7 +132,7 @@
       if (isFresh) {
         setTimeout(() => {
           getCenterList();
-        }, 3000);
+        }, 10000);
       }
     }
   };
