@@ -189,8 +189,8 @@
   } from '@/Composables/amber.js'
   import backUrl from '@/config/urlConfig.js'
   const amberParams = {
-    page_id: 'list',
-    page_name: '/list'
+    page_id: 'details',
+    page_name: '/details'
   }
   var timeGetGenerate = null
 
