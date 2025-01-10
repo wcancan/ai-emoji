@@ -181,6 +181,8 @@
     page_id: 'list',
     page_name: '/list'
   }
+  var timeGetGenerate = null
+
   const creatTxt = ref('努力生成中...预计需要2分钟')
   // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
@@ -256,6 +258,10 @@
   };
 
   const toCenterPage = (key) => {
+    if (timeGetGenerate) {
+      clearTimeout(timeGetGenerate)
+      timeGetGenerate = null
+    }
     showPopup.value = false;
     window.location.href = backUrl.centerListUrl
   };
@@ -453,7 +459,7 @@
     if (resp.code == 200 && resp.data) {
       const unGenerate = resp.data.files.filter((item) => item.status == 1)
       if (unGenerate && unGenerate.length) {
-        setTimeout(function () {
+        timeGetGenerate = setTimeout(function () {
           getCenterList(mergeId)
         }, 5000);
       } else {
@@ -565,8 +571,13 @@
       end_time: ''
     })
   }
+
   const handlePopClose = (key, url) => {
     console.log('handlePopClose', key)
+    if (timeGetGenerate) {
+      clearTimeout(timeGetGenerate)
+      timeGetGenerate = null
+    }
     const times = new Date().getTime()
     amberTrack('pop_view', {
       ...amberParams,
