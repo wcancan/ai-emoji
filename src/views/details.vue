@@ -161,6 +161,7 @@
     createEmoticon,
     auditImage,
     tokenValidate,
+    getMyEmoticon
   } from "@/api/api.js";
   import {
     useRoute,
@@ -440,6 +441,28 @@
     },
   };
   const showPopup = ref(false);
+  // 轮询获取是否所有的生成完成
+  let getCenterList = async (mergeId) => {
+    const resp = await getMyEmoticon({
+      mergeId: mergeId || ""
+    });
+    //status1 生成中 2生成成功 3生成失败 0已删除
+    if (resp.code == 200 && resp.data) {
+      const unGenerate = resp.data.files.filter((item) => item.status == 1)
+      if (unGenerate && unGenerate.length) {
+        setTimeout(function () {
+          getCenterList(mergeId)
+        }, 5000);
+      } else {
+        router.push({
+          query: {
+            page: `center`,
+            mergeId: resq.data.mergeId
+          }
+        })
+      }
+    }
+  };
   // 生成ai表情
   const handleCreateEmoticon = async (key) => {
     if (imageUrl.value == "") {
@@ -462,12 +485,7 @@
       activityId: activityData.activityId
     });
     if (resq.code == 200) {
-      router.push({
-        query: {
-          page: `center`,
-          mergeId: resq.data.mergeId
-        }
-      })
+      getCenterList()
     } else {
       const toast = showToast.text(resq.message, {
         cover: true,
@@ -606,6 +624,7 @@
     sessionStorage.removeItem('start_time')
     next()
   })
+  
 </script>
 
 <style scoped lang="less">
