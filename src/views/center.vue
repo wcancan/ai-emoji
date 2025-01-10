@@ -75,9 +75,10 @@
   } from "@/api/api.js";
 
   const amberParams = {
-    page_id: 'list',
-    page_name: '/list'
+    page_id: 'center',
+    page_name: '/center'
   }
+  const templateInfo = ref({})
   const pageTitle = defineModel('title')
   const router = useRouter();
   const route = useRoute();
@@ -95,11 +96,31 @@
         cover: true,
       })
     }
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: 'generateBtn',
+      element_name: 'generateBtn',
+      element_type: '3'
+    })
   }
 
   const handlePreview = (item) => {
     if (item.status == 2) {
       previewEmojiData.value = item
+      amberTrack('page_click', {
+        ...amberParams,
+        element_id: item.fileId,
+        element_name: 'preview' + item.fileName,
+        element_type: "8"
+      })
+      amberTrack('poster_emoji_view', {
+        ...amberParams,
+        emoji_name: pageTitle.value,
+        emoji_id: templateInfo.value.templateId,
+        expression_name: item.fileName,
+        expression_id: item.fileId,
+        operation_type: 1
+      })
     }
   }
 
@@ -129,12 +150,22 @@
       previewEmojiData.value = list.length > 0 ? list[0] : resp.data.templateInfo
       retryId = resp.data.taskId
       pageTitle.value = resp.data.templateInfo.templateName
+      templateInfo.value = resp.data.templateInfo
       if (isFresh) {
         setTimeout(() => {
           getCenterList();
         }, 10000);
       }
     }
+    console.log(templateInfo.value.templateName)
+    amberTrack('poster_emoji_view', {
+      ...amberParams,
+      emoji_name: templateInfo.value.templateName,
+      emoji_id: templateInfo.value.templateId,
+      expression_name: previewEmojiData.value.fileName || pageTitle.value,
+      expression_id: previewEmojiData.value.fileId || templateInfo.value.templateId,
+      operation_type: 1
+    })
   };
 
   const toRetryTask = async () => {
@@ -146,6 +177,12 @@
       getCenterList();
     }
     isDialogVisible.value = false
+    amberTrack('page_click', {
+      ...amberParams,
+      element_id: templateInfo.value.templateId,
+      element_name: 'retryTask' + pageTitle.value,
+      element_type: '3'
+    })
   };
 
   onMounted(() => {
