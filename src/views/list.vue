@@ -18,7 +18,7 @@
 <script setup>
   import {
     ref,
-    watch
+    onMounted 
   } from "vue";
   import {
     useRoute,
@@ -77,12 +77,10 @@
       loading.value = false;
     }
   }
-  
-  watch(() => route.query, (newId, oldId) => {  
+  onMounted( () => {
     getList(params)
-  },{
-    immediate: true
   })
+  
   function go(item) {
     amberTrack('page_click', {
       ...amberParams,
