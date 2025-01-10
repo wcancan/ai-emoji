@@ -1,16 +1,22 @@
 <template>
   <div class="list-emoji">
-    <nut-infinite-loading v-model="infinityValue" load-txt="Loading..." load-more-txt="End~" :has-more="hasMore"
-      @load-more="loadMore">
+    <nut-infinite-loading v-model="infinityValue" load-txt="Loading..." :has-more="hasMore" @load-more="loadMore">
       <div class="list flex flex-between flex-wrap">
         <div class="item" v-for="(item, index) in emojiList" :key="index">
           <div class="avatar">
-            <img :src="item.coverUrl" alt=""  @click="go(item)">
+            <img :src="item.coverUrl" alt="" @click="go(item)">
           </div>
           <div class="title txt-c">{{item.templateName}}</div>
           <div class="btnDetail txt-c" @click="go(item)"></div>
         </div>
       </div>
+      <template #finished>
+        <div class="w-full text-a63 flex flex-center "><span
+            class="w-60 h-1 bg-a63 mr-16"></span>已经到底啦，但好运没有上限<span
+            class="w-60 h-1 bg-a63 ml-16"></span>
+        </div>
+      </template>
+
     </nut-infinite-loading>
   </div>
 </template>
@@ -18,7 +24,7 @@
 <script setup>
   import {
     ref,
-    onMounted 
+    onMounted
   } from "vue";
   import {
     useRoute,
@@ -27,7 +33,7 @@
   } from "vue-router";
   import {
     getEmojiList,
-    
+
   } from "@/api/api";
   import {
     amberTrack
@@ -51,20 +57,20 @@
   const hasMore = ref(true)
   let activity = sessionStorage.getItem("activity") ? JSON.parse(sessionStorage.getItem("activity")) : {}
   let params = ref({
-    pageNo:1,
+    pageNo: 1,
     pageSize: 10,
     configureId: activity.configureId
   })
 
-  const loadMore = (done) => {
+  const loadMore = () => {
     params.value.pageNo = params.value.pageNo + 1
     getList(params)
   }
-  
-  
+
+
   const getList = async (params) => {
     const resp = await getEmojiList(params.value)
-    
+
     if (resp.code == 200 && resp.data) {
       // emojiList.value = resp.data.list
       if (resp.data.list && resp.data.list) {
@@ -74,13 +80,14 @@
       }
       // emojiList.value = emojiList.value.concat(resp.data.list);
       hasMore.value = resp.data.hasNextPage
+      infinityValue.value = resp.data.hasNextPage
       loading.value = false;
     }
   }
-  onMounted( () => {
+  onMounted(() => {
     getList(params)
   })
-  
+
   function go(item) {
     amberTrack('page_click', {
       ...amberParams,
@@ -92,11 +99,11 @@
     console.log(item)
     router.push({
       query: {
-        page:"details",
+        page: "details",
         id: item.templateId,
         title: item.templateName
       }
-      
+
     })
   }
   onBeforeRouteLeave((to, from, next) => {
@@ -105,7 +112,7 @@
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time- start_time,
+        stay_time: end_time - start_time,
         end_time: start_time,
         operation_type: 2, // 1进入，2离开
       })
@@ -114,3 +121,4 @@
     next()
   })
 </script>
+
