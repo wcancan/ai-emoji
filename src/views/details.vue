@@ -460,7 +460,7 @@
         router.push({
           query: {
             page: `center`,
-            mergeId: resq.data.mergeId
+            mergeId: mergeId
           }
         })
       }
@@ -488,7 +488,8 @@
       activityId: activityData.activityId
     });
     if (resq.code == 200) {
-      getCenterList()
+      console.log(resq.data.mergeId)
+      getCenterList(resq.data.mergeId)
     } else {
       const toast = showToast.text(resq.message, {
         cover: true,
