@@ -9,6 +9,20 @@ body,
   max-width: 750px;
   margin: 0 auto
 }
+/* 设置滚动条宽度为薄 */
+body {
+  scrollbar-width: thin;
+}
+
+/* 尝试隐藏滚动条（注意：可能不总是有效） */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 body {
   font-size: 0.14rem;

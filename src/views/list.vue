@@ -1,7 +1,7 @@
 <template>
   <div class="list-emoji">
     <nut-infinite-loading v-model="infinityValue" load-txt="Loading..." :has-more="hasMore" @load-more="loadMore">
-      <div class="list flex flex-between flex-wrap">
+      <div class="list flex flex-between flex-wrap no-scrollbar">
         <div class="item" v-for="(item, index) in emojiList" :key="index">
           <div class="avatar">
             <img :src="item.coverUrl" alt="" @click="go(item)">

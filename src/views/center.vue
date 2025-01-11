@@ -13,7 +13,7 @@
       <div class="tips txt-c"><i></i>长按或截图保存<i class="tips-r"></i></div>
     </div>
     <div class="list">
-      <div class="item-container " :class="{'selected': previewEmojiData.id == item.id}"
+      <div class="item-container no-scrollbar " :class="{'selected': previewEmojiData.id == item.id}"
         v-for="(item, index) in emojiList" :key="index">
         <div class="item-box" @click="handlePreview(item)">
           <div class="avatar">
@@ -217,5 +217,9 @@
     width: 100%;
     flex: 1;
     overflow: scroll;
+    scrollbar-width: thin;
+  }
+  .item-container {
+    flex: 0 0 31.5%;
   }
 </style>
