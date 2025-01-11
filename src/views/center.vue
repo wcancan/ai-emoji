@@ -18,6 +18,7 @@
         <div class="item-box" @click="handlePreview(item)">
           <div class="avatar">
             <img :class="{'filter': item.status != 2 }" :src="item.webpUrl" />
+            <img v-if="item.status == 2" class="opa-img"  :src="item.gifUrl" />
             <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 2">
               <p class="re-btn" v-if="item.status == 3" @click="handleGenerate(item)"><span>重新生成</span></p>
               <div class="flex flex-center re-text" v-if="item.status == 1">
