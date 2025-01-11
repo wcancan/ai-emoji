@@ -1,5 +1,5 @@
 <template>
-  <div class="details-page">
+  <div class="details-page no-scrollbar">
     <div class="list-center">
       <div class="top-banner-container">
         <div class="top-banner">
@@ -10,7 +10,7 @@
           <p class="list-emoji-desc">{{ emojiData.desc }}</p>
         </div>
       </div>
-      <div class="list">
+      <div class="list no-scrollbar">
         <div class="item-container" v-for="(item, index) in emojiListData" :key="index">
           <div class="item-box" @click="handlePopup(`preview`,item)">
             <div class="avatar">
@@ -195,7 +195,7 @@
   var timeGetGenerate = null
   const pageTitle = defineModel('title')
   pageTitle.value = ''
-  const creatTxt = ref('努力生成中...预计需要2分钟')
+  const creatTxt = ref('努力生成中...预计需要1分钟')
   // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
   const router = useRouter();
@@ -679,5 +679,10 @@
 </script>
 
 <style scoped lang="less">
-
+.list {
+    scrollbar-width: thin;
+  }
+  .item-container {
+    flex: 0 0 31.5%;
+  }
 </style>

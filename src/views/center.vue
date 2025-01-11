@@ -1,5 +1,5 @@
 <template>
-  <div class="list-center-page">
+  <div class="list-center-page no-scrollbar">
     <div class="top">
       <div class="top-con">
         <div class="top-con-mask">
@@ -12,8 +12,8 @@
       </div>
       <div class="tips txt-c"><i></i>长按或截图保存<i class="tips-r"></i></div>
     </div>
-    <div class="list">
-      <div class="item-container no-scrollbar " :class="{'selected': previewEmojiData.id == item.id}"
+    <div class="list no-scrollbar ">
+      <div class="item-container" :class="{'selected': previewEmojiData.id == item.id}"
         v-for="(item, index) in emojiList" :key="index">
         <div class="item-box" @click="handlePreview(item)">
           <div class="avatar">
