@@ -1,0 +1,163 @@
+@charset "utf-8";
+html,
+body {
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #333;
+}
+/*移动端*/
+/*rem布局基于375的图，rem与px换算公式：量出的尺寸除以20,100%宽为18.75rem */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+/*清浮动*/
+.clearfix:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.clearfix {
+  zoom: 1;
+}
+/* 清浮动的兼容性写法*/
+.flex {
+  display: flex;
+  align-items: center;
+}
+.flex-align-end {
+  display: flex;
+  align-items: end;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-center {
+  justify-content: center;
+}
+.flex-grow {
+  flex: 1;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.box-border {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.w-full {
+  width: 100%;
+}
+/*强制一行显示，超出为省略号*/
+.txtCut {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.br-t:after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #e5e5e5;
+  color: #e5e5e5;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  z-index: 2;
+}
+.br-b:after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px solid #e5e5e5;
+  color: #e5e5e5;
+  -webkit-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  z-index: 2;
+}
+.br-r:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  border-right: 1px solid #e5e5e5;
+  color: #e5e5e5;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleX(0.5);
+  transform: scaleX(0.5);
+  z-index: 2;
+}
+/*文字对齐*/
+.txt-c {
+  text-align: center;
+}
+.bg-a63 {
+  background-color: #a63b00;
+}
+.text-a63 {
+  color: #a63b00;
+}
+.w-60 {
+  width: 0.3rem;
+}
+.h-1 {
+  height: 0.005rem;
+}
+.mr-16 {
+  margin-right: 0.08rem;
+}
+.ml-16 {
+  margin-left: 0.08rem;
+}
+/*文字大小*/
+.f12 {
+  font-size: 0.12rem;
+  font-weight: 400;
+}
+.f13 {
+  font-size: 0.13rem;
+  font-weight: 400;
+}
+.f14 {
+  font-size: 0.14rem;
+  font-weight: 400;
+}
+.f16 {
+  font-size: 0.16rem;
+  font-weight: 400;
+}
+.f18 {
+  font-size: 0.18rem;
+  font-weight: 400;
+}
+.f20 {
+  font-size: 0.2rem;
+  font-weight: 400;
+}
+.f24 {
+  font-size: 0.24rem;
+  font-weight: 400;
+}
+.line-through {
+  text-decoration: line-through;
+}
+.align-top {
+  vertical-align: top;
+}
+.align-middle {
+  vertical-align: middle;
+}
