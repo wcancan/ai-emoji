@@ -338,7 +338,6 @@
       element_name: popupData.curPopup + emojiData.value.name,
       element_type: '3'
     })
-    console.log("popClick---------------")
   }
   const amberTrackPaymentConfirm = (data) => {
     amberTrack('payment_confirm', {
