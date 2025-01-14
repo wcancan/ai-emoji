@@ -196,13 +196,13 @@
   var timeGetGenerate = null
   const pageTitle = defineModel('title')
   pageTitle.value = ''
-  const creatTxt = ref('努力生成中...预计需要1分钟')
+  const creatTxt = ref('倒数10秒，您的好「照」头来啦！')
   // const creatTxt = ref('努力生成中，请稍后')
   const route = useRoute();
   const router = useRouter();
   const btnStatus = ref(3); // 1解鎖表情包 2製作表情 3不展示
   let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
-  var timerId = null
+  // var timerId = null
   const activityData = JSON.parse(sessionStorage.getItem("activity"));
   const emojiData = ref({});
   const cover = ref({})
@@ -261,10 +261,10 @@
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
     }
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null
-    }
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    //   timerId = null
+    // }
     showPopup.value = false;
     if (toCenterPageData.value.status == 2) {
       router.push({
@@ -526,13 +526,13 @@
     showPopup.value = false;
     popupData.curPopup = key;
     showPopup.value = true;
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null
-    }
-    timerId = setTimeout(function () {
-      creatTxt.value = '努力生成中，请稍后'
-    }, 1000 * 60);
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    //   timerId = null
+    // }
+    // timerId = setTimeout(function () {
+    //   creatTxt.value = '努力生成中，请稍后'
+    // }, 1000 * 60);
     const resq = await createEmoticon({
       templateId: emojiData.value.template2Id, //详情接口返回
       styleId: emojiData.value.sourceResourcesId, //详情接口返回
@@ -540,10 +540,10 @@
       appId: activityData.appId,
       activityId: activityData.activityId
     });
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null
-    }
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    //   timerId = null
+    // }
     if (resq.code == 200) {
       getCenterList(resq.data.mergeId)
       amberTrack('avatar_generate', {
@@ -637,10 +637,10 @@
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
     }
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null
-    }
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    //   timerId = null
+    // }
     const times = Math.floor(new Date().getTime() / 1000);
     amberTrack('pop_view', {
       ...amberParams,
@@ -709,10 +709,10 @@
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
     }
-    if (timerId) {
-      clearTimeout(timerId);
-      timerId = null
-    }
+    // if (timerId) {
+    //   clearTimeout(timerId);
+    //   timerId = null
+    // }
   };
     // 使用onBeforeUnmount生命周期钩子来监听页面离开
     onBeforeUnmount(handlePageLeave);
