@@ -588,7 +588,7 @@
       ...amberParams,
       element_id: emojiData.value.template2Id,
       element_name: popupData.curPopup + emojiData.value.name,
-      element_type: '3'
+      element_type: key =='preview' ? '8' : '3'
     })
     const times = Math.floor(new Date().getTime() / 1000);
     startTimes[popupData.curPopup] = times
