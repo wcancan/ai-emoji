@@ -3,7 +3,7 @@
     <div class="top">
       <div class="top-con">
         <div class="top-con-mask">
-          <img :src="previewEmojiData.gifUrl" alt="" style="opacity: 0;">
+          <img @touchstart="handleTouchStart" @touchend="handleTouchEnd" :src="previewEmojiData.gifUrl" alt="" style="opacity: 0;">
           <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
         </div>
         <div class="banner">
@@ -18,7 +18,7 @@
         <div class="item-box" @click="handlePreview(item)">
           <div class="avatar">
             <img :class="{'filter': item.status != 2 }" :src="item.webpUrl" />
-            <img v-if="item.status == 2" class="opa-img"  :src="item.gifUrl" />
+            <img v-if="item.status == 2" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="opa-img" :src="item.gifUrl" />
             <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 2">
               <p class="re-btn" v-if="item.status == 3" @click="handleGenerate(item)"><span>重新生成</span></p>
               <div class="flex flex-center re-text" v-if="item.status == 1">
@@ -205,6 +205,24 @@
     sessionStorage.removeItem('center_start_time')
   }
   onBeforeUnmount(handlePageLeave);
+  
+  let longPressTimer = null;
+  const handleTouchStart = () => {
+    longPressTimer = setTimeout(function() {
+      amberTrack('poster_emoji_view', {
+        ...amberParams,
+        emoji_name: templateInfo.value.templateName,
+        emoji_id: templateInfo.value.templateId,
+        expression_name: previewEmojiData.value.fileName || pageTitle.value,
+        expression_id: previewEmojiData.value.fileId || templateInfo.value.templateId,
+        operation_type: 2
+      })
+    }, 2000);
+  }
+  const handleTouchEnd = () => {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
 </script>
 
 <style scoped lang="less">

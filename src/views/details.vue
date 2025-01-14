@@ -398,21 +398,28 @@
     });
 
     if (resq.code == 200 && resq.data) {
-      auditErrImg.value = url
-      amberTrack('photo_security_audit', {
-        ...amberParams,
-        is_pass: "是",
-        fail_reason: ""
-      })
+      if (resq.data.result == 1) {
+        auditErrImg.value = url
+        amberTrack('photo_security_audit', {
+          ...amberParams,
+          is_pass: "是",
+          fail_reason: ""
+        })
+      } else {
+        imageUrl.value = auditErrImg.value
+        const toast = showToast.text('图片存在风险', {
+          cover: true,
+        })
+        amberTrack('photo_security_audit', {
+          ...amberParams,
+          is_pass: "否",
+          fail_reason: resq.message
+        })
+      }
     } else {
       imageUrl.value = auditErrImg.value
       const toast = showToast.text('图片存在风险', {
         cover: true,
-      })
-      amberTrack('photo_security_audit', {
-        ...amberParams,
-        is_pass: "否",
-        fail_reason: resq.message
       })
     }
     avatarCropperRef.value.cancel();
