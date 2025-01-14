@@ -83,9 +83,11 @@ router.beforeEach(async (to, from, next) => {
   }))
 
   if (to.query.title) to.meta.title = to.query.title
-  const start_time = new Date().getTime()
-  sessionStorage.setItem('start_time', start_time)
+  const start_time = Math.floor(new Date().getTime() / 1000);
+  
   const page_name = to.query.page ? to.query.page : 'list'
+  sessionStorage.setItem(page_name + '_start_time', start_time)
+  
   amberTrack('page_view', {
     page_id: page_name,
     page_name: '/' + page_name,

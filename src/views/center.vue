@@ -52,7 +52,8 @@
 <script setup>
   import {
     ref,
-    onMounted
+    onMounted,
+    onBeforeUnmount
   } from "vue";
   import {
     useRouter,
@@ -190,20 +191,20 @@
     emojiList.value = [];
     getCenterList()
   })
-  onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time')
-    const end_time = new Date().getTime()
+  const handlePageLeave = () => {
+    const start_time = sessionStorage.getItem('center_start_time')
+    const end_time = Math.floor(new Date().getTime() / 1000);
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: (end_time - start_time)/1000,
-        end_time: start_time,
+        stay_time: (end_time - start_time) + "",
+        end_time: end_time,
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.removeItem('start_time')
-    next()
-  })
+    sessionStorage.removeItem('center_start_time')
+  }
+  onBeforeUnmount(handlePageLeave);
 </script>
 
 <style scoped lang="less">

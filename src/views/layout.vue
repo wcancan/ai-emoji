@@ -15,6 +15,6 @@
         useRoute,
         useRouter
     } from "vue-router";
-    const route = useRoute();;
+    const route = useRoute();
     const title = ref('');
 </script>

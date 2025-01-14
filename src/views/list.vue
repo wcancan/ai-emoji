@@ -24,7 +24,8 @@
 <script setup>
   import {
     ref,
-    onMounted
+    onMounted,
+    onBeforeUnmount
   } from "vue";
   import {
     useRoute,
@@ -90,7 +91,7 @@
       ...amberParams,
       element_id: item.templateId,
       element_name: item.templateName,
-      element_type: '3',
+      element_type: '7',
       is_leaved: '1'
     })
     router.push({
@@ -102,19 +103,21 @@
 
     })
   }
-  onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time')
-    const end_time = new Date().getTime()
+  
+  const handlePageLeave = () => {
+    const start_time = sessionStorage.getItem('list_start_time')
+    const end_time = Math.floor(new Date().getTime() / 1000);
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: (end_time - start_time)/1000,
-        end_time: start_time,
+        start_time: start_time,
+        stay_time: (end_time - start_time) + '',
+        end_time: end_time,
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.removeItem('start_time')
-    next()
-  })
+    sessionStorage.removeItem('list_start_time')
+  }
+  onBeforeUnmount(handlePageLeave);
 </script>
 

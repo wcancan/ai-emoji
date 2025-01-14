@@ -27,12 +27,11 @@ export const amberTrack = (name, params) => {
         pass_id: userInfo.passId, //用户ID（通过MUC传参获取）data
         page_name: '', //页面名称,页面路由
         page_id: '', //页面标识，页面路由
-        module_name: '', //分模块名称
-        page_type: '', //页面类型
+        module_name: '表情包', //分模块名称
+        page_type: '二级页面', //页面类型
         submodule_name: '', //子模块名称
         activity_id: activity.activityId, //活动ID
         ...params
     }
-
     amberTrackFh.default.track(name, data)
 }

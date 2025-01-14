@@ -164,7 +164,8 @@
   import {
     ref,
     watch,
-    onMounted
+    onMounted,
+    onBeforeUnmount
   } from "vue";
   import {
     getDetail,
@@ -343,7 +344,7 @@
     amberTrack('payment_confirm', {
       ...amberParams,
       ...data,
-      time: new Date().getTime(),
+      time: Math.floor(new Date().getTime() / 1000),
       payment_type: 2,
       product_name: emojiData.value.name, //表情合集ID
       product_id: route.query.id //表情合集ID
@@ -551,7 +552,7 @@
       element_name: newVal + emojiData.value.name,
       element_type: '3'
     })
-    const times = new Date().getTime()
+    const times = Math.floor(new Date().getTime() / 1000);
     startTimes[newVal] = times
     //key: upload preview pay generate
     amberTrack('pop_view', {
@@ -582,7 +583,7 @@
       element_name: popupData.curPopup + emojiData.value.name,
       element_type: '3'
     })
-    const times = new Date().getTime()
+    const times = Math.floor(new Date().getTime() / 1000);
     startTimes[popupData.curPopup] = times
     //key: upload preview pay generate
     amberTrack('pop_view', {
@@ -605,7 +606,7 @@
       clearTimeout(timerId);
       timerId = null
     }
-    const times = new Date().getTime()
+    const times = Math.floor(new Date().getTime() / 1000);
     amberTrack('pop_view', {
       ...amberParams,
       pop_name: popupData.curPopup,
@@ -653,18 +654,22 @@
       element_type: '3'
     })
   }
-  onBeforeRouteLeave((to, from, next) => {
-    const start_time = sessionStorage.getItem('start_time')
-    const end_time = new Date().getTime()
+  const handlePageLeave = () => {
+    console.log('页面即将离开');
+    // 在这里执行清理工作，如取消定时器、清除事件监听器等
+    const start_time = sessionStorage.getItem('details_start_time')
+    const end_time = Math.floor(new Date().getTime() / 1000);
+    console.log(start_time)
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,
-        stay_time: end_time - start_time,
-        end_time: start_time,
+        start_time: start_time,
+        stay_time: (end_time - start_time) + "",
+        end_time: end_time,
         operation_type: 2, // 1进入，2离开
       })
     }
-    sessionStorage.removeItem('start_time')
+    sessionStorage.removeItem('details_start_time')
     if (timeGetGenerate) {
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
@@ -673,8 +678,9 @@
       clearTimeout(timerId);
       timerId = null
     }
-    next()
-  })
+  };
+    // 使用onBeforeUnmount生命周期钩子来监听页面离开
+    onBeforeUnmount(handlePageLeave);
 </script>
 
 <style scoped lang="less">
