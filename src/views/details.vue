@@ -253,7 +253,8 @@
       btnStatus.value = 1;
     }
   };
-
+  //status 2部分成功， 3全部失败
+  let toCenterPageData = ref(null)
   const toCenterPage = (key) => {
     popClick("前往查看", 5, 3, true)
     if (timeGetGenerate) {
@@ -265,7 +266,16 @@
       timerId = null
     }
     showPopup.value = false;
-    window.location.href = backUrl.centerListUrl
+    if (toCenterPageData.value.status == 2) {
+      router.push({
+        query: {
+          page: `center`,
+          mergeId: toCenterPageData.value.mergeId
+        }
+      })
+    } else {
+      window.location.href = backUrl.centerListUrl
+    }
   };
   const isWeChat = () => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -465,6 +475,8 @@
     },
   };
   const showPopup = ref(false);
+  let unGenerate = []
+  let allFails = []
   // 轮询获取是否所有的生成完成
   let getCenterList = async (mergeId) => {
     const resp = await getMyEmoticon({
@@ -472,18 +484,35 @@
     });
     //status1 生成中 2生成成功 3生成失败 0已删除
     if (resp.code == 200 && resp.data) {
-      const unGenerate = resp.data.files.filter((item) => item.status == 1)
+      resp.data.files.forEach(item => {
+        if(item.status == 2) {
+          unGenerate.push(item)
+        } else if (item.status == 3) {
+          allFails.push(item)
+        }
+      });
       if (unGenerate && unGenerate.length) {
-        timeGetGenerate = setTimeout(function () {
-          getCenterList(mergeId)
-        }, 10000);
-      } else {
+        toCenterPageData.value = {
+          mergeId,
+          status: 2
+        }
         router.push({
           query: {
             page: `center`,
             mergeId: mergeId
           }
         })
+      } else if(allFails && unGenerate.length && unGenerate.length == resp.data.files.length) {
+         toCenterPageData.value = {
+          status: 3
+        }
+        window.location.href = backUrl.centerListUrl
+      } else {
+        timeGetGenerate = setTimeout(function () {
+          unGenerate = []
+          allFails = []
+          getCenterList(mergeId)
+        }, 10000);
       }
     }
   };
@@ -583,7 +612,6 @@
   })
 
   const handlePopOpen = (key, url) => {
-    console.log('handlePopOpen', key)
     amberTrack('page_click', {
       ...amberParams,
       element_id: emojiData.value.template2Id,
