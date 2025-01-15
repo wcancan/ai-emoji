@@ -27,7 +27,8 @@
     import {
         amberTrack
     } from '@/Composables/amber.js'
-
+    import backUrl from '@/config/urlConfig.js'
+    
     const title = ref('');
     
     const route = useRoute();
@@ -36,24 +37,40 @@
         title.value = 'AI表情'
     }
     const handleGoBack = () => {
-        if (route.meta.isExternal) {
-            window.location.href = route.meta.backUrl
-            const start_time = sessionStorage.getItem('start_time')
-            const end_time = Math.floor(new Date().getTime() / 1000);
-            if (start_time && Number(start_time)) {
-                const route = useRoute()
-                amberTrack('page_view', {
-                    page_id: route.query.page,
-                    page_name: '/' + route.query.page,
-                    stay_time: (end_time - start_time) + "",
-                    end_time: start_time,
-                    operation_type: 2, // 1进入，2离开
-                })
-            }
-            sessionStorage.removeItem('start_time')
+        const page = route.query.page
+        if (page == 'details') {
+            router.push({
+                path: route.path,
+                query: {
+                    page: 'list'
+                }
+            })
+        } else if (page == 'center') {
+            window.location.href = backUrl.centerListUrl
         } else {
-            router.back()
+            window.location.href = backUrl.homeUrl
         }
+        // if (route.meta.isExternal) {
+        //     window.location.href = route.meta.backUrl
+        //     const start_time = sessionStorage.getItem('start_time')
+        //     const end_time = Math.floor(new Date().getTime() / 1000);
+        //     if (start_time && Number(start_time)) {
+        //         const route = useRoute()
+        //         amberTrack('page_view', {
+        //             page_id: route.query.page,
+        //             page_name: '/' + route.query.page,
+        //             stay_time: (end_time - start_time) + "",
+        //             end_time: start_time,
+        //             operation_type: 2, // 1进入，2离开
+        //         })
+        //     }
+        //     sessionStorage.removeItem('start_time')
+        // } else {
+        //     console.log(route)
+        //     router.push({
+        //         path: route.path
+        //     })
+        // }
     }
 </script>
 <style scoped>

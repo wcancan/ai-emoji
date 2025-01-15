@@ -15,39 +15,6 @@ import backUrl from '@/config/urlConfig.js'
 const routes = [{
     path: '/',
     component: () => import('@/views/layout.vue'),
-  },
-  {
-    path: '/list',
-    name: 'list',
-    component: () => import('@/views/list.vue'),
-    meta: {
-      title: 'AI表情',
-      keepAlive: true,
-      backUrl: backUrl.homeUrl,
-      isExternal: true
-    },
-  },
-  {
-    path: '/details',
-    name: 'details',
-    meta: {
-      title: 'AI表情包详情页',
-      backUrl: '/list',
-      isExternal: false
-    },
-    component: () => import('@/views/details.vue'),
-    props: true,
-  },
-  {
-    path: '/center',
-    name: 'center',
-    component: () => import('@/views/center.vue'),
-    meta: {
-      title: '',
-      keepAlive: true,
-      backUrl: backUrl.centerListUrl,
-      isExternal: true
-    },
   }
 ]
 const router = createRouter({
