@@ -401,16 +401,25 @@
     for (; msgId.length < 32;)
       msgId += messageId();
     msgId.slice(0, 32);
+    const toast = showToast.loading('审核中，请稍后', {
+      cover: true,
+      duration: 0
+    })
     const resq = await auditImage({
       messageId: msgId,
       publishTime: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
       image: url
     });
-
+    toast.hide();
     if (resq.code == 200 && resq.data) {
       if (resq.data.result == 1) {
         auditErrImg.value = url
         amberTrack('photo_security_audit', {
+          ...amberParams,
+          is_pass: "是",
+          fail_reason: ""
+        })
+        amberTrack('photo_save', {
           ...amberParams,
           is_pass: "是",
           fail_reason: ""
@@ -421,6 +430,11 @@
           cover: true,
         })
         amberTrack('photo_security_audit', {
+          ...amberParams,
+          is_pass: "否",
+          fail_reason: resq.message
+        })
+        amberTrack('photo_save', {
           ...amberParams,
           is_pass: "否",
           fail_reason: resq.message
