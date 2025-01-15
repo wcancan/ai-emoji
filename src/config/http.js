@@ -15,7 +15,7 @@ const getReqId = () => {
   return id
 }
 
-let requestUrl = 'https://api.migudm.cn/prep-portalx'
+let requestUrl = backUrl.requestUrl
 // if (window.location.hostname == "localhost") {
 //   requestUrl = '/test'
 // }
