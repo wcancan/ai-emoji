@@ -54,7 +54,6 @@ axios.interceptors.request.use(config => {
   }
   // reqId+timestamp+sessionId+请求参数
   const signature = "".concat(config.headers.reqId).concat(config.headers.timestamp).concat(config.headers.sessionid).concat(encParam);
-  console.log("======signature============", signature);
   config.headers.signature = CryptoJS.md5(signature);
 
   return config
@@ -77,7 +76,6 @@ axios.interceptors.response.use(response => {
         console.log("解密失败", data.data)
       }
     }
-    console.log('hide toast')
     toast.hide()
     return data
   }

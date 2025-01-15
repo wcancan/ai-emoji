@@ -254,7 +254,10 @@
     }
   };
   //status 2部分成功， 3全部失败
-  let toCenterPageData = ref(null)
+  let toCenterPageData = ref({
+    status: 1,
+    mergeId: ''
+  })
   const toCenterPage = (key) => {
     popClick("前往查看", 5, 3, true)
     if (timeGetGenerate) {
@@ -646,7 +649,6 @@
   }
 
   const handlePopClose = (key, url) => {
-    console.log('handlePopClose', key)
     if (timeGetGenerate) {
       clearTimeout(timeGetGenerate)
       timeGetGenerate = null
@@ -674,7 +676,6 @@
     }
   }
   const handlePopup = (key, item) => {
-    console.log('handlePopup', popupData.curPopup)
     if (item) {
       popupData.coverUrl = item.fileUrl || "";
       popupData.tName = item.fileName;
@@ -687,7 +688,6 @@
     } else {
       handleCreateEmoticon(key)
     }
-    console.log('handlePopup2', popupData.curPopup)
   };
   onMounted(() => {
     auditErrImg.value = ""
@@ -704,11 +704,9 @@
     })
   }
   const handlePageLeave = () => {
-    console.log('页面即将离开');
     // 在这里执行清理工作，如取消定时器、清除事件监听器等
     const start_time = sessionStorage.getItem('details_start_time')
     const end_time = Math.floor(new Date().getTime() / 1000);
-    console.log(start_time)
     if (start_time && Number(start_time)) {
       amberTrack('page_view', {
         ...amberParams,

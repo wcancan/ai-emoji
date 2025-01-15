@@ -46,7 +46,8 @@ router.beforeEach(async (to, from, next) => {
   sessionStorage.setItem("activity", JSON.stringify({
     "activityId": data.activityId,
     "appId": data.appConfigId,
-    "configureId": configureId
+    "configureId": configureId,
+    "appKey": data.appKey
   }))
 
   if (to.query.title) to.meta.title = to.query.title

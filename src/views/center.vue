@@ -159,7 +159,6 @@
         }, 10000);
       }
     }
-    console.log(templateInfo.value.templateName)
     amberTrack('poster_emoji_view', {
       ...amberParams,
       emoji_name: templateInfo.value.templateName,
