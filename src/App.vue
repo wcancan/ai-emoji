@@ -46,31 +46,10 @@
                 }
             })
         } else if (page == 'center') {
-            window.location.href = backUrl.centerListUrl
+            router.go(-1)
         } else {
             window.location.href = backUrl.homeUrl
         }
-        // if (route.meta.isExternal) {
-        //     window.location.href = route.meta.backUrl
-        //     const start_time = sessionStorage.getItem('start_time')
-        //     const end_time = Math.floor(new Date().getTime() / 1000);
-        //     if (start_time && Number(start_time)) {
-        //         const route = useRoute()
-        //         amberTrack('page_view', {
-        //             page_id: route.query.page,
-        //             page_name: '/' + route.query.page,
-        //             stay_time: (end_time - start_time) + "",
-        //             end_time: start_time,
-        //             operation_type: 2, // 1进入，2离开
-        //         })
-        //     }
-        //     sessionStorage.removeItem('start_time')
-        // } else {
-        //     console.log(route)
-        //     router.push({
-        //         path: route.path
-        //     })
-        // }
     }
 </script>
 <style scoped>

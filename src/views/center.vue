@@ -216,7 +216,7 @@
         expression_id: previewEmojiData.value.fileId || templateInfo.value.templateId,
         operation_type: 2
       })
-    }, 2000);
+    }, 1000);
   }
   const handleTouchEnd = () => {
     clearTimeout(longPressTimer);

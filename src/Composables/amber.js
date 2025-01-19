@@ -4,9 +4,14 @@ let dataParams = decodeURIComponent(atob(sessionStorage.getItem("8E93B6F0-90A8-4
 let userInfo = sessionStorage.getItem("data") ? JSON.parse(sessionStorage.getItem("data")) : {};
 let activity = sessionStorage.getItem("activity") ? JSON.parse(sessionStorage.getItem("activity")) : {};
 
-amberTrackFh.default.init(activity.appkey)
+amberTrackFh.default.init('37dbb209bb444f9bbdf86e72a1bed1b5')
+
 export const amberTrack = (name, params) => {
     const data = {
+        app_key: activity.appKey,
+        appkeydesc: "", // 不填
+        skd_ver: "2",
+        sdk_type: "QB_H5",
         avatar_id: '', //用户形象ID, 不填
         style_id: "", // 不填
         onelv_chl: dataParams.onelv_chl, //一级渠道
