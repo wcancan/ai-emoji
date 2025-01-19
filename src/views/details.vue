@@ -223,7 +223,7 @@
         resp.data.files.map((item) => {
           if (item.fileType == 13) {
             cover.value = item
-          } else {
+          } else if (item.fileType == 11){
             emojiListData.value.push(item)
           }
         })
