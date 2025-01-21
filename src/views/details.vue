@@ -316,7 +316,7 @@
       
     };
     if (isWeChat()) {
-      payParam.bids[0].extInfo.payMethod = 30
+      payParam.bids[0].extInfo.payMethod = "30"
     }
     console.log('payParam', payParam)
     const resp = await subscribeCharging(payParam);

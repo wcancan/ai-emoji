@@ -4,6 +4,7 @@
       <div class="top-con">
         <div class="top-con-mask">
           <img @touchstart="handleTouchStart(previewEmojiData.gifUrl, previewEmojiData.templateName || previewEmojiData.fileName)" @touchend="handleTouchEnd" :src="previewEmojiData.gifUrl" alt="" style="position:absolute;left:0;top:0;height: 100%; opacity: 0;">
+          <!-- <img @touchstart="handleTouchStart" @touchend="handleTouchEnd" :src="previewEmojiData.gifUrl" alt="" style="position:absolute;left:0;top:0;height: 100%; opacity: 0;"> -->
           <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
         </div>
         <div class="banner">
@@ -31,8 +32,8 @@
             </div>
           </div>
           <div class="title"><span>{{item.fileName}}</span></div>
+           <img v-if="item.status == 2" @touchstart="handleTouchStart(item.gifUrl, item.fileName)" @touchend="handleTouchEnd" class="opa-img" :src="item.gifUrl" />
         </div>
-        <img v-if="item.status == 2" @touchstart="handleTouchStart(item.gifUrl, item.fileName)" @touchend="handleTouchEnd" class="opa-img" :src="item.gifUrl" />
       </div>
     </div>
 
@@ -204,15 +205,6 @@
     sessionStorage.removeItem('center_start_time')
   }
   onBeforeUnmount(handlePageLeave);
-  
-  function isIosGoogleChrome() {
-    const userAgent = window.navigator.userAgent;
-    // const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
-    const isChrome = /Chrome/.test(userAgent)
-    const isIOS = /(iPhone|iPod|iPad)/.test(userAgent)
-    return isChrome && isIOS;
-    // return isIOS;
-  }
   const isWeChat = () => {
     const userAgent = navigator.userAgent.toLowerCase();
     var ua = navigator.userAgent.toLowerCase();
@@ -224,14 +216,7 @@
   };
  
   let longPressTimer = null;
-  const handleTouchStart = (fileUrl, fileName) => {
-    if (isIosGoogleChrome() && isWeChat()) {
-       const a = document.createElement('a')
-        a.href = fileUrl
-        a.download = fileName
-        a.click()
-      return
-    }
+  const handleTouchStart = ( fileUrl, fileName) => {    
     longPressTimer = setTimeout(function() {
       amberTrack('poster_emoji_view', {
         ...amberParams,
@@ -241,6 +226,13 @@
         expression_id: previewEmojiData.value.fileId || templateInfo.value.templateId,
         operation_type: 2
       })
+      if (!isWeChat()) {
+        const a = document.createElement('a')
+        a.href = fileUrl
+        a.download = fileName
+        a.click()
+        return
+      }
     }, 1000);
   }
   const handleTouchEnd = () => {
@@ -273,7 +265,12 @@
   }
   .list .item-container {
     position: relative;
+    padding: 0;
   }
+  .item-box {
+    padding: 0.06rem 0.06rem 0;
+  }
+  
   .list .item-container .opa-img {
     position: absolute;
     left: 0;
