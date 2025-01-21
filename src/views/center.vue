@@ -3,7 +3,7 @@
     <div class="top">
       <div class="top-con">
         <div class="top-con-mask">
-          <img @touchstart="handleTouchStart" @touchend="handleTouchEnd" :src="previewEmojiData.gifUrl" alt="" style="opacity: 0;">
+          <img @touchstart="handleTouchStart(previewEmojiData.gifUrl, previewEmojiData.templateName || previewEmojiData.fileName)" @touchend="handleTouchEnd" :src="previewEmojiData.gifUrl" alt="" style="position:absolute;left:0;top:0;height: 100%; opacity: 0;">
           <div class="title txt-c">{{previewEmojiData.templateName || previewEmojiData.fileName}}</div>
         </div>
         <div class="banner">
@@ -18,7 +18,6 @@
         <div class="item-box" @click="handlePreview(item)">
           <div class="avatar">
             <img :class="{'filter': item.status != 2 }" :src="item.webpUrl" />
-            <img v-if="item.status == 2" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="opa-img" :src="item.gifUrl" />
             <div class="opa flex-align-end flex-center f12 col-white " v-if="item.status != 2">
               <p class="re-btn" v-if="item.status == 3" @click="handleGenerate(item)"><span>重新生成</span></p>
               <div class="flex flex-center re-text" v-if="item.status == 1">
@@ -33,6 +32,7 @@
           </div>
           <div class="title"><span>{{item.fileName}}</span></div>
         </div>
+        <img v-if="item.status == 2" @touchstart="handleTouchStart(item.gifUrl, item.fileName)" @touchend="handleTouchEnd" class="opa-img" :src="item.gifUrl" />
       </div>
     </div>
 
@@ -205,8 +205,33 @@
   }
   onBeforeUnmount(handlePageLeave);
   
+  function isIosGoogleChrome() {
+    const userAgent = window.navigator.userAgent;
+    // const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+    const isChrome = /Chrome/.test(userAgent)
+    const isIOS = /(iPhone|iPod|iPad)/.test(userAgent)
+    return isChrome && isIOS;
+    // return isIOS;
+  }
+  const isWeChat = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf("micromessenger") != -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+ 
   let longPressTimer = null;
-  const handleTouchStart = () => {
+  const handleTouchStart = (fileUrl, fileName) => {
+    if (isIosGoogleChrome() && isWeChat()) {
+       const a = document.createElement('a')
+        a.href = fileUrl
+        a.download = fileName
+        a.click()
+      return
+    }
     longPressTimer = setTimeout(function() {
       amberTrack('poster_emoji_view', {
         ...amberParams,
@@ -240,5 +265,22 @@
   }
   .item-container {
     flex: 0 0 31.5%;
+  }
+  .top-con-mask .title {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  .list .item-container {
+    position: relative;
+  }
+  .list .item-container .opa-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
   }
 </style>

@@ -48,7 +48,8 @@
         } else if (page == 'center') {
             router.go(-1)
         } else {
-            window.location.href = backUrl.homeUrl
+            router.go(-1)
+            // window.location.href = backUrl.homeUrl
         }
     }
 </script>

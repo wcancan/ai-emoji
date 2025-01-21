@@ -308,13 +308,17 @@
         extInfo: {
           bankCode: payWay.value == 1 ? `WX` : `AP`, //WX AP
           saleType: `1`,
-          pageURL: `${backUrl.payBack}/#/?page=${route.query.page}&id=${route.query.id}&title=${route.query.title}`,
+          pageURL: `${backUrl.payBack}/#/?page=${route.query.page}&id=${route.query.id}&title=${route.query.title}`
         },
       }, ],
       appId: activityData.appId,
       activityId: activityData.activityId,
+      
     };
-
+    if (isWeChat()) {
+      payParam.bids[0].extInfo.payMethod = 30
+    }
+    console.log('payParam', payParam)
     const resp = await subscribeCharging(payParam);
     if (resp.code == 200) {
       amberTrackPaymentConfirm({
